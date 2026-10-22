@@ -1,0 +1,40 @@
+/* Layout: projects rail on the left, one working column (header, composer, tag tabs, task list, notes). */
+:root{
+  --bg:#eceff4; --surface:#ffffff; --surface-2:#f5f7fa; --line:#d8dde5; --line-strong:#b9c1cd;
+  --ink:#1b2230; --ink-2:#566174; --ink-3:#8a93a2;
+  --accent:#2f5bea; --accent-ink:#ffffff; --accent-soft:#e5ebfd; --raised:#ffffff;
+  --hold-bg:#373f4c; --hold-line:#2c333e; --hold-ink:#eef1f5; --hold-ink-2:#aeb7c4;
+  --danger:#c43d32; --warn:#b26a12; --ok:#2f8f4e;
+  --shadow:0 1px 2px rgba(20,30,50,.06),0 8px 24px rgba(20,30,50,.08);
+  --f-ui:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f131a; --surface:#181d26; --surface-2:#1f2530; --line:#2b3341; --line-strong:#424c5c;
+  --ink:#e6eaf0; --ink-2:#a2acbb; --ink-3:#6c7789;
+  --accent:#7392ff; --accent-ink:#0b1020; --accent-soft:#222c48; --raised:#2c3443;
+  --hold-bg:#0a0d12; --hold-line:#232a35; --hold-ink:#d7dce4; --hold-ink-2:#868f9e;
+  --danger:#f0786c; --warn:#e2a24b; --ok:#5cc07c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f131a; --surface:#181d26; --surface-2:#1f2530; --line:#2b3341; --line-strong:#424c5c;
+  --ink:#e6eaf0; --ink-2:#a2acbb; --ink-3:#6c7789;
+  --accent:#7392ff; --accent-ink:#0b1020; --accent-soft:#222c48; --raised:#2c3443;
+  --hold-bg:#0a0d12; --hold-line:#232a35; --hold-ink:#d7dce4; --hold-ink-2:#868f9e;
+  --danger:#f0786c; --warn:#e2a24b; --ok:#5cc07c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:15px/1.4 var(--f-ui);padding-inline:16px;padding-block:16px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+.app{display:grid;grid-template-columns:188px minmax(0,1fr) 280px 46px;gap:20px;max-width:1560px;margin:0 auto;min-height:100%;align-items:start}
+.app.no-timer{grid-template-columns:188px minmax(0,1fr) 46px}
+

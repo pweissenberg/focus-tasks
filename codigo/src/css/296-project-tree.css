@@ -1,0 +1,26 @@
+/* project Tree tab */
+.tr-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px}
+.tr-bar select{font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);max-width:260px}
+.tr-ul{list-style:none;margin:0;padding:0 0 0 30px;position:relative}
+.tr-root{padding-left:0;overflow-x:auto;padding-bottom:6px}
+.tr-li{position:relative;padding:4px 0}
+.tr-ul:not(.tr-root)>.tr-li::before{content:'';position:absolute;left:-16px;top:0;bottom:0;border-left:2px solid var(--line-strong)}
+.tr-ul:not(.tr-root)>.tr-li:last-child::before{bottom:auto;height:21px}
+.tr-ul:not(.tr-root)>.tr-li::after{content:'';position:absolute;left:-16px;top:21px;width:14px;border-top:2px solid var(--line-strong)}
+.tr-node{display:inline-flex;align-items:center;gap:8px;min-width:220px;max-width:min(460px,100%);box-sizing:border-box;padding:5px 8px 5px 10px;border:1px dashed var(--line-strong);border-radius:9px;background:var(--surface-2)}
+.tr-node.is-task{border:1px solid var(--line);border-left:4px solid var(--c);background:var(--surface);box-shadow:0 1px 2px rgba(20,30,50,.06)}
+.tr-node.done .tr-name{text-decoration:line-through;color:var(--ink-3)}
+.tr-node.done .mt-check span{background:var(--c);border-color:var(--c)}
+.tr-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--ink-3);flex:none;box-sizing:border-box}
+.tr-name{flex:1;min-width:80px;border:1px solid transparent;background:transparent;border-radius:6px;padding:3px 5px;font-size:13.5px;color:inherit}
+.tr-name:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.tr-badge{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 6px;flex:none}
+.tr-fold{border:0;background:none;color:var(--ink-3);font:600 11px var(--f-mono);padding:2px 4px;border-radius:4px;flex:none}
+.tr-fold:hover{color:var(--accent)}
+.tr-tools{display:flex;gap:2px;opacity:0;transition:opacity .15s;flex:none}
+.tr-node:hover .tr-tools,.tr-node:focus-within .tr-tools{opacity:1}
+.tr-tools button{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font-size:12px;padding:2px 7px;border-radius:6px;white-space:nowrap}
+.tr-tools button:hover{color:var(--accent);border-color:var(--accent)}
+.tr-tools .tr-x:hover,.tr-tools .tr-x.armed{color:var(--danger,#c2553f);border-color:currentColor}
+@media (hover:none){.tr-tools{opacity:.8}}
+@media (max-width:560px){.tr-node{min-width:0;flex-wrap:wrap}.tr-ul{padding-left:22px}.tr-ul:not(.tr-root)>.tr-li::before,.tr-ul:not(.tr-root)>.tr-li::after{left:-12px}.tr-ul:not(.tr-root)>.tr-li::after{width:10px}}

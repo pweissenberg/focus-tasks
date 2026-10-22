@@ -1,0 +1,17 @@
+/* Sidebar */
+.side{display:flex;flex-direction:column;gap:18px;padding-top:6px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:20px;letter-spacing:-.01em}
+.brand svg{color:var(--accent)}
+.side h3{margin:0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:700}
+.plist{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}
+.pitem{display:flex;align-items:center;gap:6px;border-radius:7px;padding:7px 8px;cursor:pointer;color:var(--ink-2);font-weight:500;border:0;background:none;text-align:left;width:100%}
+.pitem:hover{background:var(--surface)}
+.pitem.on{background:var(--surface);color:var(--ink);box-shadow:inset 3px 0 0 var(--accent)}
+.pitem .pname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pitem .pcount{font-family:var(--f-mono);font-size:12px;color:var(--ink-3)}
+.pitem .pedit{opacity:0;border:0;background:none;padding:0 2px;color:var(--ink-3);line-height:1}
+.pitem:hover .pedit,.pitem:focus-within .pedit{opacity:1}
+.addlink{border:0;background:none;color:var(--accent);font-weight:600;padding:6px 8px;text-align:left;border-radius:7px}
+.addlink:hover{background:var(--accent-soft)}
+.mobile-add{display:none}
+

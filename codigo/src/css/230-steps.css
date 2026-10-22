@@ -1,0 +1,12 @@
+/* numbered steps on task rows */
+.stepadd{border:1px dashed var(--line-strong);background:none;color:var(--ink-2);font-size:12.5px;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.stepadd:hover{border-color:var(--c);color:var(--ink)}
+.steps{display:inline-flex;gap:4px;align-items:center}
+.stepbox{min-width:24px;height:24px;padding:0 4px;border:1.5px solid var(--line-strong);background:var(--surface);color:var(--ink-2);border-radius:5px;font-family:var(--f-mono);font-size:12px;line-height:1}
+.stepbox:hover{border-color:var(--c)}
+.stepbox.cur{border-color:var(--c);color:var(--ink);font-weight:700}
+.stepbox.on{background:var(--c);border-color:var(--c);color:#fff}
+.stepbox.plus{border-style:dashed;font-family:inherit;font-size:15px}
+.task.hold .stepadd,.task.hold .stepbox{border-color:var(--hold-ink-2);color:var(--hold-ink);background:transparent}
+.task.hold .stepbox.on{background:var(--c);color:#fff}
+.holdcol{display:flex;flex-direction:column;align-items:flex-start;gap:5px}

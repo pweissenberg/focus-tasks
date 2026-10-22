@@ -1,0 +1,12 @@
+/* Notes */
+.notes{border-top:1px solid var(--line);padding:14px 20px 4px;display:flex;flex-direction:column;gap:8px;position:relative}
+.notes-grip{height:16px;margin:-4px -20px 0;cursor:row-resize;display:grid;place-items:center;touch-action:none}
+.notes-grip::before{content:"";width:44px;height:4px;border-radius:2px;background:var(--line-strong);transition:background .15s}
+.notes-grip:hover::before,.notes-grip.drag::before{background:var(--accent)}
+.notes-head{display:flex;align-items:baseline;justify-content:space-between}
+.notes h2{margin:0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+.saved{font-size:12px;color:var(--ink-3);transition:color .3s}
+.saved.ok{color:var(--ok)}
+.notes textarea{width:100%;height:var(--notes-h,110px);min-height:60px;resize:none;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:10px 12px;line-height:1.5}
+.notes textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+

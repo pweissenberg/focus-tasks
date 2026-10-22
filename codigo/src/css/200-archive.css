@@ -1,0 +1,9 @@
+/* archive */
+.donebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:0 0 6px;font-size:13px;color:var(--ink-2)}
+.donebar .db-n{font-weight:700;color:var(--ink)}
+.donebar .btn.sm{display:inline-flex;align-items:center;gap:6px}
+.donebar .btn svg{width:14px;height:14px}
+.donebar .db-auto{margin-left:auto;display:inline-flex;align-items:center;gap:8px}
+.donebar select{height:30px;border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:0 6px;font-size:13px;color:var(--ink)}
+.donebar .db-hint{color:var(--ink-3)}
+.meta .archtag{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}

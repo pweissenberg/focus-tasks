@@ -1,0 +1,59 @@
+/* Focus (timer) on a task row */
+.task.focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.task.hold.focus{border-color:var(--accent)}
+.play{border:0;background:none;color:inherit;width:24px;height:24px;border-radius:5px;line-height:0;opacity:.55;display:grid;place-items:center}
+.play:hover{opacity:1;background:color-mix(in srgb,currentColor 14%,transparent)}
+.task.focus .play{opacity:1;color:var(--accent)}
+.play svg{width:14px;height:14px}
+.meta .spent{font-family:var(--f-mono);font-size:12px}
+
+/* Timer panel */
+.timer{display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(16px + env(safe-area-inset-top,0px))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-head h2{margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+.closex{border:0;background:none;color:var(--ink-3);font-size:20px;line-height:1;width:28px;height:28px;border-radius:6px}
+.closex:hover{background:var(--surface-2);color:var(--ink)}
+.ch-right{display:inline-flex;align-items:center;gap:8px}
+.clock{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:clamp(40px,5vw,54px);font-weight:500;letter-spacing:-.03em;text-align:center;line-height:1.05;margin:2px 0}
+.clock.up{color:var(--accent)}
+.clock.over{color:var(--ok)}
+.progress{height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s linear}
+.hms{display:flex;align-items:flex-start;justify-content:center;gap:6px}
+.hms label{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--ink-3)}
+.hms input{width:56px;height:40px;text-align:center;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;font-family:var(--f-mono);font-size:16px}
+.hms input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.hms input:disabled{opacity:.55}
+.hms .colon{font-family:var(--f-mono);font-weight:700;line-height:40px;color:var(--ink-3)}
+.presets{display:flex;gap:4px;justify-content:center;flex-wrap:wrap}
+.presets button{border:1px solid var(--line);background:none;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;color:var(--ink-2);font-family:var(--f-mono)}
+.presets button:hover{border-color:var(--accent);color:var(--accent)}
+.presets button:disabled{opacity:.4;pointer-events:none}
+.tbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tbtns .btn{height:40px}
+.btn.soft{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+.tlink{border:0;background:none;color:var(--ink-2);font-weight:600;font-size:13px;align-self:center;padding:2px 6px;border-radius:5px}
+.tlink:hover{color:var(--ink);background:var(--surface-2)}
+.working{display:flex;flex-direction:column;gap:5px}
+.working>span{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.working select{height:38px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:0 10px;width:100%;min-width:0}
+.working .wmeta{font-size:12px;color:var(--ink-2);display:flex;gap:10px;flex-wrap:wrap}
+.today-line{font-size:12.5px;color:var(--ink-2);text-align:center}
+.today-line b{font-family:var(--f-mono);color:var(--ink)}
+.noise-state{font-size:12px;font-weight:700;color:var(--ink-3);display:inline-flex;align-items:center;gap:6px}
+.noise-state i{width:8px;height:8px;border-radius:50%;background:var(--line-strong)}
+.noise-state.on{color:var(--ok)}
+.noise-state.on i{background:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 25%,transparent)}
+.soundbtn{height:44px;border:0;border-radius:8px;background:var(--ink);color:var(--bg);font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.soundbtn:hover{filter:brightness(1.15)}
+.soundbtn.on{background:var(--accent-soft);color:var(--accent)}
+.sounds{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sounds button{border:1px solid var(--line);background:none;border-radius:8px;padding:7px 4px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.sounds button:hover{border-color:var(--line-strong);color:var(--ink)}
+.sounds button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.vol{display:flex;flex-direction:column;gap:6px}
+.vol-head{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--ink-2)}
+.vol-head b{font-family:var(--f-mono)}
+.vol input{width:100%;accent-color:var(--accent)}
+

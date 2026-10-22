@@ -1,0 +1,37 @@
+/* microtasks under a task, the "+" on its bottom-left corner, and "Send to long term" */
+.mt-tools{position:absolute;left:12px;bottom:5px;z-index:2;display:flex;gap:3px}
+.mt-add,.mt-fold{width:18px;height:18px;border-radius:5px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);font:700 13px/1 var(--f-sans,inherit);display:grid;place-items:center;padding:0;opacity:.5;transition:opacity .15s}
+.mt-fold{font-size:10px;opacity:.85}
+.task:hover .mt-add,.mt-add:focus-visible,.task.has-mt .mt-add{opacity:1}
+.mt-add:hover,.mt-fold:hover{color:var(--accent);border-color:var(--accent)}
+.task.hold .mt-add,.task.hold .mt-fold{background:transparent;color:inherit;border-color:var(--hold-ink-2,currentColor)}
+/* the appendix: the task box steps in at the name and keeps going down */
+.task.has-mt{border-bottom-right-radius:0}
+.mt-wrap{display:flex;flex-direction:column;gap:2px;margin:-7px 0 0 calc(var(--depth,0) * 30px + 82px);padding:6px 10px 6px 12px;background:var(--surface);border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;position:relative;z-index:1}
+.mt-wrap::before{content:'';position:absolute;left:-1px;right:-1px;top:-2px;height:3px;background:inherit}
+.mt-wrap.hold{background:var(--hold-bg);border-color:var(--hold-line);color:var(--hold-ink)}
+.mt-wrap.closed{padding:3px 8px 4px}
+.mt-open{border:0;background:none;color:var(--ink-3);font-size:12.5px;padding:2px 2px;text-align:left}
+.mt-open:hover{color:var(--accent)}
+.mt{display:flex;align-items:center;gap:8px;min-width:0}
+.mt-check{position:relative;width:16px;height:16px;flex:none;cursor:pointer}
+.mt-check input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1;width:100%;height:100%}
+.mt-check span{position:absolute;inset:0;pointer-events:none;border:1.5px solid var(--line-strong);border-radius:4px;background:var(--surface)}
+.mt.on .mt-check span{background:var(--c,var(--accent));border-color:var(--c,var(--accent))}
+.mt.on .mt-check span::after{content:'';position:absolute;left:4.5px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.mt-name{flex:1;min-width:0;border:1px solid transparent;background:transparent;border-radius:6px;padding:3px 6px;font-size:13.5px;color:inherit}
+.mt-name:hover{border-color:var(--line)}
+.mt-name:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.mt.on .mt-name{text-decoration:line-through;color:var(--ink-3)}
+.mt-x{border:0;background:none;color:var(--ink-3);padding:0 6px;font-size:16px;line-height:1;opacity:0}
+.mt:hover .mt-x,.mt-x:focus-visible{opacity:1}
+.task.hold .mt-name{color:inherit}
+.lt-send{position:absolute;right:10px;bottom:3px;z-index:2;border:0;background:none;color:var(--ink-3);font-size:11.5px;padding:1px 4px;border-radius:4px;opacity:0;transition:opacity .15s}
+.task:hover .lt-send,.lt-send:focus-visible{opacity:1}
+.lt-send:hover{color:var(--accent);background:var(--accent-soft)}
+@media (hover:none){.lt-send{opacity:.7}.mt-add{opacity:.8}.mt-x{opacity:.6}}
+@container (max-width:560px){.mt-wrap{margin-left:calc(var(--depth,0) * 14px + 52px)}}
+
+/* v51: Send to long term sits under the note */
+.note:has(>.lt-send){flex-wrap:wrap;row-gap:0}
+.note>.lt-send{position:static;flex-basis:100%;text-align:left;width:max-content;max-width:100%;margin:-3px 0 -6px;line-height:16px;padding:0 6px}

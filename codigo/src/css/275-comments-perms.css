@@ -1,0 +1,54 @@
+/* task comments (@mentions) and view-only projects */
+.cmt{border:0;background:none;color:var(--ink-3);padding:2px 4px;border-radius:4px;line-height:0;display:inline-flex;align-items:center;gap:2px;flex:none;opacity:0}
+.cmt span{font:600 11px/1 var(--f-mono)}
+.cmt.on{opacity:.9;color:var(--ink-2)}
+.task:hover .cmt,.task.ksel .cmt,.bcard:hover .cmt,.cmt:focus-visible{opacity:.8}
+.cmt:hover{opacity:1!important;background:color-mix(in srgb,currentColor 12%,transparent)}
+@media (hover:none){.cmt{opacity:.5}}
+.modal.cmts{width:min(520px,calc(100vw - 32px))}
+.cm-task{margin:-4px 0 10px;color:var(--ink-2);font-size:13px;overflow-wrap:anywhere}
+.cm-list{max-height:min(46vh,380px);overflow:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.cm-item{display:flex;gap:8px;align-items:flex-start}
+.cm-item .av{flex:none;margin:4px 0 0!important;width:26px;height:26px;font-size:11px}
+.cm-body{min-width:0;flex:1;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+.cm-meta{display:flex;gap:8px;align-items:baseline;font-size:12px;color:var(--ink-3)}
+.cm-meta b{color:var(--ink);font-size:12.5px}
+.cm-meta .linkbtn{margin-left:auto;font-size:12px}
+.cm-text{font-size:13.5px;line-height:1.45;overflow-wrap:anywhere;margin-top:2px}
+.cm-text .at{color:var(--accent);font-weight:600}
+.cm-box{position:relative}
+.cm-box textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:52px;font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);color:var(--ink)}
+.cm-at{position:absolute;left:8px;bottom:calc(100% + 4px);background:var(--raised);border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.18);padding:4px;min-width:190px;z-index:5}
+.cm-at button{display:flex;gap:8px;align-items:center;width:100%;border:0;background:none;color:var(--ink);padding:6px 8px;border-radius:6px;font:inherit;font-size:13px;text-align:left}
+.cm-at button.on,.cm-at button:hover{background:var(--accent-soft)}
+.sp-perm{margin-left:auto;font-size:12px}
+select.sp-perm{padding:2px 4px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.sp-perm+.linkbtn{margin-left:8px}
+.ro-note{margin:6px 0 0;font-size:12.5px;color:var(--ink-2);background:var(--accent-soft);border-radius:8px;padding:6px 10px}
+#projPage.ro .pt-add,#projPage.ro [data-secnew],#projPage.ro .sec-tools,#projPage.ro .sec-into,#projPage.ro .bc-tools,#projPage.ro .bcol-add,#projPage.ro .gantt .g-h{display:none!important}
+#projPage.ro .task .pencil,#projPage.ro .asg:not(.on){display:none}
+/* Team tab */
+.team-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px;color:var(--ink-2);font-size:13.5px}
+.team-head .btn{display:inline-flex;align-items:center;gap:6px}
+.team-head .btn svg{width:14px;height:14px}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.tm-card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px 14px;min-width:0}
+.tm-card.inv{opacity:.75;border-style:dashed}
+.tmc-top{display:flex;align-items:center;gap:10px}
+.tmc-top .av{width:34px;height:34px;font-size:12.5px;margin:0}
+.tmc-who{min-width:0;flex:1;display:flex;flex-direction:column}
+.tmc-who b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tmc-who span{font-size:12px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tmc-role{font-size:12px;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:2px 8px;flex:none}
+.tmc-role.own{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+.tmc-nums{display:flex;gap:14px;margin:10px 0 6px;font-size:12.5px;color:var(--ink-3)}
+.tmc-nums b{color:var(--ink);font:600 15px var(--f-mono)}
+.tmc-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.tmc-list li{font-size:13px;border-left:3px solid var(--c,var(--line));padding-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tmc-list li em{font-style:normal;color:var(--ink-3);font-family:var(--f-mono);font-size:11.5px}
+.tmc-list li.more{border:0;color:var(--ink-3);font-size:12px}
+/* with seven tabs the row scrolls sideways on its own on narrow screens */
+.pp-tabs{overflow-x:auto;scrollbar-width:none;max-width:100%}
+.pp-tabs::-webkit-scrollbar{display:none}
+.pp-tabs .ptab{flex:none}
+@media (max-width:560px){.pp-tabs{gap:12px}}

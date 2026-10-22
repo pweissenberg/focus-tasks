@@ -1,0 +1,28 @@
+/* GTD: waiting chip, deferred, time filter, weekly review */
+.waitc{border:1px dashed currentColor;background:none;color:inherit;font-size:12px;padding:1px 7px;border-radius:999px;opacity:.85}
+.waitc b{font-weight:700}
+.waitc:hover{opacity:1}
+.defc{font-size:12px;color:var(--ink-3);font-style:italic}
+.defline{font-size:13px;color:var(--ink-3);padding:8px 4px;text-align:center}
+.holdtoggle.timefil.on{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.tf-menu .sp-hint{padding:4px 10px 6px;margin:0;font-size:12px}
+#reviewBtn svg{width:19px;height:19px}
+#reviewBtn.due::after{content:'';position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:#f3a33a;box-shadow:0 0 0 2px var(--surface)}
+.modal.review{width:min(560px,calc(100vw - 32px))}
+.rv-steps{display:flex;gap:6px;margin-bottom:8px}
+.rv-steps span{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:700 11px var(--f-mono);background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line)}
+.rv-steps span.past{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.rv-steps span.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.rv-body{max-height:min(52vh,420px);overflow:auto;margin-bottom:6px}
+.rv-body textarea{width:100%;box-sizing:border-box;font:inherit;font-size:14px;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px;background:var(--surface);color:var(--ink);resize:vertical;margin-bottom:8px}
+.rv-list{display:flex;flex-direction:column;gap:6px}
+.rv-row{display:flex;align-items:center;gap:10px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;min-width:0}
+.rv-name{flex:1;min-width:0;display:flex;align-items:center;gap:8px;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-name i{width:8px;height:8px;border-radius:50%;flex:none}
+.rv-row select{max-width:52%;font-size:12.5px;padding:3px 6px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.rv-row select.warn,.rv-warn{border-color:#f3a33a;color:#b86a00}
+.rv-warn{font-size:12.5px}
+.rv-meta{font-size:12px;color:var(--ink-3);flex:none}
+.rv-meta.late{color:var(--danger,#c2553f)}
+.rv-row .linkbtn{flex:none;font-size:12.5px}
+.rv-ok{font-size:14px;color:var(--ink-2)}

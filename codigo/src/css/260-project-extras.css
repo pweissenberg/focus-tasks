@@ -1,0 +1,82 @@
+/* project extras: deadline + progress, archive, board, files, activity, task owner, Free zoom and images */
+.pp-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;width:100%;margin-top:4px}
+.pm-due{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:600}
+.pm-due:hover{border-color:var(--line-strong);color:var(--ink)}
+.pm-due b{color:var(--ink)}
+.pm-due.add{border-style:dashed;color:var(--accent)}
+.pm-due.soon{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,var(--line))}
+.pm-due.late{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 45%,var(--line))}
+.pm-prog{display:flex;align-items:center;gap:8px;flex:1 1 200px;min-width:160px;max-width:360px;font-size:12.5px;color:var(--ink-2)}
+.pm-prog .progress{flex:1;height:6px;border-radius:3px}
+.pm-prog b{color:var(--ink)}
+.pm-arch{margin-left:auto;font-size:13px}
+.pm-archived{width:100%;margin-top:4px;padding:9px 12px;border-radius:8px;background:color-mix(in srgb,var(--ok) 12%,var(--surface));color:var(--ink);font-size:13.5px}
+.pitem .parch{color:var(--ok);font-weight:800;font-size:12px}
+.parchtoggle{font-size:12.5px;color:var(--ink-3);padding:4px 8px}
+@container panel (max-width:520px){.pm-arch{margin-left:0}}
+/* board */
+.bd-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin:0 0 10px}
+.bd-views .seg{padding:4px 12px;font-size:13px}
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
+.bcol{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px;min-height:120px;transition:border-color .15s,background .15s}
+.bcol.drop{border-color:var(--accent);background:var(--accent-soft)}
+.bcol h3{margin:2px 4px 8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:800}
+.bcol h3 .n{font-family:var(--f-mono);font-weight:500;letter-spacing:0;margin-left:4px}
+.bcol-list{display:flex;flex-direction:column;gap:6px}
+.bcard{--c:#999;position:relative;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:8px;padding:8px 8px 6px 10px;cursor:pointer;box-shadow:0 1px 2px rgba(20,30,50,.05)}
+.bcard:hover{border-color:var(--line-strong);border-left-color:var(--c)}
+.bcard.dragging{opacity:.45}
+.bcard.hold{background:var(--hold-bg);color:var(--hold-ink);border-color:var(--hold-line)}
+.bc-top{display:flex;align-items:flex-start;gap:6px}
+.bc-name{flex:1;min-width:0;font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.bc-name.is-done{text-decoration:line-through;color:var(--ink-3)}
+.bc-top .pflag{width:18px;height:18px;margin-top:1px}
+.bc-meta{display:flex;flex-wrap:wrap;gap:2px 10px;font-size:12px;color:var(--ink-2);margin-top:3px}
+.bcard.hold .bc-meta{color:var(--hold-ink-2)}
+.bc-meta .late{color:var(--danger);font-weight:600}
+.bc-move{display:flex;justify-content:flex-end;gap:2px;margin-top:2px;opacity:0}
+.bcard:hover .bc-move,.bc-move:focus-within{opacity:1}
+@media (hover:none){.bc-move{opacity:.8}}
+.bc-move button{border:0;background:none;color:inherit;width:26px;height:22px;border-radius:5px;font-size:15px;line-height:1}
+.bc-move button:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
+.bc-empty{padding:10px 4px;text-align:center}
+@container panel (max-width:640px){.board{grid-template-columns:1fr}}
+/* files */
+.fl-add{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 6px}
+.fl-add input{height:38px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:0 10px;min-width:0}
+.fl-add #fl-url{flex:2 1 220px}.fl-add #fl-name{flex:1 1 140px}
+.fl-add input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.fl-add .btn{height:38px;display:inline-flex;align-items:center;cursor:pointer}
+.fl-list{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fl-list li{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:9px;padding:8px 12px;background:var(--surface)}
+.fl-ic{font-size:20px;width:40px;text-align:center;flex:none}
+.fl-thumb{width:40px;height:40px;object-fit:cover;border-radius:6px;flex:none}
+.fl-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.fl-main a{font-weight:600;color:var(--accent);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fl-main a:hover{text-decoration:underline}
+.fl-meta{font-size:12px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* activity */
+.act-list{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column}
+.act-list li{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.act-list .av{margin:0;border-color:var(--surface)}
+.act-list .act-me{background:var(--surface-2);color:var(--ink-3)}
+.act-t{flex:1;min-width:0;overflow-wrap:anywhere}
+.act-at{font-size:12px;color:var(--ink-3);white-space:nowrap}
+/* task owner */
+.asg{border:0;background:none;padding:0;line-height:0;border-radius:50%;color:var(--ink-3);opacity:.6;display:inline-grid;place-items:center;width:22px;height:22px;flex:none}
+.asg svg{width:15px;height:15px}
+.asg.on{opacity:1}
+.asg .av{margin:0}
+.task:hover .asg,.bcard:hover .asg,.asg:focus-visible{opacity:1}
+.asg:hover{box-shadow:0 0 0 2px var(--accent-soft)}
+.asg-menu .asg-h{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding:6px 8px 4px}
+.asg-menu .av{margin:0}
+.asg-menu .ck{margin-left:auto;color:var(--accent);font-weight:800}
+/* Free zoom and images */
+.cv-size{position:relative;overflow:hidden}
+.cv{transform-origin:0 0}
+.zoomg .tool{min-width:30px;justify-content:center}
+.zoomg .zlab{font-family:var(--f-mono);font-size:12px;min-width:52px}
+.cv-image{background:transparent;border:1px dashed transparent}
+.cv-image:hover{border-color:var(--line-strong)}
+.cv-img{display:block;width:100%;height:calc(100% - 14px);object-fit:contain;pointer-events:none;user-select:none}

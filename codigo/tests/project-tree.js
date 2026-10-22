@@ -1,0 +1,41 @@
+// Project Tree tab: plan nodes, Enter/Tab, → Task, Plan only, fold, delete (about 12 s)
+const {chromium}=require('playwright');
+const {open,sleep,checks,shot,state,noSideScroll}=require('./harness');
+const t=checks();
+(async()=>{const br=await chromium.launch();const {p:a,errs}=await open(br,{w:1280,h:860});
+  try{
+    const pid=await a.evaluate(()=>document.querySelector('[data-pgo]').dataset.pgo);
+    await a.evaluate(i=>document.querySelector(`[data-pgo="${i}"]`).click(),pid);await sleep(300);
+    await a.click('[data-ptab=tree]');await sleep(150);
+    t.is('empty tree explains itself',!!await a.$('#projBody .empty'));
+    const before=(await state(a)).tasks.length;
+    await a.click('[data-trroot]');await sleep(150);await a.keyboard.type('Launch');await a.keyboard.press('Tab');await sleep(150);
+    await a.keyboard.type('Design');await a.keyboard.press('Enter');await sleep(150);await a.keyboard.type('Build');await a.keyboard.press('Tab');await sleep(150);await a.keyboard.type('Backend');
+    await a.click('.tr-bar');await sleep(200);
+    let s=await state(a),p=s.projects.find(x=>x.id===pid);const N=p.tree,by=n=>N.find(x=>x.name===n);
+    t.is('tree has Launch > Design, Build > Backend',N.length===4&&by('Design').parent===by('Launch').id&&by('Build').parent===by('Launch').id&&by('Backend').parent===by('Build').id);
+    t.is('plan nodes are not tasks',s.tasks.length===before);
+    t.is('lines connect the nodes',await a.evaluate(()=>document.querySelectorAll('.tr-ul .tr-ul .tr-li').length===3));
+    await shot(a,'tree-plan');
+    await a.hover(`[data-tn="${by('Build').id}"]`);await a.click(`[data-tn="${by('Build').id}"] [data-trtask]`);await sleep(200);
+    await a.hover(`[data-tn="${by('Backend').id}"]`);await a.click(`[data-tn="${by('Backend').id}"] [data-trtask]`);await sleep(200);
+    s=await state(a);p=s.projects.find(x=>x.id===pid);const b=p.tree.find(x=>x.name==='Build'),k=p.tree.find(x=>x.name==='Backend');
+    const bt=s.tasks.find(x=>x.id===b.taskId),kt=s.tasks.find(x=>x.id===k.taskId);
+    t.is('→ Task makes real project tasks, Backend under Build',!!bt&&!!kt&&bt.projectId===pid&&kt.parentId===bt.id);
+    await a.click('[data-ptab=tasks]');await sleep(150);
+    t.is('the new tasks show in the list, plan nodes do not',await a.evaluate(()=>{const n=[...document.querySelectorAll('#list .task .name')].map(x=>x.textContent);return n.includes('Build')&&n.includes('Backend')&&!n.includes('Design')&&!n.includes('Launch')}));
+    await a.click('[data-ptab=tree]');await sleep(150);
+    await a.click(`[data-tn="${k.id}"] [data-trcheck]`);await sleep(250);
+    s=await state(a);t.is('ticking a task node completes the task',s.tasks.find(x=>x.id===kt.id).done);
+    await a.hover(`[data-tn="${b.id}"]`);await a.click(`[data-tn="${b.id}"] [data-trunlink]`);await sleep(250);
+    s=await state(a);t.is('Plan only takes it off the lists and keeps the node',!s.tasks.some(x=>x.id===bt.id)&&s.projects.find(x=>x.id===pid).tree.find(x=>x.id===b.id).name==='Build');
+    const L=s.projects.find(x=>x.id===pid).tree.find(x=>x.name==='Launch');
+    await a.click(`[data-tn="${L.id}"] [data-trfold]`);await sleep(150);
+    t.is('fold hides what is under a node',await a.evaluate(()=>document.querySelectorAll('.tr-li').length===1));
+    await a.click(`[data-tn="${L.id}"] [data-trfold]`);await sleep(150);
+    await a.hover(`[data-tn="${L.id}"]`);await a.click(`[data-tn="${L.id}"] [data-trdel]`);await a.click(`[data-tn="${L.id}"] [data-trdel]`);await sleep(200);
+    s=await state(a);t.is('delete removes the branch, tasks stay',!s.projects.find(x=>x.id===pid).tree.length&&s.tasks.some(x=>x.id===kt.id));
+    await a.setViewportSize({width:390,height:800});await sleep(200);await t.ok(a,'no sideways scroll at 390px',noSideScroll);
+    t.is('no page errors',!errs.length);if(errs.length)console.log(errs.join('\n'));
+  }catch(e){t.is('ran: '+String(e.message).split('\n').slice(0,2).join(' '),false)}
+  await br.close();t.done()})();

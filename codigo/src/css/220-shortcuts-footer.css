@@ -1,0 +1,12 @@
+/* discreet keyboard shortcuts line at the bottom of the page */
+.app{min-height:calc(100% - var(--kf,46px));align-content:start}
+.kfoot{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 16px;max-width:1560px;margin:16px auto 0;padding-top:6px;font-size:11.5px;color:var(--ink-3);opacity:.75;transition:opacity .2s}
+.kfoot:hover,.kfoot:focus-within{opacity:1}
+.kfoot>span,.kfoot>button{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.kfoot kbd{font:600 10.5px/1 var(--f-mono);min-width:17px;height:17px;display:inline-grid;place-items:center;padding:0 4px;border:1px solid var(--line-strong);border-bottom-width:1.5px;border-radius:4px;background:var(--surface);color:var(--ink-2)}
+.kfoot kbd+kbd{margin-left:-2px}
+.kfoot>button{border:0;background:none;padding:0;font:inherit;color:inherit}
+.kfoot>button:hover{color:var(--accent)}
+body.show-landing .kfoot{display:none}
+@media (max-width:760px),(hover:none) and (pointer:coarse){.kfoot{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}

@@ -1,0 +1,40 @@
+/* hard task of the day, plan my day, daily review */
+.hard-sec{border:1.5px solid #e0a43a;border-radius:12px;padding:8px 8px 6px;margin-bottom:12px;background:color-mix(in srgb,#f3a33a 7%,var(--surface))}
+.hard-h{display:flex;align-items:center;gap:8px;padding:0 4px 8px;font-size:13px;color:#a86400;flex-wrap:wrap}
+.hard-h svg{width:16px;height:16px;flex:none}
+.hard-h b{font-weight:700}
+.hard-h span{color:var(--ink-3);font-size:12.5px}
+.hard-h .linkbtn{margin-left:auto;font-size:12.5px}
+.hard-sec>.task{margin-bottom:0}
+.hard-pick{display:flex;align-items:center;gap:8px;width:100%;margin-bottom:10px;padding:9px 12px;border:1.5px dashed var(--line-strong);border-radius:12px;background:none;color:var(--ink-2);font:inherit;font-size:13.5px;font-weight:600;text-align:left}
+.hard-pick:hover{border-color:#e0a43a;color:#a86400}
+.hard-pick svg{width:16px;height:16px;flex:none}
+.hard-menu{width:min(320px,calc(100vw - 32px))}
+.hard-menu .asg-h{padding:6px 8px;font-size:12px;color:var(--ink-3);font-weight:600}
+.hard-menu button i{width:8px;height:8px;border-radius:50%;flex:none}
+.hard-menu button span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hard-menu button em{font-style:normal;font-size:11.5px;color:var(--ink-3);font-weight:500;flex:none}
+.hard-menu .sp-hint{padding:4px 8px 2px;margin:0}
+.acct-menu .ck{margin-left:auto;font-size:11px;font-weight:700;color:#b86a00}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .hard-h,:root:not([data-theme=light]) .hard-pick:hover{color:#f3b45a}}
+:root[data-theme=dark] .hard-h,:root[data-theme=dark] .hard-pick:hover{color:#f3b45a}
+
+.pd-opts{display:flex;flex-wrap:wrap;gap:8px 14px;margin:8px 0 10px;font-size:13px;color:var(--ink-2)}
+.pd-opts label{display:flex;align-items:center;gap:6px}
+.pd-opts input,.pd-opts select{font:inherit;font-size:13px;padding:3px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);color:var(--ink)}
+.pd-row{cursor:pointer}
+.pd-row input{flex:none;margin:0}
+.pd-time{flex:none;width:92px;font-size:12px;color:var(--accent)}
+.pd-row.nofit .pd-time{color:var(--ink-3)}
+.pd-why{flex:none;font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--surface-2);color:var(--ink-2)}
+.pd-why.quick{background:color-mix(in srgb,#f3a33a 18%,transparent);color:#a86400}
+.pd-why.hard-task{background:color-mix(in srgb,#9b6bff 18%,transparent);color:#7046d6}
+.pd-why.urgent{background:color-mix(in srgb,#c2553f 16%,transparent);color:#b0402b}
+
+.dr-h{display:flex;align-items:center;gap:8px;font-size:13.5px;margin:12px 0 6px}
+.dr-h:first-child{margin-top:2px}
+.dr-h span{font-weight:500;color:var(--ink-3);font-size:12.5px}
+.dr-h .linkbtn{margin-left:auto;font-size:12.5px}
+
+
+@media (max-width:600px){.pd-time{width:80px}}

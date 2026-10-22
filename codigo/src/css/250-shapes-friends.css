@@ -1,0 +1,18 @@
+/* Free canvas shapes: tools, hit area, selection box */
+.tgroup.shapes .tool{padding:6px 7px}
+.cv svg.ink .shp-hit{fill:none;stroke:transparent;pointer-events:none}
+.cv.tool-shape svg.ink{pointer-events:auto;touch-action:none;cursor:crosshair}
+.cv.tool-shape .cv-item{pointer-events:none}
+.cv.tool-move svg.ink .shp-hit{pointer-events:stroke;cursor:move;touch-action:none}
+.cv.tool-eraser svg.ink .shp-hit{pointer-events:stroke}
+.cv svg.ink .shp-box{fill:none;stroke:var(--accent);stroke-width:1.5px;stroke-dasharray:5 4;pointer-events:none}
+.cv svg.ink .shp-del{cursor:pointer;pointer-events:all}
+.cv svg.ink .shp-del circle{fill:var(--surface);stroke:var(--line);stroke-width:1px}
+.cv svg.ink .shp-del path{stroke:var(--danger);stroke-width:2px;stroke-linecap:round;fill:none}
+.cv svg.ink .shp-del:hover circle{fill:var(--surface-2)}
+/* friends window (account menu > Friends) */
+.modal.friends{max-width:400px;gap:10px}
+.modal.friends #fr-q{height:36px;border:1px solid var(--line);border-radius:8px;padding:0 10px;background:var(--surface);color:var(--ink);font:inherit;font-size:14px}
+.modal.friends #fr-q:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.modal.friends .sp-mem{max-height:240px;overflow:auto}
+.cv-item textarea{overflow:hidden}

@@ -1,0 +1,50 @@
+/* waiting for a person, Waiting for me section */
+.wf-ppl{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+.wf-p{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 3px;border:1px solid var(--line-strong);border-radius:99px;background:var(--surface);color:var(--ink-2);font:inherit;font-size:12.5px;font-weight:600}
+.wf-p .av{width:22px;height:22px;font-size:10px}
+.wf-p:hover{border-color:var(--accent)}
+.wf-p.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.wfm-sec{border:1.5px solid color-mix(in srgb,var(--accent) 55%,transparent);border-radius:12px;padding:8px 8px 6px;margin-bottom:12px;background:color-mix(in srgb,var(--accent) 5%,var(--surface))}
+.wfm-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:0 4px 6px;font-size:13px;color:var(--accent)}
+.wfm-h span{color:var(--ink-3);font-size:12.5px}
+.wfm-item+.wfm-item{margin-top:8px}
+.wfm-by{display:flex;align-items:center;gap:8px;padding:2px 4px 6px;font-size:12.5px;color:var(--ink-2)}
+.wfm-by .av{width:22px;height:22px;font-size:10px}
+.wfm-by .btn{margin-left:auto}
+.wfm-item>.task{margin-bottom:0}
+.wf-l{display:flex;flex-direction:column;gap:4px;margin-top:8px;font-size:12px;font-weight:600;color:var(--ink-2)}
+.wf-l input{width:100%;box-sizing:border-box}
+/* sent / received */
+.sentc{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:1px 8px;border-radius:99px;border:1px dashed var(--line-strong);color:var(--ink-2)}
+.sentc.recv{border-style:solid;border-color:color-mix(in srgb,var(--accent) 50%,transparent);color:var(--accent);background:var(--accent-soft)}
+.sr-menu .asg-h{padding:8px 8px 2px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
+.sr-menu .sr-sub{padding-left:20px}
+.sr-menu em{font-style:normal;color:var(--ink-3);font-size:12px;font-weight:500}
+.share-pop .sp-row .btn[data-send]{margin-left:auto}
+/* Received / Sent before Sort */
+.srbar{display:inline-flex;align-items:center;gap:2px;flex-wrap:wrap}
+.srbar[hidden]{display:none}
+.srbar .seg em{font-style:normal;font-size:11px;color:var(--ink-3);margin-left:2px}
+.sr-ppl{display:inline-flex;gap:4px;flex-wrap:wrap;margin-left:6px}
+.sr-p{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px 0 4px;border:1px solid var(--line-strong);border-radius:99px;background:var(--surface);color:var(--ink-2);font:inherit;font-size:12.5px;font-weight:600}
+.sr-p[data-srwho=""]{padding-left:9px}
+.sr-p .av{width:18px;height:18px;font-size:9px}
+.sr-p em{font-style:normal;color:var(--ink-3);font-weight:500}
+.sr-p.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.sr-sep{width:1px;height:18px;background:var(--line);margin:0 8px}
+/* Done my part */
+.dmp-sec{border:1.5px dashed var(--line-strong);border-radius:12px;padding:8px 8px 6px;margin-bottom:14px}
+.dmp-sec .wfm-h{color:var(--ink)}
+.dmp-st{font-weight:700;color:#b86a00}
+.dmp-st.done{color:var(--ok,#3a8f4f)}
+.wf-sug{display:flex;flex-direction:column;gap:2px;margin-top:4px;border:1px solid var(--line);border-radius:8px;padding:4px;background:var(--surface)}
+.wf-sug[hidden]{display:none}
+.wf-sug button{display:flex;align-items:center;gap:8px;border:0;background:none;padding:6px;border-radius:6px;font:inherit;font-size:13px;color:var(--ink);text-align:left}
+.wf-sug button:hover,.wf-sug button:first-child{background:var(--surface-2)}
+.wf-sug .av{width:20px;height:20px;font-size:9px}
+.wf-show{margin-top:8px;font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.wf-show[hidden]{display:none}
+
+/* Hide / Show on the Waiting for me header (v48) */
+.wfm-tog{margin-left:auto;font-size:12.5px}
+.wfm-sec.wfm-hidden .wfm-h{padding-bottom:0}

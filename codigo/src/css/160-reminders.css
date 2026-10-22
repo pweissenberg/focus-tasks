@@ -1,0 +1,18 @@
+/* reminders */
+.meta .rem{display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-weight:600}
+.meta .rem svg{width:12px;height:12px;flex:none}
+.meta .rem.fired{color:var(--ink-3);font-weight:500}
+.task.hold .meta .rem{color:var(--pr-hold-1)}
+.task.hold .meta .rem.fired{color:var(--hold-ink-2)}
+.rstack{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));right:16px;z-index:62;display:flex;flex-direction:column;gap:8px;width:min(330px,calc(100vw - 32px))}
+.rcard{--c:var(--accent);background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;box-shadow:var(--shadow);padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;animation:rin .25s ease}
+@keyframes rin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.rc-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.rc-head svg{width:14px;height:14px}
+.rc-head .closex{margin-left:auto;width:24px;height:24px;font-size:18px}
+.rc-name{font-size:15px;overflow-wrap:anywhere}
+.rc-when{font-size:12.5px;color:var(--ink-2)}
+.rc-actions{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.tchip.due .tm{font-family:var(--f-mono);font-size:10.5px;font-weight:600;color:var(--ink-2)}
+.filters .sorts{flex-wrap:wrap}
+@media (max-width:560px){.rstack{left:16px;right:16px;width:auto}}

@@ -1,0 +1,115 @@
+/* task history, alerts bell, Done my part box, task back to you (231) */
+.lt-send{opacity:.6}
+.bell-n{position:absolute;top:1px;right:1px;min-width:15px;height:15px;padding:0 3px;border-radius:8px;background:#e5484d;color:#fff;font-family:inherit;font-weight:700;font-size:10px;line-height:15px;text-align:center;box-sizing:border-box}
+.bell-pop,.log-pop{width:320px;max-width:calc(100vw - 32px)}
+.bell-h{display:flex;align-items:baseline;gap:8px;padding:2px 4px 8px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.bell-h span{color:var(--ink-3);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.bell-h .linkbtn{margin-left:auto;font-size:12.5px}
+.bell-pop ul,.log-pop ul{list-style:none;margin:0;padding:0;max-height:min(60vh,420px);overflow-y:auto}
+.bell-pop li button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;border:0;background:none;color:var(--ink);font:inherit;font-size:13px;padding:7px 8px;border-radius:7px}
+.bell-pop li button:hover{background:var(--accent-soft)}
+.bell-pop li.new button{font-weight:600}
+.bell-pop li.new button span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:1px}
+.bell-pop small,.log-pop small{color:var(--ink-3);font-size:11.5px;font-weight:400}
+.log-pop li{display:flex;flex-direction:column;gap:1px;padding:6px 8px;border-left:2px solid var(--line);margin-left:6px;font-size:13px;color:var(--ink-2)}
+.log-pop li b{color:var(--ink)}
+.logbtn svg{width:15px;height:15px}
+.holdbox.mypart{color:var(--accent);font-weight:600}
+.task.back{box-shadow:0 0 0 2px var(--accent),0 4px 14px color-mix(in srgb,var(--accent) 25%,transparent);animation:backpulse 1.6s ease-in-out 3}
+@keyframes backpulse{50%{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 45%,transparent),0 4px 14px color-mix(in srgb,var(--accent) 25%,transparent)}}
+@media (prefers-reduced-motion:reduce){.task.back{animation:none}}
+.back-tag{display:inline-block;margin:0 0 4px;border:0;border-radius:6px;background:var(--accent);color:#fff;font-family:inherit;font-weight:600;font-size:12px;line-height:1.2;padding:3px 8px;cursor:pointer}
+.back-tag:hover{filter:brightness(1.1)}
+
+/* v55: "Done my part" sits where the caret and done checkbox are, on one line; the columns stay the same, so names line up with other tasks */
+.task.mypart-row>.caret{display:none}
+.mypart-btn{grid-column:1/4;grid-row:1;justify-self:start;margin-left:6px;align-self:start;margin-top:var(--mpt,0px);white-space:nowrap;height:24px;padding:0 4px;border:1.5px solid var(--ink-2);border-radius:8px;background:var(--surface);color:var(--ink);font-family:inherit;font-weight:600;font-size:10px;letter-spacing:-.01em;line-height:1;text-align:center;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.mypart-btn{box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.mypart-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.task.hold .mypart-btn{border-color:var(--hold-ink-2,currentColor);color:inherit;background:transparent}
+/* project Export menu and Import link (232) */
+.pm-exp{margin-left:auto;font-size:13px}
+.pm-exp+.pm-tpl{margin-left:0}
+@container panel (max-width:520px){.pm-exp{margin-left:0}}
+.acct-menu [data-pexpk]{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+.acct-menu [data-pexpk] small{color:var(--ink-3);font-size:11.5px;font-weight:400}
+.imp-proj{margin-top:-6px;font-size:12.5px;opacity:.8}
+/* v60: history lines wrap inside the window; the second filter row starts at the left edge, Sort at the right end */
+.log-pop li span,.bell-pop li span{overflow-wrap:anywhere}
+.log-pop{overflow:hidden}
+.srbar{margin-left:-9px}
+.srbar .sr-sep{display:none}
+.sortgrp{display:inline-flex;align-items:center;gap:2px;margin-left:auto;flex:none}
+.sortgrp .lbl{margin-right:6px}
+/* v61: one Received / Sent / Done my part button next to Sort */
+.srbar{margin-left:0}
+.srbtn{display:inline-flex;align-items:center;gap:5px}
+.srbtn svg{width:15px;height:15px}
+.srbtn i{font-style:normal;font-size:10px;opacity:.7}
+.sr-sep2{width:1px;height:18px;background:var(--line);margin:0 8px 0 6px}
+.sr-menu .asg-h{margin-top:4px;border-top:1px solid var(--line);padding-top:6px}
+.sr-menu [data-srw]{display:flex;align-items:center;gap:6px}
+.sr-menu [data-srw] .av{width:18px;height:18px;font-size:9px}
+.sr-menu [aria-checked="true"]{color:var(--accent);font-weight:600}
+/* v62 task dependencies */
+.dep-tag{display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:1px 8px 1px 6px}
+.dep-tag svg{flex:none;opacity:.8}
+.task.blocked>.body .name{opacity:.55}
+.task.blocked>.body .name-row{opacity:.9}
+.depline{font-size:13px;color:var(--ink-3);padding:8px 4px;text-align:center}
+.dep-fld .dep-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.dep-fld .dep-chips:empty{display:none}
+.dep-chip{display:inline-flex;align-items:center;gap:4px;font-size:13px;background:var(--accent-soft);color:var(--ink);border-radius:999px;padding:3px 4px 3px 10px}
+.dep-chip.done{opacity:.6}
+.dep-chip button{border:0;background:none;color:var(--ink-3);font-size:15px;line-height:1;width:20px;height:20px;border-radius:50%;cursor:pointer}
+.dep-chip button:hover{background:var(--surface-2);color:var(--ink)}
+.bcard.blocked .bc-name{opacity:.6}
+.dep-lock{display:inline-flex;color:var(--ink-3);margin-right:2px}
+.gantt .g-grid{position:relative}
+.g-deps{position:absolute;left:0;top:0;pointer-events:none;z-index:2;overflow:visible}
+.g-deps path{fill:none;stroke:var(--ink-3);stroke-width:1.5;marker-end:url(#gdep-a)}
+.g-deps path.ok{stroke:var(--line);stroke-dasharray:3 3}
+.locktoggle{padding:0;width:30px;justify-content:center;color:var(--ink-3);border-style:dashed}
+.locktoggle.on{color:var(--accent);border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
+.cadv .dep-afld{grid-column:1/-1}
+.cadv .dep-afld>.dep-arow{display:flex;font-size:13.5px;color:var(--ink-2);align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-weight:400}
+.cadv .dep-afld select{max-width:420px}
+.dep-afld em{font-style:normal;font-size:13px;color:var(--ink-2);white-space:nowrap}
+/* v64 My team (manager view) */
+.modal.myteam{width:min(980px,calc(100vw - 32px));max-width:none;max-height:calc(100vh - 48px);display:flex;flex-direction:column}
+.myt-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.myt-top h2{margin:0}
+.myt-top .linkbtn{margin-left:auto}
+.myt-body{flex:1;min-height:0;overflow:auto;margin-top:12px}
+.myt-body.busy{opacity:.5}
+.myt-wrap{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px;align-items:start}
+.myt-side{display:flex;flex-direction:column;gap:4px;position:sticky;top:0}
+.myt-person{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid transparent;background:none;border-radius:10px;padding:8px 10px;color:var(--ink);cursor:pointer}
+.myt-person:hover{background:var(--surface-2)}
+.myt-person.on{background:var(--accent-soft);border-color:var(--accent)}
+.myt-person span{display:flex;flex-direction:column;min-width:0}
+.myt-person small{font-size:12px;color:var(--ink-3)}
+.myt-person em{font-style:normal;color:var(--danger,#c2553f);font-weight:600}
+.myt-head{display:flex;align-items:center;gap:12px}
+.myt-head h3{margin:0;font-size:18px}
+.myt-head span{font-size:12.5px;color:var(--ink-3)}
+.myt-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 6px}
+.myt-stat{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface-2)}
+.myt-stat b{display:block;font-size:20px;font-family:var(--f-mono,inherit)}
+.myt-stat span{font-size:12px;color:var(--ink-3)}
+.myt-stat.bad b{color:var(--danger,#c2553f)}
+.myt-stat.good b{color:var(--ok,#4e9a5b)}
+.myt-sec h4{margin:16px 0 6px;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.myt-sec h4 span{color:var(--ink-3);font-weight:600}
+.myt-overdue h4{color:var(--danger,#c2553f)}
+.myt-sec ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.myt-task{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:8px;padding:8px 10px;background:var(--surface)}
+.myt-task.done .myt-name span{text-decoration:line-through;color:var(--ink-3)}
+.myt-name{display:flex;align-items:center;gap:6px;font-weight:600}
+.myt-name .pflag{width:14px;height:14px}
+.myt-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:3px;font-size:12.5px;color:var(--ink-3)}
+.myt-meta i{font-style:normal;opacity:.6}
+.myt-meta .late{color:var(--danger,#c2553f);font-weight:600}
+.myt-note{margin-top:3px;font-size:12.5px;color:var(--ink-2)}
+.am-mgr{margin:0;padding:6px 12px 8px;font-size:12px;color:var(--ink-3);border-bottom:1px solid var(--line)}
+@media (max-width:700px){.myt-wrap{grid-template-columns:1fr}.myt-side{position:static;flex-direction:row;overflow-x:auto}.myt-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}

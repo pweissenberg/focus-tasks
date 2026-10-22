@@ -1,0 +1,77 @@
+/* project plus: sections, custom board columns, timeline (Gantt), Time tab, templates */
+.secdiv{display:flex;align-items:center;gap:8px;margin:16px 0 4px;padding:6px 8px;border-radius:8px;border:1px dashed transparent;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-2)}
+.secdiv .n{font-family:var(--f-mono);font-weight:500;letter-spacing:0;color:var(--ink-3)}
+.secdiv.on,.sec-empty.on{border-color:var(--accent);background:var(--accent-soft)}
+.sec-tools{margin-left:auto;display:flex;gap:2px;opacity:0;transition:opacity .15s}
+.secdiv:hover .sec-tools,.secdiv:focus-within .sec-tools{opacity:1}
+@media (hover:none){.sec-tools{opacity:.8}}
+.sec-tools button{border:0;background:none;color:var(--ink-3);font:inherit;font-size:12px;letter-spacing:0;text-transform:none;font-weight:600;padding:3px 6px;border-radius:6px;cursor:pointer}
+.sec-tools button:hover{background:var(--surface-2);color:var(--ink)}
+.sec-tools button svg{width:13px;height:13px;vertical-align:-2px}
+.sec-tools .armed{color:var(--danger)}
+.sec-empty{margin:2px 0 6px;padding:10px 12px;border:1px dashed var(--line);border-radius:8px;font-size:13px;color:var(--ink-3)}
+.sec-into{font-size:13px;color:var(--ink-2);margin:-4px 0 8px}
+/* board with the project's own columns */
+.board.cust{grid-template-columns:repeat(var(--ncol),minmax(190px,1fr));overflow-x:auto;padding-bottom:4px}
+.bcol h3{display:flex;align-items:center;gap:4px}
+.bc-tools{margin-left:auto;display:flex;gap:1px;opacity:0;transition:opacity .15s}
+.bcol:hover .bc-tools,.bcol h3:focus-within .bc-tools{opacity:1}
+@media (hover:none){.bc-tools{opacity:.8}}
+.bc-tools button{border:0;background:none;color:var(--ink-3);font:inherit;font-size:12px;letter-spacing:0;text-transform:none;padding:2px 5px;border-radius:6px;cursor:pointer}
+.bc-tools button:hover{background:var(--surface);color:var(--ink)}
+.bc-tools button svg{width:12px;height:12px;vertical-align:-2px}
+.bc-tools .armed{color:var(--danger)}
+.bcol-add{border-style:dashed;color:var(--ink-3);font:inherit;font-weight:700;font-size:13px;cursor:pointer;min-height:56px;max-width:160px}
+.bcol-add:hover{color:var(--accent);border-color:var(--accent)}
+@container panel (max-width:640px){.board.cust{grid-template-columns:1fr}.bcol-add{max-width:none}}
+/* timeline */
+.gantt{border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.g-scroll{overflow-x:auto}
+.g-grid{min-width:100%}
+.g-row{display:flex;min-height:34px;border-bottom:1px solid var(--line)}
+.g-row:last-child{border-bottom:0}
+.g-lab{flex:0 0 180px;width:180px;position:sticky;left:0;z-index:2;background:var(--surface);border-right:1px solid var(--line);padding:7px 10px;font-size:13px;display:flex;align-items:center;gap:7px;min-width:0}
+.g-lab span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--c)}
+.g-track{position:relative;flex:1;background-image:repeating-linear-gradient(90deg,transparent 0 calc(var(--dw) - 1px),var(--surface-2) calc(var(--dw) - 1px) var(--dw))}
+.g-head .g-track{height:44px;background:none}
+.g-ms{position:relative;height:20px}
+.g-m{position:absolute;top:3px;padding-left:4px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.g-days{display:flex}
+.g-d{flex:0 0 var(--dw);text-align:center;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);line-height:22px}
+.g-d.we{color:var(--line-strong)}
+.g-d.now{color:var(--accent-ink);background:var(--accent);border-radius:6px;font-weight:700}
+.g-sec .g-lab{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--ink-2);background:var(--surface-2)}
+.g-sec{min-height:26px;background:var(--surface-2)}
+.g-now,.g-dl{position:absolute;top:0;bottom:0;width:0;border-left:2px solid var(--accent);opacity:.55;z-index:0}
+.g-dl{border-left:2px dashed var(--danger);opacity:.7}
+.g-bar{position:absolute;top:6px;height:22px;border-radius:6px;background:var(--c);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;cursor:grab;z-index:1;touch-action:none;user-select:none;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.g-bar span{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 4px;text-shadow:0 1px 1px rgba(0,0,0,.25)}
+.g-bar i{flex:0 0 7px;align-self:stretch;cursor:ew-resize;border-radius:6px}
+.g-bar i:hover{background:rgba(255,255,255,.35)}
+.g-bar.done{opacity:.45}
+.g-bar.late{outline:2px solid var(--danger);outline-offset:1px}
+@container panel (max-width:560px){.g-lab{flex-basis:118px;width:118px}}
+/* Time tab */
+.tm-hero{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tm-card{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.tm-card span{font-size:12px;color:var(--ink-3);font-weight:700}
+.tm-card b{font-size:20px}
+.tm-h{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--ink-3);margin:18px 0 8px}
+.tm-days{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px;height:110px;align-items:end}
+.tm-day{display:flex;flex-direction:column;justify-content:flex-end;height:100%;gap:4px}
+.tm-day i{display:block;background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
+.tm-day span{font-family:var(--f-mono);font-size:10px;color:var(--ink-3);text-align:center}
+.tm-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.tm-list li{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr) auto;gap:10px;align-items:center;font-size:14px}
+.tm-n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tm-bar{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.tm-bar i{display:block;height:100%;background:var(--c);border-radius:4px}
+@container panel (max-width:420px){.tm-card b{font-size:16px}.tm-list li{grid-template-columns:minmax(0,1fr) auto}.tm-bar{display:none}}
+/* templates */
+.tp-h{margin-top:6px}
+.tp-list{display:flex;flex-direction:column;gap:2px;max-height:180px;overflow:auto}
+.tp-from{margin:2px 0}
+.pm-tpl{margin-left:auto;font-size:13px}
+.pm-tpl+.pm-arch{margin-left:0}
+@container panel (max-width:520px){.pm-tpl{margin-left:0}}

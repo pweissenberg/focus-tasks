@@ -1,0 +1,16 @@
+/* priority */
+:root{--pr-hold-1:#9db8ff;--pr-hold-2:#f2bd6b;--pr-hold-3:#ff9488}
+.pflag{border:0;background:none;padding:0;width:22px;height:22px;border-radius:5px;display:inline-grid;place-items:center;flex:none;color:var(--pc,var(--ink-3));line-height:0}
+.pflag svg{width:15px;height:15px}
+button.pflag:hover{background:color-mix(in srgb,currentColor 14%,transparent)}
+.pr1{--pc:var(--accent)}.pr2{--pc:var(--warn)}.pr3{--pc:var(--danger)}
+.task.hold .pflag.pr1{--pc:var(--pr-hold-1)}.task.hold .pflag.pr2{--pc:var(--pr-hold-2)}.task.hold .pflag.pr3{--pc:var(--pr-hold-3)}
+.name-row .pflag{margin:0 -4px 0 -3px}
+.composer .cprio{justify-self:center;width:30px;height:30px;border-radius:7px}
+.composer .cprio svg{width:17px;height:17px}
+.composer .cprio.pr0{color:var(--ink-3)}
+.pop.pop-menu.prio-pop{width:180px}
+.prio-menu .pflag svg{color:inherit}
+.prio-menu .ck{margin-left:auto;color:var(--accent);font-weight:800}
+@media (max-width:900px){.composer .cprio{justify-self:start;height:32px;width:32px;border:1px solid var(--line);background:var(--surface);border-radius:8px}}
+@media (max-width:560px){.composer .cprio{justify-self:stretch;width:auto;margin-right:3px}}

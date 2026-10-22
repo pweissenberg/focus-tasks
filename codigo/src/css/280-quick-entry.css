@@ -1,0 +1,70 @@
+/* quick entry menu ([ tag, ; time), time chip, glow on quick tasks */
+.qe-menu{position:fixed;z-index:60;min-width:200px;max-width:280px;background:var(--raised);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18);padding:5px}
+.qe-h{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:700;padding:4px 8px 5px;display:flex;justify-content:space-between;gap:10px}
+.qe-h span{text-transform:none;letter-spacing:0;font-weight:500}
+.qe-menu button{display:flex;align-items:center;gap:8px;width:100%;border:0;background:none;color:var(--ink);padding:6px 8px;border-radius:6px;font:inherit;font-size:13.5px;text-align:left}
+.qe-menu button i{width:9px;height:9px;border-radius:50%;flex:none}
+.qe-menu button.on,.qe-menu button:hover{background:var(--accent-soft)}
+.qe-t{font-size:13.5px;padding:2px 8px 6px;color:var(--ink-2)}
+.qe-t b{color:var(--ink);font-family:var(--f-mono)}
+@keyframes qeflash{0%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+.qe-flash{animation:qeflash .9s ease-out}
+.estc{border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);font:600 11px/1 var(--f-mono);padding:3px 6px;border-radius:999px;flex:none}
+.estc.q{color:#b86a00;border-color:#f3c46b;background:#fff4dc}
+.estc:hover{border-color:var(--line-strong)}
+.est-pop{width:240px}
+.est-pop .fld{margin-top:10px}
+.est-pop select{width:100%}
+/* a light that runs around the edge of tasks you can do in a couple of minutes */
+@property --qa{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes qespin{to{--qa:360deg}}
+.task.glow::after{content:'';position:absolute;inset:-2px;border-radius:12px;padding:2.5px;pointer-events:none;z-index:1;
+  background:conic-gradient(from var(--qa),var(--gs) 0 45%,var(--g1) 68%,var(--g2) 84%,var(--gs) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:qespin 2.6s linear infinite;filter:drop-shadow(0 0 4px var(--gh))}
+@media (prefers-reduced-motion:reduce){.task.glow::after{animation:none;background:linear-gradient(#ffcf5a,#ff8a3d)}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .estc.q{color:#ffcf7a;background:#3a2c10;border-color:#6b5020}}
+:root[data-theme="dark"] .estc.q{color:#ffcf7a;background:#3a2c10;border-color:#6b5020}
+.qe-tip{padding:6px 8px;font-size:12.5px;line-height:1.5}
+.qe-tip kbd{font:600 11px var(--f-mono);border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:4px;padding:0 4px;background:var(--surface)}
+.qe-tip b{font-weight:600}
+.qe-menu.tip-only{pointer-events:none;opacity:.96}
+
+/* glow colors */
+.g-gold{--g1:#ffd45e;--g2:#ff7a2f;--gs:rgba(255,176,60,.28);--gh:rgba(255,170,60,.6)}
+.g-blue{--g1:#7fd3ff;--g2:#2f6bff;--gs:rgba(60,140,255,.25);--gh:rgba(60,140,255,.55)}
+.g-violet{--g1:#d7a6ff;--g2:#7b3cff;--gs:rgba(140,80,255,.25);--gh:rgba(140,80,255,.55)}
+.g-green{--g1:#a6f5a0;--g2:#1fa84f;--gs:rgba(50,190,90,.25);--gh:rgba(50,190,90,.5)}
+.g-pink{--g1:#ffb3dc;--g2:#ff3d8b;--gs:rgba(255,80,150,.25);--gh:rgba(255,80,150,.55)}
+.task.g-rainbow::after{background:conic-gradient(from var(--qa),#ff4d4d,#ffb84d,#ffe94d,#5cd65c,#4db8ff,#9b6bff,#ff4d4d)}
+.g-rainbow{--g1:#ff4d4d;--g2:#4db8ff;--gs:transparent;--gh:rgba(160,120,255,.5)}
+.glow-pick{display:flex;flex-wrap:wrap;gap:8px}
+.glow-pick label{cursor:pointer}
+.glow-pick input{position:absolute;opacity:0;pointer-events:none}
+.gsw{display:block;width:24px;height:24px;border-radius:50%;background:conic-gradient(var(--g1),var(--g2),var(--g1));box-shadow:0 0 6px var(--gh);border:2px solid var(--surface);outline:2px solid transparent}
+.gsw.g-rainbow{background:conic-gradient(#ff4d4d,#ffb84d,#ffe94d,#5cd65c,#4db8ff,#9b6bff,#ff4d4d)}
+.gsw.none{display:grid;place-items:center;background:var(--surface-2);box-shadow:none;color:var(--ink-3);font-size:13px;border-color:var(--line)}
+.glow-pick input:checked+.gsw{outline-color:var(--accent);outline-offset:1px}
+.glow-pick input:focus-visible+.gsw{outline-color:var(--accent)}
+.urg{display:inline-grid;place-items:center;width:18px;height:18px;margin-right:4px;border-radius:5px;background:var(--danger,#c2553f);color:#fff;font:800 13px/1 var(--f-mono);flex:none}
+/* the glow also goes around the microtasks box under the task (230) */
+.task.glow.has-mt.gclip::after{bottom:calc(-5px - var(--mth,0px));z-index:2;border-radius:0;-webkit-mask:none;mask:none;clip-path:var(--gclip,none)}
+/* Share window: pick a person first, then Send / Share; no Pass */
+.pickfirst .sp-res[hidden]{display:none}
+.pickfirst .sp-res .sp-row{cursor:pointer;border-radius:8px;padding-left:4px;padding-right:4px}
+.pickfirst .sp-res .sp-row:hover{background:var(--surface-2)}
+.pickfirst .sp-res .sp-row .btn{display:none}
+.pickfirst .sp-res .sp-row.picked{background:var(--accent-soft)}
+.pickfirst .sp-res .sp-row.picked .btn{display:inline-flex}
+.pickfirst [data-pass]{display:none!important}
+
+/* a thin dark gap between the task's color and the glow: the ring sits 4px out and the border is see-through (v46) */
+.task.glow::after{inset:-5px;border-radius:14px}
+.task.glow,.task.glow.has-mt.gclip+.mt-wrap{border-color:transparent!important;background-clip:padding-box!important}
+.task.glow.has-mt.gclip+.mt-wrap::before{left:0;right:0}
+/* the color strip is painted into the background so it follows the rounded corners exactly */
+.task.glow>.bar{visibility:hidden}
+.task.glow{background-image:linear-gradient(90deg,var(--c) 0 5px,transparent 5px)!important}
+/* rounded inner corner where the microtasks box meets the task, matching the glow's curve */
+.task.glow.has-mt.gclip+.mt-wrap::after{content:'';position:absolute;left:-11px;top:0;width:11px;height:11px;background:inherit;background-clip:border-box!important;pointer-events:none;
+  -webkit-mask:radial-gradient(circle at 0 100%,transparent 10.6px,#000 11px);mask:radial-gradient(circle at 0 100%,transparent 10.6px,#000 11px)}

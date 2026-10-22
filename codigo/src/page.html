@@ -1,0 +1,137 @@
+<title>Focus Tasks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+@@CSS@@
+</style>
+
+<section class="landing" id="landing" aria-labelledby="ld-h">
+  <div class="ld-card">
+    <div class="ld-brand"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3l4 4L8 20H4v-4z"/></svg>Focus</div>
+    <h1 id="ld-h">Your tasks, timer and notes in one place.</h1>
+    <p class="ld-sub">Plan the day, track where your time goes, and share tasks with the people you work with.</p>
+    <ul class="ld-feats">
+      <li><b>Tags and projects</b><span>Color tags as filters, a page per project with notes and a free canvas.</span></li>
+      <li><b>Timer and calendar</b><span>Time every task, see your week, and get stats by tag or project.</span></li>
+      <li><b>Share or pass</b><span>Share a task so you both see it, or hand it over to someone else.</span></li>
+    </ul>
+    <button class="btn primary ld-go" id="ldSignIn" type="button">Sign in</button>
+    <p class="ld-test" id="ldTest"></p>
+  </div>
+</section>
+<div class="app" id="app">
+  <aside class="side">
+    <div class="brand">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3l4 4L8 20H4v-4z"/></svg>
+      Focus
+    </div>
+    <div>
+      <h3>Projects</h3>
+    </div>
+    <ul class="plist" id="plist"></ul>
+    <button class="addlink sidebottom" id="addProject" type="button">+ New project</button>
+  </aside>
+
+  <main class="panel">
+    <header class="head">
+      <div class="hrow">
+      <div class="ttl"><h1 id="title">Tasks</h1><div class="counter" id="counter"></div></div>
+      <nav class="views" aria-label="Views">
+        <button class="seg" data-view="tasks" type="button" title="Tasks (1)">Tasks</button>
+        <button class="seg" data-view="long" type="button" title="Long term (2)">Long term</button>
+        <button class="seg" data-view="done" type="button" title="Done (3)">Done</button>
+      </nav>
+      <div class="searchbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="search" type="search" placeholder="Search" aria-label="Search tasks and notes" title="Search tasks and notes (press /)" autocomplete="off"><kbd>/</kbd></div>
+      </div>
+    </header>
+
+    <form class="composer" id="composer" autocomplete="off">
+      <input id="c-name" type="text" placeholder="Add a task..." aria-label="Task name">
+      <input id="c-due" type="text" class="mono" placeholder="MM/DD/YYYY" aria-label="Due date (optional)">
+      <select id="c-tag" aria-label="Tag"></select>
+      <select id="c-proj" aria-label="Project"></select>
+      <button class="pflag cprio" id="c-prio" type="button" aria-label="Priority" aria-haspopup="menu"></button>
+      <button class="swatchbtn auto" id="c-color" type="button" aria-label="Task color"></button>
+      <button class="cgear" id="c-adv" type="button" aria-label="Advanced settings" aria-expanded="false" title="Advanced settings"></button>
+      <button class="addbtn" type="submit" aria-label="Add task">+</button>
+    </form>
+
+    <div class="filters" id="filters">
+      <div class="tagrow">
+        <button class="holdtoggle" id="holdToggle" type="button"></button>
+        <div id="tabs" style="display:contents"></div>
+      </div>
+      <div class="sorts" id="sorts" aria-label="Sort">
+        <span class="lbl">Sort</span>
+        <button class="seg" data-sort="manual" type="button" title="Your own order (drag or use the arrows)">Manual</button>
+        <button class="seg" data-sort="created" type="button">Created</button>
+        <button class="seg" data-sort="due" type="button">Due</button>
+        <button class="seg" data-sort="az" type="button">A-Z</button>
+        <button class="seg" data-sort="prio" type="button" title="Highest priority first">Priority</button>
+      </div>
+    </div>
+
+    <section class="projpage" id="projPage" hidden><div class="pp-headrow" id="projHead"></div><div class="projbody" id="projBody"></div></section>
+    <div class="nowbar" id="nowBar" hidden></div>
+    <div id="banner"></div>
+    <div class="list" id="list"></div>
+    <div class="stats" id="stats" hidden></div>
+    <div class="cal" id="cal" hidden></div>
+
+    <section class="notes" id="notesSec">
+      <div class="notes-head"><h2>Notes</h2><span class="saved" id="saved">Saved automatically</span></div>
+      <textarea id="notes" aria-label="Notes" placeholder="Anything that doesn't fit a task: ideas, links, reminders."></textarea>
+      <div class="notes-grip" id="notesGrip" role="separator" aria-orientation="horizontal" aria-label="Drag to resize notes" title="Drag to resize notes"></div>
+    </section>
+  </main>
+  <div class="searchres" id="searchRes" hidden></div>
+
+  <aside class="timer" id="timerPanel" aria-label="Timer and white noise">
+    <section class="card" id="timerCard" aria-label="Timer">
+      <div class="card-head"><div class="tmode" id="tm-mode" role="group" aria-label="Timer mode"><button class="seg" type="button" data-tmode="timer">Timer</button><button class="seg" type="button" data-tmode="pomo" title="Focus blocks with short breaks in between">Pomodoro</button></div><button class="closex" id="timerClose" type="button" aria-label="Hide timer">×</button></div>
+      <div class="working">
+        <span>Working on</span>
+        <select id="tm-task" aria-label="Task being timed"></select>
+        <div class="wmeta" id="tm-meta"></div>
+      </div>
+      <div class="pphase" id="tm-phase" hidden></div>
+      <div class="clock" id="tm-clock">30:00</div>
+      <div class="progress" id="tm-prog"><i id="tm-bar"></i></div>
+      <div class="hms" id="tm-hms">
+        <label>HOURS<input id="tm-h" type="text" maxlength="2" inputmode="numeric" value="00"></label><span class="colon">:</span>
+        <label>MIN<input id="tm-m" type="text" maxlength="2" inputmode="numeric" value="30"></label><span class="colon">:</span>
+        <label>SEC<input id="tm-s" type="text" maxlength="2" inputmode="numeric" value="00"></label>
+      </div>
+      <div class="presets" id="tm-presets"><button type="button" data-min="15">15m</button><button type="button" data-min="25">25m</button><button type="button" data-min="30">30m</button><button type="button" data-min="45">45m</button><button type="button" data-min="60">1h</button><button type="button" data-min="0" title="Count up with no limit">0 = stopwatch</button></div>
+      <div class="tbtns"><button class="btn primary" id="tm-start" type="button">Start</button><button class="btn soft" id="tm-pause" type="button">Pause</button></div>
+      <div class="tlinks"><button class="tlink" id="tm-reset" type="button">Reset timer</button><button class="tlink" id="tm-skip" type="button" hidden>Skip to break</button><button class="tlink" id="tm-pomo-set" type="button" hidden>Settings</button></div>
+      <div class="today-line" id="tm-today"></div>
+      <div class="tgoal" id="tm-goal" role="button" tabindex="0" title="Change the daily goal" hidden></div>
+    </section>
+    <section class="card" id="noiseCard">
+      <div class="card-head"><h2>White noise</h2><span class="ch-right"><span class="noise-state" id="nz-state"><i></i>Off</span><button class="closex" id="noiseClose" type="button" aria-label="Hide white noise">×</button></span></div>
+      <button class="soundbtn" id="nz-toggle" type="button"></button>
+      <div class="sounds" id="nz-sounds"></div>
+      <div class="vol"><div class="vol-head"><span>Volume</span><b id="nz-volv">50%</b></div><input id="nz-vol" type="range" min="0" max="100" value="50" aria-label="Volume"></div>
+    </section>
+  </aside>
+  <nav class="rail" id="rail" aria-label="Tasks, calendar, stats, timer, white noise and theme">
+    <button class="acct" id="acctBtn" type="button" aria-haspopup="menu" hidden></button>
+    <span class="rsep rsep-acct" aria-hidden="true"></span>
+    <button class="rbtn" type="button" data-view="tasks" aria-label="Tasks" title="Tasks (1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 7 2 2 4-4M3 17l2 2 4-4"/><path d="M13 6h8M13 12h8M13 18h8"/></svg></button>
+    <button class="rbtn" type="button" data-view="calendar" aria-label="Calendar" title="Calendar (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 17.5h.01M12 17.5h.01"/></svg></button>
+    <button class="rbtn" type="button" data-view="stats" aria-label="Stats" title="Stats (S)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5h17"/><path d="M7 16.5v-4.5M12 16.5V5.5M17 16.5V9" stroke-width="3"/></svg></button>
+    <span class="rsep" aria-hidden="true"></span>
+    <button class="rbtn" id="timerToggle" type="button" aria-label="Show or hide the timer" title="Timer (T)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><span class="rlive" id="timerMini"></span></button>
+    <button class="rbtn" id="noiseToggle" type="button" aria-label="Show or hide white noise" title="White noise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15.5V12a8 8 0 0 1 16 0v3.5"/><rect x="3" y="14" width="4.5" height="7" rx="1.8"/><rect x="16.5" y="14" width="4.5" height="7" rx="1.8"/></svg></button>
+    <span class="rsep" aria-hidden="true"></span>
+    <button class="rbtn" id="themeToggle" type="button"></button>
+  </nav>
+</div>
+<footer class="kfoot" id="kfoot" aria-label="Keyboard shortcuts"></footer>
+
+<script>
+(function(){
+@@JS@@
+})();
+</script>

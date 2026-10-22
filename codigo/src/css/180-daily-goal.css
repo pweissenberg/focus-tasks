@@ -1,0 +1,28 @@
+/* daily goal */
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 24px}
+.goal{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--surface-2);min-width:0}
+.goal.off{flex-direction:column;align-items:flex-start;gap:6px;max-width:330px}
+.gl-ring{--p:0;width:50px;height:50px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;position:relative;flex:none}
+.gl-ring::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--surface-2)}
+.gl-ring span{position:relative;font-size:11.5px;font-weight:600}
+.goal.met .gl-ring{background:var(--ok)}
+.gl-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gl-t{font-weight:700;font-size:14px}
+.gl-s{font-size:12.5px;color:var(--ink-2);display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap}
+.gl-s svg,.tg-streak svg{width:14px;height:14px;color:var(--ink-3);flex:none}
+.gl-s.on svg,.tg-streak.on svg{color:var(--warn)}
+.goal .linkbtn{align-self:flex-start;margin-left:4px}
+.goalline{position:absolute;left:0;right:0;border-top:2px dashed var(--ok);pointer-events:none;z-index:1}
+.goalline span{position:absolute;right:0;bottom:3px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ok);background:var(--surface);padding:0 4px;border-radius:4px}
+.tgoal{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px;cursor:pointer;border-radius:0 0 6px 6px}
+.tgoal:hover .tg-top span:first-child{color:var(--ink)}
+.tg-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--ink-2)}
+.tg-top b{color:var(--ink)}
+.tg-streak{display:inline-flex;align-items:center;gap:3px;font-family:var(--f-mono);font-weight:600;font-size:12.5px;color:var(--ink)}
+.progress.ok i{background:var(--ok)}
+.goal-pop .presets{justify-content:flex-start}
+.presets button.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.gl-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.gl-row input{width:84px;height:36px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:0 8px;font-family:var(--f-mono)}
+.gl-row input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.pop:has(.goal-pop){width:300px}

@@ -1,0 +1,27 @@
+/* advanced settings in the add bars: a gear opens the edit window's other options */
+.cgear{grid-area:gear;justify-self:center;display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:7px;background:none;color:var(--ink-3);position:relative}
+.cgear svg{width:17px;height:17px}
+.cgear.set{color:var(--accent)}
+.cgear.set::after{content:"";position:absolute;top:2px;right:2px;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--surface-2)}
+.cadv{grid-column:1/-1;display:grid;grid-template-columns:minmax(118px,.8fr) minmax(0,1.1fr) minmax(0,1.1fr) minmax(0,1.5fr) auto;gap:10px;align-items:end;margin-top:4px;padding:10px 8px 6px;border-top:1px solid var(--line)}
+.cadv-h{grid-column:1/-1;display:flex;align-items:baseline;gap:8px;min-width:0}
+.cadv-h b{font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.cadv-h span{font-size:12.5px;color:var(--ink-3)}
+.cadv-h .linkbtn{margin-left:auto;font-size:12.5px}
+.afld{display:flex;flex-direction:column;gap:4px;min-width:0}
+.afld>span{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.composer .cadv input,.composer .cadv select,.pt-add .cadv input,.pt-add .cadv select{height:34px;width:100%;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 8px;font-size:13.5px;color:var(--ink)}
+.composer .cadv input:focus,.composer .cadv select:focus,.pt-add .cadv input:focus,.pt-add .cadv select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.composer .cadv .chk input,.pt-add .cadv .chk input{width:16px;height:16px;padding:0;border:0;box-shadow:none;flex:none}
+.cadv .chk{height:34px;white-space:nowrap;font-size:13.5px;color:var(--ink-2)}
+.cadv .sp-hint{grid-column:1/-1;margin-top:-2px}
+@container panel (max-width:760px){.cadv{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.cadv .chk{grid-column:1/-1;height:auto}}
+@container panel (max-width:420px){.cadv-h span{display:none}}
+.pt-add .cprio{justify-self:center;width:30px;height:30px;border-radius:7px}
+.pt-add .cprio svg{width:17px;height:17px}
+.pt-add .cprio.pr0{color:var(--ink-3)}
+#pt-prio{grid-area:prio}#pt-color{grid-area:color}
+@media (max-width:900px){.composer .cgear{justify-self:end;width:32px;height:32px;border:1px solid var(--line);background:var(--surface);border-radius:8px}}
+@media (max-width:560px){.pt-add .cprio,.pt-add .cgear{justify-self:start;width:32px;height:32px;border:1px solid var(--line);background:var(--surface);border-radius:8px}.pt-add .cgear{justify-self:end}}
+.composer .cgear:hover,.pt-add .cgear:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 7%,transparent)}
+.composer .cgear[aria-expanded=true],.pt-add .cgear[aria-expanded=true]{background:var(--accent-soft);color:var(--accent)}

@@ -1,0 +1,39 @@
+/* Tree tab: comment inside a node, expanded panel with the task settings */
+.tr-exp{border:0;background:none;color:var(--ink-3);padding:3px;border-radius:5px;display:inline-flex;flex:none;opacity:0;transition:opacity .15s}
+.tr-node:hover .tr-exp,.tr-node:focus-within .tr-exp,.tr-exp.has,.tr-exp.on{opacity:1}
+.tr-exp.has{color:var(--accent)}
+.tr-exp.on{color:var(--accent);background:var(--accent-soft)}
+.tr-exp:hover{color:var(--accent)}
+@media (hover:none){.tr-exp{opacity:.8}}
+.tr-node.tr-open{flex-wrap:wrap;width:min(460px,100%);row-gap:0}
+.trn-panel{flex-basis:calc(100% + 18px);min-width:0;box-sizing:border-box;margin:6px -8px -5px -10px;padding:9px 10px 10px 12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.tr-node.tr-open:not(.is-task) .trn-panel{border-top-style:dashed;border-top-color:var(--line-strong)}
+.trn-cmt{width:100%;box-sizing:border-box;resize:vertical;font:inherit;font-size:13px;line-height:1.45;color:var(--ink);background:transparent;border:1px solid transparent;border-radius:6px;padding:4px 6px;margin:-4px -6px 0}
+.trn-cmt:hover{border-color:var(--line)}
+.trn-cmt:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.trn-set{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:0;font-size:12.5px}
+.trn-set dt{color:var(--ink-3);font-weight:600}
+.trn-set dd{margin:0;color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.trn-set .chip{margin:0}
+.trn-acts{display:flex;align-items:center;gap:8px}
+.trn-acts .cmt{opacity:.9;padding:4px 6px}
+
+.tr-node.tr-open .tr-tools{opacity:1}
+@media (max-width:560px){.tr-node.tr-open{width:100%}}
+/* plan node check box (237) */
+.tr-pcheck{width:15px;height:15px}
+.tr-pcheck span{border-radius:50%;border:2px solid var(--ink-3)}
+.tr-node.done .tr-pcheck span{background:var(--accent);border-color:var(--accent)}
+.tr-node.done .mt-check span::after{content:'';position:absolute;left:3.5px;top:0;width:3.5px;height:7px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.tr-node.done:not(.is-task){opacity:.75}
+.tr-node.done:not(.is-task) .tr-name{text-decoration:line-through;color:var(--ink-3)}
+/* Done tab: done tree nodes (237) */
+.tnd-sec{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.tnd-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:9px 12px;border:1px dashed var(--line-strong);border-left:4px solid var(--c);border-radius:10px;background:var(--surface-2)}
+.tnd-check span{border-radius:50%;background:var(--c)!important;border-color:var(--c)!important}
+.tnd-check span::after{content:'';position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.tnd-name{font-weight:600;font-size:15px;text-decoration:line-through;text-decoration-color:var(--ink-3);overflow-wrap:anywhere}
+.tnd-cmt{font-size:13px;color:var(--ink-2);margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}
+.tnd-off{color:var(--ink-3);font-style:italic}
+.tnd-acts{display:flex;align-items:center;gap:6px}
+@media (max-width:560px){.tnd-row{grid-template-columns:auto minmax(0,1fr)}.tnd-acts{grid-column:2}}

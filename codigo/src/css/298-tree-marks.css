@@ -1,0 +1,72 @@
+/* Tree tab dashed guides linked to nodes: line under a node, bracket ] beside nodes, box around nodes */
+.gd-add{display:inline-flex;gap:4px}
+.gd-done{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2);margin-left:auto}
+.tr-canvas{position:relative;overflow-x:auto;overflow-y:hidden;padding-bottom:30px}
+.tr-canvas .tr-root{overflow:visible}
+.gd-layer{position:absolute;left:0;top:0;bottom:0;pointer-events:none;z-index:2}
+.gd{position:absolute;pointer-events:none;--mc:#d64545}
+.gd[hidden]{display:none}
+.gd-h{height:0;border-top:2.5px dashed var(--mc)}
+.gd-v{width:0;border-right:2.5px dashed var(--mc)}
+.gd-stub{position:absolute;right:-2.5px;width:22px;height:0;border-top:2.5px dashed var(--mc)}
+.gd-stub.top{top:0}
+.gd-stub.bot{bottom:-2.5px}
+.gd-sh{position:absolute;display:none;pointer-events:auto;left:-6px;top:-7.5px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--mc);box-sizing:border-box;cursor:ew-resize}
+.gd.sel .gd-sh{display:block}
+.gd-eq .gd-stub{border-top-style:solid}
+.gd-box{border:2.5px dashed var(--mc);border-radius:10px;box-sizing:border-box}
+.gd-hit,.gd-edge{position:absolute;pointer-events:auto;cursor:pointer}
+.gd-h .gd-hit{left:0;right:0;top:-8px;height:14px;cursor:ns-resize}
+.gd-v .gd-hit{top:0;bottom:0;right:-8px;width:14px;cursor:ew-resize}
+.gd-lab{position:absolute;pointer-events:auto;color:var(--mc);font-weight:600;font-size:14px;white-space:nowrap}
+.gd-h .gd-lab{right:4px;bottom:3px}
+.gd-h .gd-lab.below{bottom:auto;top:3px}
+.gd-v .gd-lab{left:10px;top:calc(50% - 13px)}
+.gd-box .gd-lab{left:10px;top:-14px;background:var(--surface);border-radius:5px;font-size:13px}
+.gd-in{font:inherit;color:inherit;background:transparent;border:1px solid transparent;border-radius:5px;padding:1px 4px;min-width:3ch}
+.gd-in:hover{border-color:color-mix(in srgb,var(--mc) 30%,transparent)}
+.gd.sel .gd-in,.gd-in:focus{border-color:color-mix(in srgb,var(--mc) 45%,transparent);background:var(--surface);outline:none}
+.gd:not(.sel) .gd-in:placeholder-shown{opacity:0}
+.gd-in::placeholder{color:color-mix(in srgb,var(--mc) 55%,transparent)}
+.gd-rs{position:absolute;display:none;pointer-events:auto;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--mc);box-sizing:border-box;cursor:ns-resize}
+.gd-v .gd-rs{right:-7.5px}
+.gd-box .gd-rs{left:calc(50% - 6px)}
+.gd-rs.top{top:-7px}
+.gd-rs.bot{bottom:-7px}
+.gd-tools{position:absolute;display:none;pointer-events:auto;gap:3px}
+.gd-h .gd-tools{left:4px;top:6px}
+.gd-v .gd-tools{left:12px;top:calc(50% + 14px)}
+.gd-box .gd-tools{right:6px;top:6px}
+.gd-tools button{width:22px;height:22px;padding:0;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);color:var(--ink-2);font-size:13px;line-height:1}
+.gd-tools button[data-tmcol]{border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line-strong)}
+.gd-tools button[data-tmdel]:hover{color:var(--danger,#c2553f);border-color:currentColor}
+.gd.sel .gd-rs{display:block}
+.gd.sel .gd-tools{display:flex}
+.gd.sel{filter:drop-shadow(0 0 2px color-mix(in srgb,var(--mc) 60%,transparent))}
+.pop.gd-popw{width:320px}
+.gd-pop{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 10px;align-items:center;padding:4px;margin:0}
+.gd-pop .asg-h{grid-column:1/-1;padding:0 0 2px}
+.gd-pop label{display:contents;font-size:13px;color:var(--ink-2)}
+.gd-pop select,.gd-pop input{width:100%;min-width:0;box-sizing:border-box;height:32px;font:inherit;font-size:13px;padding:0 8px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface);color:var(--ink)}
+.gd-pop .btn{grid-column:1/-1;justify-self:end}
+.gd-h{z-index:2}
+.gd-box .gd-lab:has(.gd-in:placeholder-shown){background:none}
+/* repeat options (227) */
+.rep-host:empty{display:none}
+.rep-x{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:-2px 0 10px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);font-size:13px;color:var(--ink-2)}
+.rep-l{font-weight:600}
+.rep-wd{display:inline-flex;gap:4px;flex-wrap:wrap}
+.rep-wd button{width:30px;height:28px;padding:0;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface);color:var(--ink-2);font:600 12px var(--f-mono)}
+.rep-wd button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.rep-hint{font-style:normal;color:#b86a00;font-size:12px}
+.rep-o{display:flex;align-items:center;gap:6px;width:100%}
+.rep-o select{font:inherit;font-size:13px;padding:3px 6px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);color:var(--ink)}
+.cadv .rep-host{grid-column:1/-1}
+.composer .cadv .rep-x input[type=radio],.pt-add .cadv .rep-x input[type=radio]{width:16px;height:16px;padding:0;border:0;box-shadow:none;flex:none;margin:0}
+.composer .cadv .rep-x select,.pt-add .cadv .rep-x select{width:auto;height:30px}
+.cadv .rep-x{margin:0}
+.cadv .rep-o{white-space:nowrap}
+
+/* v49: line texts above and below share the same right edge; a box's name sits on its bottom-left corner so it never covers the first node */
+.gd-h .gd-in{text-align:right}
+.gd-box .gd-lab{top:auto;bottom:-12px}
