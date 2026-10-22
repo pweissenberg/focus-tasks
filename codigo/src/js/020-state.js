@@ -1,6 +1,6 @@
 /* ---------- state ---------- */
 function T(o){return Object.assign({id:uid(),name:'',color:null,tagId:null,projectId:null,due:'',note:'',onHold:false,done:false,doneAt:null,createdAt:new Date().toISOString(),parentId:null,order:0,longTerm:false,collapsed:false,doneWithParent:null,prio:0,time:'',remind:null,archived:false,steps:[],section:'',col:'',start:'',est:null},o)}
-function seed(){
+function seed(){ // example tasks only in the tests (window.FOCUS_SEED); a fresh start is empty
   const tags=[{id:'t_coding',name:'Coding',color:'#d08a3c'},{id:'t_supply',name:'Supply',color:'#4e9a5b'},{id:'t_demand',name:'Demand',color:'#c2553f'},{id:'t_econs',name:'Econs',color:'#3d6fd6'},{id:'t_other',name:'Other',color:'#8a8f98'}];
   const projects=[{id:'p_research',name:'Research'},{id:'p_personal',name:'Personal'}];
   const peru=T({name:'Econs - Peru',tagId:'t_supply',projectId:'p_research',note:'waiting on Leo/Sara',onHold:true,createdAt:'2026-09-29T14:00:00',order:0});
@@ -10,6 +10,7 @@ function seed(){
   const lt1=T({name:'Draft research agenda for 2027',tagId:'t_other',projectId:'p_research',longTerm:true,createdAt:'2026-09-15T09:00:00',order:0});
   const lt2=T({name:'Learn the basics of Rust',tagId:'t_coding',projectId:'p_personal',longTerm:true,createdAt:'2026-08-20T09:00:00',order:1});
   const dn=T({name:'Send Demand slides',tagId:'t_demand',projectId:'p_research',note:'Sent to Sara',done:true,doneAt:'2026-10-03T17:30:00',createdAt:'2026-09-28T11:00:00',due:'2026-10-03'});
+  if(!window.FOCUS_SEED)return {tasks:[],tags,projects:[],notes:'',example:false,ui:{}};
   return {tasks:[peru,bep,tz,tzc,lt1,lt2,dn],tags,projects,notes:'',example:true,ui:{}};
 }
 function normalize(s){

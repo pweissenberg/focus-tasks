@@ -12,7 +12,7 @@ const pageHTML=()=>'<!doctype html><html><head><meta charset=utf-8><meta name=vi
 
 async function newContext(br,{w=1440,h=900,dark=false,user=1,init,demo=false,scale=1}={}){
   const ctx=await br.newContext({viewport:{width:w,height:h},colorScheme:dark?'dark':'light',deviceScaleFactor:scale});
-  if(!demo)await ctx.addInitScript(()=>{window.FOCUS_NO_DEMO=true}); // no example tasks from User 2 (229) unless a test asks
+  await ctx.addInitScript(d=>{window.FOCUS_SEED=true;window.FOCUS_HOLD_OPEN=true;if(d)window.FOCUS_DEMO=true;else window.FOCUS_NO_DEMO=true},demo); // example tasks (020) always; examples from User 2 (229, 231, 234) only when a test asks
   const html=pageHTML();
   await ctx.route('http://app/',r=>r.fulfill({contentType:'text/html',body:html}));
   await ctx.route('https://fonts.googleapis.com/**',r=>r.fulfill({contentType:'text/css',body:fontCss}));

@@ -1651,6 +1651,95 @@ select.sp-perm{padding:2px 4px;border:1px solid var(--line);border-radius:6px;ba
 .pxplan .pxplan-d:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .pxplan-s{font-size:13px;color:var(--ink-2);white-space:nowrap}
 .pxplan-s .done-on{color:var(--ok);font-weight:700}
+/* Tree tab v72: the name fills the node, fold + comment at the end, the other tools float on the node's top edge on hover (not to its right, where the guides are) (so done nodes keep the normal size) */
+.tr-node{position:relative;min-width:300px;max-width:min(560px,100%)}
+.tr-name{field-sizing:content;flex:1 1 auto;min-width:60px;text-overflow:ellipsis}
+.tr-exp{opacity:.4}
+.tr-tools{position:absolute;right:8px;top:-14px;display:none;opacity:1;z-index:5}
+.tr-node:hover>.tr-tools,.tr-node:focus-within>.tr-tools{display:flex}
+.tr-tools button{box-shadow:0 1px 3px rgba(20,30,50,.12)}
+@media (hover:none){.tr-tools{position:static;display:flex;transform:none;padding:0;flex-wrap:wrap}.tr-grip{display:none}}
+@media (max-width:560px){.tr-node{min-width:0}}
+/* node colors (239): the node and the lines next to it */
+.tr-node.tr-has-col{border-color:var(--nc);background:color-mix(in srgb,var(--nc) 9%,var(--surface))}
+.tr-node.tr-has-col:not(.is-task){background:color-mix(in srgb,var(--nc) 10%,var(--surface-2))}
+.tr-node.is-task.tr-has-col{border-left-color:var(--c)}
+.tr-node.tr-has-col:not(.done) .tr-pcheck span{border-color:var(--nc)}
+.tr-node.tr-has-col.done:not(.is-task) .tr-pcheck span{background:var(--nc);border-color:var(--nc)}
+.tr-ul:not(.tr-root)>.tr-li.tr-col::before,.tr-ul:not(.tr-root)>.tr-li.tr-col::after{border-color:var(--lc)}
+.tr-colb{display:inline-flex;align-items:center}
+.tr-colb i{display:block;width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 1px var(--line-strong)}
+.tr-colb i[style*="transparent"]{background:conic-gradient(#d64545,#d6a822,#3aa655,#3d6fd6,#9b6bff,#d64545)!important}
+.pop.trc-popw{width:250px}
+.trc-pop{display:flex;flex-direction:column;gap:8px;padding:4px}
+.trc-sw{display:grid;grid-template-columns:repeat(9,20px);gap:5px}
+.trc-sw button{width:20px;height:20px;padding:0;border:2px solid var(--surface);border-radius:50%;box-shadow:0 0 0 1px var(--line-strong)}
+.trc-sw button.on,.trc-sw button:hover{box-shadow:0 0 0 2px var(--ink)}
+.trc-none{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-2);font-size:12.5px;padding:3px 9px;border-radius:7px}
+.trc-none.on{border-color:var(--accent);color:var(--accent)}
+.trc-none i{width:10px;height:10px;border-radius:50%}
+.trc-all{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;color:var(--ink-2)}
+.trc-hint{margin:0;font-size:12px;color:var(--ink-3)}
+/* moving nodes (239) */
+.tr-grip{cursor:grab;touch-action:none}
+.tr-li.tr-dragging{opacity:.4}
+body.tr-moving,body.tr-moving *{cursor:grabbing!important;user-select:none}
+.tr-node.tr-drop-before{box-shadow:0 -3px 0 0 var(--accent)}
+.tr-node.tr-drop-after{box-shadow:0 3px 0 0 var(--accent)}
+.tr-node.tr-drop-in{outline:2px solid var(--accent);outline-offset:2px}
+.tr-ghost{position:fixed;z-index:1000;pointer-events:none;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:var(--surface);color:var(--ink);border:1px solid var(--accent);border-radius:8px;padding:4px 9px;font-size:13px;box-shadow:0 6px 18px rgba(20,30,50,.18)}
+/* arrow guide (226, type 'a'): from the right side of a node, going right, ending in a text */
+.gd-a{height:0;border-top:2.5px dashed var(--mc);margin-top:-1.25px}
+.gd-a::after{content:'';position:absolute;left:100%;top:-7.25px;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent var(--mc)}
+.gd-a .gd-hit{left:0;right:0;top:-8px;height:14px;cursor:ns-resize}
+.gd-tip{position:absolute;pointer-events:auto;right:-12px;top:-9px;width:16px;height:16px;cursor:ew-resize}
+.gd-a .gd-lab{left:calc(100% + 14px);top:-12.5px}
+.gd-a .gd-tools{left:0;top:6px}
+/* red "!" on a node (239) */
+.tr-flag{color:#d64545;font-weight:800;font-size:16px;line-height:1;flex:none;margin-right:-2px}
+.tr-tools .tr-flagb{color:#d64545;font-weight:800}
+.tr-tools .tr-flagb.on{background:#d64545;color:#fff;border-color:#d64545}
+/* Automatic backup (245-auto-backup.js): the Settings section and the "Load a backup" window */
+.bk-set{display:flex;flex-direction:column;gap:8px}
+.bk-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bk-row select{flex:1;min-width:140px}
+.bk-dir{flex:1;min-width:0;font-size:13px;color:var(--ink-2);overflow-wrap:anywhere}
+.bk-dir b{color:var(--ink)}
+.bk-dir em{color:var(--warn);font-style:normal}
+.modal.bk-load{max-width:440px}
+.bk-list{display:flex;flex-direction:column;gap:6px;max-height:50vh;overflow:auto}
+.bk-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+.bk-item>div{flex:1;min-width:0;display:flex;flex-direction:column}
+.bk-item strong{font-size:13px;color:var(--ink)}
+.bk-item span{font-size:12px;color:var(--ink-2)}
+.bk-item.undo{border-style:dashed}
+/* v72 (239): wider page (columns out to the sides), wider project list, no project color dots, default tag, History title, folded On hold rows */
+@media (min-width:981px){
+  .app{max-width:none;grid-template-columns:236px minmax(0,1fr) 280px 46px}
+  .app.no-timer{grid-template-columns:236px minmax(0,1fr) 46px}
+  .kfoot{max-width:none}
+}
+@media (min-width:981px) and (max-width:1180px){.app,.app.no-timer{grid-template-columns:216px minmax(0,1fr) 46px}}
+.pitem .pdot{display:none}
+.pitem{padding-inline:6px}
+.pj-deftag{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-3);margin-top:8px}
+.pj-deftag select{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:13.5px;color:var(--ink)}
+.pop.pop-menu:has(.log-pop){width:320px}
+.log-pop{width:auto;max-width:100%}
+.log-pop .bell-h{min-width:0}
+.log-pop .bell-h b{flex:none}
+.log-pop .bell-h span{flex:1;min-width:0}
+.log-pop .bell-h span.wrap{white-space:normal;overflow-wrap:anywhere}
+.hexp{border:0;background:none;padding:0 2px;margin-right:2px;color:var(--ink-3);font-size:12px;line-height:1;cursor:pointer;flex:none}
+.hexp:hover{color:var(--ink)}
+.task.hold-min{padding-block:6px;grid-template-columns:5px minmax(0,1fr);grid-template-areas:"bar body"}
+.task.hold-min > :not(.bar):not(.body){display:none}
+.task.hold-min .body > :not(.name-row){display:none}
+.task.hold-min .name-row{flex-wrap:nowrap;min-width:0}
+.task.hold-min .name-row > :not(.name):not(.hexp):not(.hreason):not(.urg){display:none}
+.task.hold-min .name{flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hreason{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-3);font-size:13px;margin-left:8px}
+.hreason::before{content:'· '}
 </style>
 
 <section class="landing" id="landing" aria-labelledby="ld-h">
@@ -1808,7 +1897,7 @@ function parseDate(s){
 
 /* ---------- state ---------- */
 function T(o){return Object.assign({id:uid(),name:'',color:null,tagId:null,projectId:null,due:'',note:'',onHold:false,done:false,doneAt:null,createdAt:new Date().toISOString(),parentId:null,order:0,longTerm:false,collapsed:false,doneWithParent:null,prio:0,time:'',remind:null,archived:false,steps:[],section:'',col:'',start:'',est:null},o)}
-function seed(){
+function seed(){ // example tasks only in the tests (window.FOCUS_SEED); a fresh start is empty
   const tags=[{id:'t_coding',name:'Coding',color:'#d08a3c'},{id:'t_supply',name:'Supply',color:'#4e9a5b'},{id:'t_demand',name:'Demand',color:'#c2553f'},{id:'t_econs',name:'Econs',color:'#3d6fd6'},{id:'t_other',name:'Other',color:'#8a8f98'}];
   const projects=[{id:'p_research',name:'Research'},{id:'p_personal',name:'Personal'}];
   const peru=T({name:'Econs - Peru',tagId:'t_supply',projectId:'p_research',note:'waiting on Leo/Sara',onHold:true,createdAt:'2026-09-29T14:00:00',order:0});
@@ -1818,6 +1907,7 @@ function seed(){
   const lt1=T({name:'Draft research agenda for 2027',tagId:'t_other',projectId:'p_research',longTerm:true,createdAt:'2026-09-15T09:00:00',order:0});
   const lt2=T({name:'Learn the basics of Rust',tagId:'t_coding',projectId:'p_personal',longTerm:true,createdAt:'2026-08-20T09:00:00',order:1});
   const dn=T({name:'Send Demand slides',tagId:'t_demand',projectId:'p_research',note:'Sent to Sara',done:true,doneAt:'2026-10-03T17:30:00',createdAt:'2026-09-28T11:00:00',due:'2026-10-03'});
+  if(!window.FOCUS_SEED)return {tasks:[],tags,projects:[],notes:'',example:false,ui:{}};
   return {tasks:[peru,bep,tz,tzc,lt1,lt2,dn],tags,projects,notes:'',example:true,ui:{}};
 }
 function normalize(s){
@@ -3231,7 +3321,7 @@ function renderProjPage(){
     body.innerHTML=`<form class="pt-add" data-ptadd data-pid="${p.id}" autocomplete="off">
         <input type="text" id="pt-name" placeholder="Add a task to ${esc(p.name)}..." aria-label="Task name">
         <input type="text" id="pt-due" class="mono" placeholder="MM/DD/YYYY" aria-label="Due date (optional)">
-        <select id="pt-tag" aria-label="Tag">${optionList(S.tags,'No tag',keep?keep.t:(S.ui.ptTag||''))}</select>
+        <select id="pt-tag" aria-label="Tag">${optionList(S.tags,'No tag',keep?keep.t:(projDefTag(p.id)||S.ui.ptTag||''))}</select>
         <button class="pflag cprio" id="pt-prio" type="button" aria-label="Priority" aria-haspopup="menu"></button>
         <button class="swatchbtn" id="pt-color" type="button" aria-label="Task color"></button>
         <button class="cgear" id="pt-adv" type="button" aria-label="Advanced settings" aria-expanded="${ADV.pt.open}">${icons.gear}</button>
@@ -5409,6 +5499,7 @@ function openDailyReview(){
    'h' is a dashed line under node `from` (like "Before Jan."), 'v' is a dashed bracket ] from node `from` to node `to` with short dashes
    going out at the top and bottom (like "Phase 1"), 'box' is a dashed frame around the nodes from `from` to `to`.
    Positions are worked out from the nodes on screen after each render, so the guides follow when nodes are added, folded or hidden.
+   'a' (v72) is an arrow from the right side of node `from` going right, ending in a text (`label`), its length `m.len` px (drag the tip).
    "Show done" (S.ui.trDone) shows or hides the nodes of done tasks. Drag a line or a handle to snap it to another node; drag a bracket sideways (m.dx px); its top/bottom dashes reach their node by default and can be dragged shorter (m.stubT/m.stubB, snapping to equal) ---------- */
 const TM_COLORS=['#d64545','#3aa655','#3d6fd6','#d08a3c','#9b6bff','#8a94a6'];
 const tmList=p=>(p.treeMarks=p.treeMarks||[]);
@@ -5423,15 +5514,15 @@ const trDoneNode=n=>{const t=trTask(n);return !!(t&&t.done)};
   if(!S.ui.trDone)body.querySelectorAll('.tr-node.done').forEach(d=>{const li=d.closest('.tr-li');if(li)li.remove()});
   if(bar){
     if(nDone)bar.insertAdjacentHTML('beforeend',`<label class="gd-done"><input type="checkbox" data-trdone${S.ui.trDone?' checked':''}> Show done (${nDone})</label>`);
-    if(!ro&&trNodes(p).length)bar.querySelector('[data-trroot]').insertAdjacentHTML('afterend',`<span class="gd-add" role="group" aria-label="Add a dashed guide"><button class="btn sm" type="button" data-tmadd="h" title="Dashed line under a node">┄ Line</button><button class="btn sm" type="button" data-tmadd="v" title="Dashed bracket next to some nodes">┆ Bracket</button><button class="btn sm" type="button" data-tmadd="box" title="Dashed box around some nodes">⬚ Box</button></span>`)}
+    if(!ro&&trNodes(p).length)bar.querySelector('[data-trroot]').insertAdjacentHTML('afterend',`<span class="gd-add" role="group" aria-label="Add a dashed guide"><button class="btn sm" type="button" data-tmadd="h" title="Dashed line under a node">┄ Line</button><button class="btn sm" type="button" data-tmadd="v" title="Dashed bracket next to some nodes">┆ Bracket</button><button class="btn sm" type="button" data-tmadd="box" title="Dashed box around some nodes">⬚ Box</button><button class="btn sm" type="button" data-tmadd="a" title="Arrow going right from a node, ending in a text">→ Arrow</button></span>`)}
   const cv=document.createElement('div');cv.className='tr-canvas';
   [...body.children].filter(c=>c!==bar).forEach(c=>cv.appendChild(c));body.appendChild(cv);
   const M=p.treeMarks=tmList(p).filter(m=>m.from);
   if(M.length)cv.insertAdjacentHTML('beforeend',`<div class="gd-layer">${M.map(m=>`<div class="gd gd-${m.type}${tmSel===m.id?' sel':''}" data-tm="${m.id}" style="--mc:${m.color}" hidden>
-      ${m.type==='h'?'<i class="gd-hit" data-tmdrag="from"></i>':m.type==='v'?'<i class="gd-hit" data-tmdrag="x" title="Drag sideways to move it closer to or farther from the nodes"></i><i class="gd-stub top"><i class="gd-sh" data-tmdrag="st" title="Drag to make this dash longer or shorter"></i></i><i class="gd-stub bot"><i class="gd-sh" data-tmdrag="sb" title="Drag to make this dash longer or shorter"></i></i>':'<i class="gd-edge" data-tmsel style="top:-5px;left:0;right:0;height:10px"></i><i class="gd-edge" data-tmsel style="bottom:-5px;left:0;right:0;height:10px"></i><i class="gd-edge" data-tmsel style="left:-5px;top:0;bottom:0;width:10px"></i><i class="gd-edge" data-tmsel style="right:-5px;top:0;bottom:0;width:10px"></i>'}
-      <span class="gd-lab">${ro?esc(m.label||''):`<input class="gd-in" type="text" value="${esc(m.label||'')}" placeholder="Name" aria-label="Name of this guide" size="${Math.max(4,(m.label||'').length+1)}">`}</span>
+      ${m.type==='h'?'<i class="gd-hit" data-tmdrag="from"></i>':m.type==='a'?'<i class="gd-hit" data-tmdrag="from" title="Drag up or down to another node"></i><i class="gd-tip" data-tmdrag="len" title="Drag to make the arrow longer or shorter"></i>':m.type==='v'?'<i class="gd-hit" data-tmdrag="x" title="Drag sideways to move it closer to or farther from the nodes"></i><i class="gd-stub top"><i class="gd-sh" data-tmdrag="st" title="Drag to make this dash longer or shorter"></i></i><i class="gd-stub bot"><i class="gd-sh" data-tmdrag="sb" title="Drag to make this dash longer or shorter"></i></i>':'<i class="gd-edge" data-tmsel style="top:-5px;left:0;right:0;height:10px"></i><i class="gd-edge" data-tmsel style="bottom:-5px;left:0;right:0;height:10px"></i><i class="gd-edge" data-tmsel style="left:-5px;top:0;bottom:0;width:10px"></i><i class="gd-edge" data-tmsel style="right:-5px;top:0;bottom:0;width:10px"></i>'}
+      <span class="gd-lab">${ro?esc(m.label||''):`<input class="gd-in" type="text" value="${esc(m.label||'')}" placeholder="${m.type==='a'?'Text':'Name'}" aria-label="${m.type==='a'?'Text at the end of the arrow':'Name of this guide'}" size="${Math.max(4,(m.label||'').length+1)}">`}</span>
       ${m.type==='h'?`<span class="gd-lab below">${ro?esc(m.label2||''):`<input class="gd-in" data-lab2 type="text" value="${esc(m.label2||'')}" placeholder="Text below" aria-label="Text below the line" size="${Math.max(6,(m.label2||'').length+1)}">`}</span>`:''}
-      ${ro||m.type==='h'?'':'<i class="gd-rs top" data-tmdrag="from" title="Drag to the first node"></i><i class="gd-rs bot" data-tmdrag="to" title="Drag to the last node"></i>'}
+      ${ro||m.type==='h'||m.type==='a'?'':'<i class="gd-rs top" data-tmdrag="from" title="Drag to the first node"></i><i class="gd-rs bot" data-tmdrag="to" title="Drag to the last node"></i>'}
       ${ro?'':`<span class="gd-tools"><button type="button" data-tmcol title="Change color" style="background:${m.color}"></button><button type="button" data-tmdel title="Delete">×</button></span>`}
     </div>`).join('')}</div>`);
   tmLayout(p);requestAnimationFrame(()=>tmLayout(p));
@@ -5447,13 +5538,19 @@ function tmLayout(p){
   tmList(p).forEach(m=>{if(m.type==='v'){const d=cv.querySelector(`[data-tm="${m.id}"]`);if(d)vk++}});
   vk=0;const hs=[];let need=maxRight+8;
   tmList(p).forEach(m=>{const d=cv.querySelector(`[data-tm="${m.id}"]`);if(!d)return;
-    const a=idx(m.from),b=m.type==='h'?a:idx(m.to);if(a<0||b<0){d.hidden=true;return}
+    const a=idx(m.from),b=m.type==='h'||m.type==='a'?a:idx(m.to);if(a<0||b<0){d.hidden=true;return}
     const lo=Math.min(a,b),hi=Math.max(a,b);
     if(m.type==='h'){
       // under the last node shown at or before `from`
       const prev=rows.filter(r=>r.i<=hi&&r.i>=0).pop(),next=prev?rows[rows.indexOf(prev)+1]:rows[0];
       const y=prev?(next?(prev.bottom+next.top)/2:prev.bottom+8):rows[0].top-6;
       Object.assign(d.style,{left:'0px',top:y+'px',height:''});hs.push(d);d.hidden=false;return}
+    if(m.type==='a'){
+      // starts at the right side of its node, in the middle, and goes right; the text sits at the tip
+      const r=rows.find(x=>x.i===a);if(!r){d.hidden=true;return}
+      const x=r.right+6,w=Math.max(24,m.len||70);
+      Object.assign(d.style,{left:x+'px',top:((r.top+r.bottom)/2)+'px',width:w+'px',height:''});d.hidden=false;
+      const lab=d.querySelector('.gd-lab');need=Math.max(need,x+w+10+(lab?lab.offsetWidth:0)+8);return}
     const inR=rows.filter(r=>r.i>=lo&&r.i<=hi);if(!inR.length){d.hidden=true;return}
     const top=inR[0].top,bot=inR[inR.length-1].bottom;
     if(m.type==='box'){const l=Math.max(0,Math.min(...inR.map(r=>r.left))-8),rt=Math.max(...inR.map(r=>r.right))+8;
@@ -5477,17 +5574,17 @@ function tmSelect(id){tmSel=id;document.querySelectorAll('#projBody .gd').forEac
 function openTmAdd(anchor,k){
   const p=curProject(),flat=trFlat(p),N=trNodes(p),nm=id=>{const n=N.find(x=>x.id===id),t=trTask(n);return (t?t.name:n.name)||'Untitled'};
   const opts=sel=>flat.map(id=>`<option value="${id}"${id===sel?' selected':''}>${esc(nm(id))}</option>`).join('');
-  const one=k==='h';
-  openPop(anchor,`<form class="gd-pop" autocomplete="off"><div class="asg-h">${one?'Dashed line':k==='v'?'Dashed bracket':'Dashed box'}</div>
-    <label>${one?'Under':'From'} <select id="tm-from">${opts(flat[0])}</select></label>
+  const one=k==='h'||k==='a',arr=k==='a';
+  openPop(anchor,`<form class="gd-pop" autocomplete="off"><div class="asg-h">${arr?'Arrow':one?'Dashed line':k==='v'?'Dashed bracket':'Dashed box'}</div>
+    <label>${arr?'From':one?'Under':'From'} <select id="tm-from">${opts(flat[0])}</select></label>
     ${one?'':`<label>To <select id="tm-to">${opts(flat[Math.min(flat.length-1,2)])}</select></label>`}
-    <label>${one?'Above':'Name'} <input id="tm-name" type="text" placeholder="${one?'Before Jan.':'Phase 1'}" maxlength="40"></label>
-    ${one?'<label>Below <input id="tm-name2" type="text" placeholder="After Jan." maxlength="40"></label>':''}
+    <label>${arr?'Text':one?'Above':'Name'} <input id="tm-name" type="text" placeholder="${arr?'Ask Ana':one?'Before Jan.':'Phase 1'}" maxlength="60"></label>
+    ${one&&!arr?'<label>Below <input id="tm-name2" type="text" placeholder="After Jan." maxlength="40"></label>':''}
     <button class="btn sm primary">Add</button></form>`,el=>{
     el.classList.add('pop-menu','gd-popw');place(el,anchor);
     el.querySelector('form').addEventListener('submit',e=>{e.preventDefault();
       let from=el.querySelector('#tm-from').value,to=one?from:el.querySelector('#tm-to').value;if(flat.indexOf(to)<flat.indexOf(from))[from,to]=[to,from];
-      const m={id:uid(),type:k,from,to,label:el.querySelector('#tm-name').value.trim(),label2:one?el.querySelector('#tm-name2').value.trim():'',color:k==='h'?TM_COLORS[1]:TM_COLORS[0]};
+      const m={id:uid(),type:k,from,to,label:el.querySelector('#tm-name').value.trim(),label2:one&&!arr?el.querySelector('#tm-name2').value.trim():'',color:arr?TM_COLORS[2]:k==='h'?TM_COLORS[1]:TM_COLORS[0]};if(arr)m.len=70;
       tmList(p).push(m);tmSel=m.id;closePop();commit()});
     setTimeout(()=>el.querySelector('#tm-name').focus(),0)});
 }
@@ -5496,7 +5593,7 @@ pp.addEventListener('click',e=>{
   const {p,m}=tmOf(e.target);
   if(!m){if(tmSel&&!e.target.closest('.gd'))tmSelect(null);return}
   if(e.target.closest('[data-tmdel]')){const old=JSON.stringify(p.treeMarks);p.treeMarks=tmList(p).filter(x=>x!==m);tmSel=null;commit();
-    toast(`Deleted the ${m.type==='h'?'line':m.type==='v'?'bracket':'box'}${m.label?` "${m.label}"`:''}.`,()=>{p.treeMarks=JSON.parse(old);commit()});return}
+    toast(`Deleted the ${m.type==='a'?'arrow':m.type==='h'?'line':m.type==='v'?'bracket':'box'}${m.label?` "${m.label}"`:''}.`,()=>{p.treeMarks=JSON.parse(old);commit()});return}
   if(e.target.closest('[data-tmcol]')){m.color=TM_COLORS[(TM_COLORS.indexOf(m.color)+1)%TM_COLORS.length];commit();return}
   tmSelect(m.id);
 });
@@ -5523,19 +5620,24 @@ pp.addEventListener('pointerdown',e=>{
     const us=()=>{window.removeEventListener('pointermove',ms);window.removeEventListener('pointerup',us);d.classList.remove('gd-eq');
       if(moved){m[which==='st'?'stubT':'stubB']=snap==='auto'?null:Math.round(v);commit()}};
     window.addEventListener('pointermove',ms);window.addEventListener('pointerup',us);return}
+  if(which==='len'){const x0=e.clientX,w0=parseFloat(d.style.width);let w=w0;
+    const ml=ev=>{const dx=ev.clientX-x0;if(Math.abs(dx)>2)moved=true;w=Math.max(24,w0+dx);d.style.width=w+'px'};
+    const ul=()=>{window.removeEventListener('pointermove',ml);window.removeEventListener('pointerup',ul);if(moved){m.len=Math.round(w);commit()}};
+    window.addEventListener('pointermove',ml);window.addEventListener('pointerup',ul);return}
   if(which==='x'){const x0=e.clientX,l0=parseFloat(d.style.left),base=+d.dataset.base,min=+d.dataset.min;let nx=l0;
     const mx=ev=>{const dx=ev.clientX-x0;if(Math.abs(dx)>2)moved=true;nx=Math.max(min,l0+dx);d.style.left=nx+'px'};
     const ux=()=>{window.removeEventListener('pointermove',mx);window.removeEventListener('pointerup',ux);if(moved){m.dx=Math.round(nx-base);commit()}};
     window.addEventListener('pointermove',mx);window.addEventListener('pointerup',ux);return}
   const mvf=ev=>{const dy=ev.clientY-y0;if(Math.abs(dy)>3)moved=true;if(!moved)return;
     const y=(m.type==='h'||which==='from'?top0:top0+h0)+dy;
-    let best=null,bd=1e9;R.rows.forEach(r=>{const ry=m.type==='h'||which==='to'?r.bottom:r.top,dd=Math.abs(ry-y);if(dd<bd){bd=dd;best=r}});
+    let best=null,bd=1e9;R.rows.forEach(r=>{const ry=m.type==='a'?(r.top+r.bottom)/2:m.type==='h'||which==='to'?r.bottom:r.top,dd=Math.abs(ry-y);if(dd<bd){bd=dd;best=r}});
+    if(m.type==='a'){d.style.top=y+'px';if(best)d.style.left=(best.right+6)+'px';pick=best&&best.id;return}
     if(m.type==='h'){d.style.top=y+'px';pick=best&&best.id;return}
     const other=flat.indexOf(which==='from'?m.to:m.from),bi=best?flat.indexOf(best.id):-1;
     if(bi<0||(which==='from'?bi>other:bi<other))return;pick=best.id;
     if(which==='from'){d.style.top=best.top+'px';d.style.height=(top0+h0-best.top)+'px'}else d.style.height=(best.bottom-top0)+'px'};
   const up=()=>{window.removeEventListener('pointermove',mvf);window.removeEventListener('pointerup',up);
-    if(moved&&pick){m[which]=pick;if(m.type==='h')m.to=pick}commit()};
+    if(moved&&pick){m[which]=pick;if(m.type==='h'||m.type==='a')m.to=pick}commit()};
   window.addEventListener('pointermove',mvf);window.addEventListener('pointerup',up);
 });
 /* ---------- repeat options under the Repeat select (edit window and the add bars' advanced settings):
@@ -5747,7 +5849,7 @@ function paintDmp(){if(S.ui.view!=='done'||S.ui.showArchived||!CL.on)return;
     w.appendChild(row(t,0));sec.appendChild(w)});
   const e=list.querySelector(':scope > .empty');if(e)e.remove();list.prepend(sec)}
 /* test mode: an example of each for User 1, sent by User 2 */
-if(!(window.FOCUS_CONFIG||{}).url&&!window.FOCUS_NO_DEMO){try{
+if(!(window.FOCUS_CONFIG||{}).url&&window.FOCUS_DEMO){try{
   const K='focus-localdb',d=JSON.parse(localStorage.getItem(K)||'null')||{};
   ['profiles','user_state','shared_tasks','shared_projects','accounts'].forEach(k=>d[k]=d[k]||[]);
   if(!d.demoSent){const now=new Date().toISOString(),u1='local-user-1',u2='local-user-2';
@@ -5868,7 +5970,7 @@ function openLogPop(anchor,t){const L=[...(t.log||[])].sort((a,b)=>b.at.localeCo
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-act="log"]');if(!b)return;e.stopPropagation();const t=byId(b.closest('.task').dataset.id);if(t)openLogPop(b,t)},true);
 /* test mode: User 1 gets "Get the quotes", on hold waiting for User 2; about 20 s after User 1 opens the site, User 2 does their part
    so the task comes back with the banner and an alert (d.demoBack in the local DB, once) */
-if(!(window.FOCUS_CONFIG||{}).url&&!window.FOCUS_NO_DEMO){try{
+if(!(window.FOCUS_CONFIG||{}).url&&window.FOCUS_DEMO){try{
   const K='focus-localdb',u1='local-user-1',u2='local-user-2',d=JSON.parse(localStorage.getItem(K)||'null')||{};d.shared_tasks=d.shared_tasks||[];
   if(!d.demoBack){const now=new Date().toISOString(),id='demo-back-'+Date.now().toString(36);
     d.shared_tasks.push({id,name:'Get the quotes',note:'Example: you are waiting for User 2. About 20 seconds after you open the site, User 2 does their part.',due:'',done:false,done_at:null,project_id:null,parent_id:null,assignee:null,doing:false,section:'',col:'',start:'',est:null,micro:[],
@@ -6048,7 +6150,7 @@ function depAfterRender(){
 
 // examples to try it, once per account (tests turn them off with FOCUS_NO_DEMO)
 {const _r=render;render=function(){
-  if(!window.FOCUS_NO_DEMO&&S.prefs&&!S.prefs.demoDeps&&S.tasks.length){S.prefs.demoDeps=true;
+  if(window.FOCUS_DEMO&&S.prefs&&!S.prefs.demoDeps&&S.tasks.length){S.prefs.demoDeps=true;
     const p=S.projects.find(x=>x.id==='p_research')||S.projects.find(x=>!x.archived),pid=p?p.id:null,d=todayISO(),now=new Date().toISOString();
     const a=T({name:'Run the survey analysis',projectId:pid,start:d,due:isoAdd(d,2),createdAt:now,order:-3}),
       b=T({name:'Write the survey report',projectId:pid,start:isoAdd(d,3),due:isoAdd(d,5),createdAt:now,order:-2,waits:[a.id],depWas:true}),
@@ -6239,12 +6341,12 @@ function projFull(p){const r=tabRoot(p);return r?r.name+', '+p.name:p.name}
 
 // templates also keep the Tree (nodes, comments, guides); task nodes point at the template's tasks
 {const _s=saveTemplate;saveTemplate=function(p,name){const tpl=_s(p,name),ids=new Set(tpl.tasks.map(x=>x.id));
-  tpl.tree=(p.tree||[]).map(n=>{const t=n.taskId&&byId(n.taskId);return{id:n.id,parent:n.parent||null,name:t?t.name:n.name,taskId:ids.has(n.taskId)?n.taskId:null,comment:n.comment||'',closed:!!n.closed}});
+  tpl.tree=(p.tree||[]).map(n=>{const t=n.taskId&&byId(n.taskId);return{id:n.id,parent:n.parent||null,name:t?t.name:n.name,taskId:ids.has(n.taskId)?n.taskId:null,comment:n.comment||'',closed:!!n.closed,color:n.color||''}});
   tpl.treeMarks=(p.treeMarks||[]).map(m=>Object.assign({},m));return tpl}}
 {const _a=applyTemplate;applyTemplate=function(p,tpl){const n0=S.tasks.length;_a(p,tpl);
   const tid=new Map();(tpl.tasks||[]).forEach((x,i)=>{const t=S.tasks[n0+i];if(t)tid.set(x.id,t.id)});
   const nid=new Map();(tpl.tree||[]).forEach(n=>nid.set(n.id,uid()));
-  p.tree=(p.tree||[]).concat((tpl.tree||[]).map(n=>({id:nid.get(n.id),name:n.name,parent:n.parent?nid.get(n.parent)||null:null,taskId:tid.get(n.taskId)||null,closed:n.closed,comment:n.comment||''})));
+  p.tree=(p.tree||[]).concat((tpl.tree||[]).map(n=>({id:nid.get(n.id),name:n.name,parent:n.parent?nid.get(n.parent)||null:null,taskId:tid.get(n.taskId)||null,closed:n.closed,comment:n.comment||'',color:n.color||''})));
   p.treeMarks=(p.treeMarks||[]).concat((tpl.treeMarks||[]).filter(m=>nid.has(m.from)).map(m=>Object.assign({},m,{id:uid(),from:nid.get(m.from),to:nid.get(m.to)||nid.get(m.from)})))}}
 {const _e=projExtra;projExtra=o=>Object.assign(_e(o),{planStart:o.planStart||'',planStarted:o.planStarted||null,tabOf:o.tabOf||null,createdAt:o.createdAt||null,openedAt:o.openedAt||null,recurring:!!o.recurring,closedAt:o.closedAt||null,cycles:o.cycles||[],resetAt:o.resetAt||null})}
 // project pickers say "Project, Tab"
@@ -6282,7 +6384,7 @@ function markTabDone(p){const r=tabRoot(p),now=new Date().toISOString();p.planSt
 function reopenTab(p,reset){const r=tabRoot(p);if(p.planStart&&p.planStart<=todayISO()&&!p.planStarted)p.planStarted=new Date().toISOString();p.closedAt=null;p.openedAt=new Date().toISOString();if(reset){resetChecks(p,true);p.resetAt=new Date().toISOString()}
   logAct(r,`reopened "${p.name}"${reset?' and reset it':''}`);logAct(p,reset?'reopened and reset this tab':'reopened this tab')}
 function importMainTree(p){const r=tabRoot(p),src=r?r.tree||[]:[],map=new Map();src.forEach(n=>map.set(n.id,uid()));
-  const made=src.map(n=>{const t=n.taskId&&byId(n.taskId);return[{id:map.get(n.id),name:t?t.name:n.name,parent:n.parent?map.get(n.parent)||null:null,taskId:null,closed:!!n.closed,comment:n.comment||''},!!t]});
+  const made=src.map(n=>{const t=n.taskId&&byId(n.taskId);return[{id:map.get(n.id),name:t?t.name:n.name,parent:n.parent?map.get(n.parent)||null:null,taskId:null,closed:!!n.closed,comment:n.comment||'',color:n.color||''},!!t]});
   p.tree=(p.tree||[]).concat(made.map(m=>m[0]));made.filter(m=>m[1]).forEach(m=>trMakeTask(p,m[0]));
   p.treeMarks=(p.treeMarks||[]).concat((r.treeMarks||[]).filter(m=>map.has(m.from)).map(m=>Object.assign({},m,{id:uid(),from:map.get(m.from),to:map.get(m.to)||map.get(m.from)})));
   logAct(p,`imported the tree of "${r.name}"`);return made.length}
@@ -6383,6 +6485,231 @@ pp.addEventListener('change',e=>{const i=e.target.closest('.pxplan-d');if(!i)ret
   const v=i.value.trim(),iso=v?parseDate(v):'';if(v&&!iso){i.classList.add('invalid');return}
   if((x.planStart||'')!==iso){x.planStart=iso;x.planStarted=null;logAct(tabRoot(x),iso?`planned to start "${x.name}" on ${isoToUS(iso)}`:`cleared the start date of "${x.name}"`);commit()}});
 pp.addEventListener('click',e=>{const b=e.target.closest('[data-pxstart]');if(!b)return;const x=projOfId(b.dataset.pxstart);if(x){startTab(x);commit();toast(`Started "${x.name}".`)}});
+/* ---------- v72: no built-in examples, default tag per project, history title fit, On hold rows folded ----------
+   1. A fresh start is empty (020 seeds examples only for the tests, 229/231/234 demos only with window.FOCUS_DEMO).
+      Data saved before v72 loses those examples once per account (S.prefs.exClean); anything else is kept. */
+const EX_SEED=[['Econs - Peru','2026-09-29T14:00:00'],['BeP -> Python','2026-10-05T10:00:00'],['Tanzania','2026-10-01T09:00:00'],['Econs','2026-09-30T16:00:00'],
+  ['Draft research agenda for 2027','2026-09-15T09:00:00'],['Learn the basics of Rust','2026-08-20T09:00:00'],['Send Demand slides','2026-09-28T11:00:00']];
+const EX_DEPS=['Run the survey analysis','Write the survey report','Present the survey results'];
+const exTask=t=>String(t.id).startsWith('demo-')||EX_SEED.some(([n,c])=>t.createdAt===c&&(t.name===n||(t.steps||[]).some(s=>s.name===n)))||(EX_DEPS.includes(t.name)&&!t.done);
+if(!(window.FOCUS_CONFIG||{}).url&&!window.FOCUS_DEMO&&!window.FOCUS_SEED){try{
+  const K='focus-localdb',d=JSON.parse(localStorage.getItem(K)||'null');
+  if(d&&Array.isArray(d.shared_tasks)&&d.shared_tasks.some(r=>String(r.id).startsWith('demo-'))){d.shared_tasks=d.shared_tasks.filter(r=>!String(r.id).startsWith('demo-'));localStorage.setItem(K,JSON.stringify(d))}
+}catch(e){}}
+function cleanExamples(){
+  const gone=new Set(S.tasks.filter(exTask).map(t=>t.id));
+  S.tasks.forEach(t=>{if(t.stepOf&&gone.has(t.stepOf))gone.add(t.id)});
+  S.tasks=S.tasks.filter(t=>!gone.has(t.id));
+  S.tasks.forEach(t=>{if(t.parentId&&gone.has(t.parentId))t.parentId=null;if(t.waits)t.waits=t.waits.filter(id=>!gone.has(id))});
+  const empty=p=>!S.tasks.some(t=>t.projectId===p.id)&&!(p.notesList||[]).length&&!(p.canvas||[]).length&&!(p.strokes||[]).length&&!(p.tree||[]).length&&!S.projects.some(x=>x.tabOf===p.id);
+  S.projects=S.projects.filter(p=>!(['p_research','p_personal'].includes(p.id)&&empty(p)));
+  if(!S.projects.some(p=>p.id===S.ui.project))S.ui.project='all';
+  S.example=false;S.prefs.exClean=true;return gone.size}
+{const _r=render;render=function(){
+  if(CL.on&&S.prefs&&!S.prefs.exClean&&!window.FOCUS_DEMO&&!window.FOCUS_SEED){cleanExamples();save()}
+  return _r.apply(this,arguments)}}
+
+/* 9. default tag per project (p.tagId, synced with the project): new tasks of the project get it unless another tag is picked */
+const projDefTag=pid=>{let p=S.projects.find(x=>x.id===pid);if(p&&p.tabOf&&!p.tagId)p=S.projects.find(x=>x.id===p.tabOf);
+  return p&&p.tagId&&S.tags.some(g=>g.id===p.tagId)?p.tagId:''};
+{const _af=addFromBar;addFromBar=function(k,o){if(o&&o.projectId&&!o.tagId)o.tagId=projDefTag(o.projectId)||null;return _af.apply(this,arguments)}}
+$('#c-proj').addEventListener('change',()=>{const g=projDefTag($('#c-proj').value);if(g){$('#c-tag').value=g;paintComposerColor()}});
+{const _po=openProjPop;openProjPop=function(anchor,proj){_po.apply(this,arguments);const el=pop&&pop.el;if(!el)return;
+  const f=el.querySelector('.swatches');if(!f)return;
+  f.insertAdjacentHTML('afterend',`<label class="pj-deftag"><span>Default tag</span><select id="pj-tag">${optionList(S.tags,'No default tag',proj&&proj.tagId||'')}</select></label>`);
+  const fm=el.querySelector('form'),sub=fm.onsubmit;
+  fm.onsubmit=e=>{const v=el.querySelector('#pj-tag').value,before=new Set(S.projects.map(p=>p.id));sub(e);
+    const p=proj||S.projects.find(x=>!before.has(x.id));if(p){p.tagId=v||'';save();render()}}}}
+{const _p=projExtra;projExtra=function(p){return Object.assign(_p.apply(this,arguments),{tagId:p.tagId||''})}}
+
+/* 12. History window: the title line stays inside the box and a long task name shrinks to fit (very long ones wrap) */
+{const _o=openLogPop;openLogPop=function(anchor,t){_o.apply(this,arguments);const s=pop&&pop.el&&pop.el.querySelector('.log-pop .bell-h span');if(!s)return;
+  let f=12.5;while(s.scrollWidth>s.clientWidth+1&&f>10){f-=.5;s.style.fontSize=f+'px'}
+  if(s.scrollWidth>s.clientWidth+1)s.classList.add('wrap')}} // still too long at 10px: it wraps instead of running out
+
+/* 13. On hold rows fold to the name and the hold reason; the arrow opens the normal row (S.ui.holdOpen, this device only).
+    Tasks waiting on your part are never folded. Tests keep rows open (window.FOCUS_HOLD_OPEN from the harness) unless they turn it off. */
+const holdOpen=id=>(S.ui.holdOpen||[]).includes(id);
+{const _row=row;row=function(t,depth){const el=_row.apply(this,arguments);
+  if(!t.onHold||t.done||t.stepOf||S.ui.view==='done'||window.FOCUS_HOLD_OPEN||(typeof waitingForMe==='function'&&waitingForMe(t)))return el;
+  const nr=el.querySelector('.name-row'),n=nr&&nr.querySelector('.name');if(!n)return el;
+  const op=holdOpen(t.id),why=t.waitFor||t.note||'';
+  n.insertAdjacentHTML('beforebegin',`<button class="hexp" type="button" data-holdexp aria-expanded="${op}" title="${op?'Fold this on hold task':'Show the whole task'}" aria-label="${op?'Fold':'Expand'} ${esc(t.name)}">${op?'▾':'▸'}</button>`);
+  if(!op){el.classList.add('hold-min');if(why)n.insertAdjacentHTML('afterend',`<span class="hreason" title="${esc(why)}">${esc(why)}</span>`)}
+  return el}}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-holdexp]');if(!b)return;e.stopPropagation();e.preventDefault();
+  const id=b.closest('.task').dataset.id,L=S.ui.holdOpen||[];S.ui.holdOpen=L.includes(id)?L.filter(x=>x!==id):[...L,id];save();render()},true);
+/* ---------- Tree tab (v72): node colors and moving nodes.
+   Color: `n.color` (synced with p.tree). A node without its own color takes its parent's, so coloring a main node colors everything under it
+   that has no color of its own; `trColor(p,n)` gives the color in use. The node and the lines next to it (`--lc` on its li) use it.
+   The palette button sits in the hover tools; "Same as above" clears the node's own color.
+   Move: drag the grip (⠿) in the hover tools onto another node: top part = before it, middle = inside it (last child), bottom part = after it
+   (after its subnodes). The subnodes come along (they point at the node by `parent`). A task node follows in the task lists:
+   it becomes a subtask of the new parent's task, or a top task when the new parent has none (`trMove`). ---------- */
+const TR_COLORS=['#d64545','#e07b39','#d6a822','#3aa655','#2a9d8f','#3d6fd6','#9b6bff','#d14f9a','#8a94a6'];
+function trColor(p,n){const N=trNodes(p);let x=n,k=0;while(x&&k++<50){if(x.color)return x.color;x=x.parent&&N.find(y=>y.id===x.parent)}return ''}
+{const _nh=trNodeHTML;trNodeHTML=function(p,n){let h=_nh(p,n);const c=trColor(p,n),ro=typeof isRO==='function'&&isRO(p);
+  if(c){h=h.replace('<li class="tr-li">',`<li class="tr-li tr-col" style="--lc:${c}">`);h=h.replace('class="tr-node','class="tr-node tr-has-col').replace(`data-tn="${n.id}" style="`,`data-tn="${n.id}" style="--nc:${c};`)}
+  if(!ro)h=h.replace('<span class="tr-tools">',`<span class="tr-tools"><button type="button" class="tr-grip" data-trmove title="Drag to move this node (what is under it comes along)" aria-label="Move">⠿</button><button type="button" class="tr-colb" data-trcol title="Color of this node and of what is under it" aria-label="Color"><i style="background:${c||'transparent'}"></i></button>`);
+  // "!" (v73): a red mark before the name says something is wrong there (`n.flag`, synced with p.tree)
+  if(n.flag)h=h.replace('<input class="tr-name"','<b class="tr-flag" title="Something is wrong here" aria-label="Problem">!</b><input class="tr-name"');
+  if(!ro)h=h.replace('<span class="tr-tools">',`<span class="tr-tools"><button type="button" class="tr-flagb${n.flag?' on':''}" data-trflag title="${n.flag?'Remove the red !':'Mark with a red ! (something is wrong here)'}" aria-pressed="${!!n.flag}">!</button>`);
+  return h}}
+pp.addEventListener('click',e=>{const b=e.target.closest('#projBody [data-trflag]');if(!b)return;e.stopPropagation();const {p,n}=trOf(b);if(!n)return;if(n.flag)delete n.flag;else n.flag=true;commit()});
+function openTrColor(anchor,p,n){
+  const own=n.color||'',par=n.parent&&trNodes(p).find(y=>y.id===n.parent),up=par?trColor(p,par):'';
+  const under=trDesc(p,n.id).filter(x=>x.color).length;
+  openPop(anchor,`<div class="trc-pop"><div class="asg-h">Node color</div>
+    <div class="trc-sw">${TR_COLORS.map(c=>`<button type="button" data-trc="${c}" class="${own===c?'on':''}" style="background:${c}" title="${c}" aria-label="Color ${c}"></button>`).join('')}</div>
+    <button type="button" class="trc-none${own?'':' on'}" data-trc="">${up?`<i style="background:${up}"></i>Same as above`:'No color'}</button>
+    ${under?`<label class="trc-all"><input type="checkbox" id="trc-all"> Also for the ${under} node${under===1?'':'s'} under it with their own color</label>`:''}
+    <p class="trc-hint">Nodes under this one take its color unless you pick one for them.</p></div>`,el=>{
+    el.classList.add('pop-menu','trc-popw');place(el,anchor);
+    el.addEventListener('click',e=>{const b=e.target.closest('[data-trc]');if(!b)return;
+      const v=b.dataset.trc,all=el.querySelector('#trc-all');if(v)n.color=v;else delete n.color;
+      if(all&&all.checked)trDesc(p,n.id).forEach(x=>delete x.color);
+      closePop();commit()})});
+}
+// move node n before / after / inside node `to`
+function trMove(p,n,to,where){
+  const N=trNodes(p);if(!to||to===n||trDesc(p,n.id).some(x=>x.id===to.id))return false;
+  const oldPar=n.parent||null,newPar=where==='in'?to.id:(to.parent||null);
+  N.splice(N.indexOf(n),1);
+  let i;
+  if(where==='before')i=N.indexOf(to);
+  else{const last=[to,...trDesc(p,to.id)].map(x=>N.indexOf(x)).reduce((a,b)=>Math.max(a,b),-1);i=last+1}
+  N.splice(i,0,n);n.parent=newPar;
+  if(where==='in')to.closed=false;
+  // the task lists follow the tree
+  const t=trTask(n);
+  if(t&&oldPar!==newPar){
+    const op=oldPar&&N.find(x=>x.id===oldPar),opt=op&&trTask(op);
+    if(opt&&t.parentId===opt.id){t.parentId=null;const roots=S.tasks.filter(x=>isOpenRoot(x)&&!x.longTerm&&x!==t);t.order=roots.length?Math.max(...roots.map(x=>x.order))+1:0}
+    const np=newPar&&N.find(x=>x.id===newPar),npt=np&&trTask(np);
+    if(npt&&!npt.done&&!t.done&&npt.id!==t.id&&!descendants(t.id).some(x=>x.id===npt.id))nestInto(t.id,npt.id);
+  }
+  return true;
+}
+pp.addEventListener('click',e=>{const b=e.target.closest('#projBody [data-trcol]');if(!b)return;e.stopPropagation();const {p,n}=trOf(b);if(n)openTrColor(b,p,n)});
+pp.addEventListener('click',e=>{if(e.target.closest('#projBody [data-trmove]'))e.preventDefault()});
+pp.addEventListener('pointerdown',e=>{
+  const g=e.target.closest('#projBody [data-trmove]');if(!g||e.button)return;
+  const {p,n}=trOf(g);if(!n)return;e.preventDefault();
+  const li=g.closest('.tr-li'),x0=e.clientX,y0=e.clientY;let moved=false,drop=null,ghost=null;
+  const clear=()=>document.querySelectorAll('#projBody .tr-drop-before,#projBody .tr-drop-after,#projBody .tr-drop-in').forEach(x=>x.classList.remove('tr-drop-before','tr-drop-after','tr-drop-in'));
+  const mv=ev=>{
+    if(!moved&&Math.hypot(ev.clientX-x0,ev.clientY-y0)<4)return;
+    if(!moved){moved=true;li.classList.add('tr-dragging');document.body.classList.add('tr-moving');
+      const t=trTask(n);ghost=document.createElement('div');ghost.className='tr-ghost';ghost.textContent=((t?t.name:n.name)||'Untitled')+(trDesc(p,n.id).length?` (+${trDesc(p,n.id).length})`:'');document.body.appendChild(ghost)}
+    ghost.style.left=(ev.clientX+12)+'px';ghost.style.top=(ev.clientY+8)+'px';
+    clear();drop=null;
+    const el=document.elementFromPoint(ev.clientX,ev.clientY),d=el&&el.closest('#projBody .tr-node[data-tn]');
+    if(!d||li.contains(d))return;
+    const to=trNodes(p).find(x=>x.id===d.dataset.tn);if(!to)return;
+    const r=d.getBoundingClientRect(),rel=ev.clientY-r.top,band=Math.min(r.height,40)*.3;
+    const where=rel<band?'before':rel>r.height-band?'after':'in';
+    drop={to,where};d.classList.add('tr-drop-'+where)};
+  const up=()=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);
+    clear();li.classList.remove('tr-dragging');document.body.classList.remove('tr-moving');if(ghost)ghost.remove();
+    if(!moved||!drop)return;
+    const old=JSON.stringify(p.tree),snap=JSON.stringify(S.tasks);
+    if(trMove(p,n,drop.to,drop.where)){commit();
+      const nm=(x=>{const t=trTask(x);return (t?t.name:x.name)||'Untitled'});
+      toast(`Moved "${nm(n)}" ${drop.where==='in'?'under':drop.where} "${nm(drop.to)}".`,()=>{p.tree=JSON.parse(old);S.tasks=JSON.parse(snap).map(T);commit()})}};
+  window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);
+});
+/* ---------- Automatic backup of the whole account (v72). Every S.prefs.backupHours (default 6, 0 = off) a backup file
+   (format focus-tasks-backup, the whole S) goes to a folder picked in Settings and a copy is kept in this browser (IndexedDB
+   "focus-backup"). The folder needs the File System Access API: Chrome or Edge on the standalone focus-tasks.html; inside claude.ai
+   the page is a sandboxed frame, so there only the browser copies and "Download a backup" work. Both places keep the newest 2,
+   the last one before today and the last one before this week (Monday). Settings > Load a backup replaces everything; the state
+   right before a load is kept apart ("before-load") so a load can be undone. Last backup time is per device (localStorage). ---------- */
+const BK={dir:null,dirName:'',perm:'',busy:false,askedAt:0,for:null,err:''};
+const bkHours=()=>S.prefs.backupHours==null?6:+S.prefs.backupHours;
+const bkCanFolder=()=>typeof window.showDirectoryPicker==='function'&&window.self===window.top;
+const bkUser=()=>CL.on&&CL.uid?CL.uid:'local';
+const bkPrefix=()=>`focus-backup-${(fileSlug((CL.email||'me').split('@')[0])||'me').toLowerCase()}-`;
+const bkStamp=d=>{const z=n=>String(n).padStart(2,'0');return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}_${z(d.getHours())}-${z(d.getMinutes())}-${z(d.getSeconds())}`};
+const bkAt=name=>{const m=/(\d{4})-(\d\d)-(\d\d)_(\d\d)-(\d\d)-(\d\d)\.json$/.exec(name);return m?new Date(+m[1],m[2]-1,+m[3],+m[4],+m[5],+m[6]).getTime():0};
+const bkLast=()=>{try{return +localStorage.getItem('focus-backup-last:'+bkUser())||0}catch(e){return 0}};
+const bkWhen=ms=>new Date(ms).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+// which backups stay: the newest 2, the last one of an earlier day, the last one of an earlier week
+function bkKeep(list,now=new Date()){
+  const s=[...list].sort((a,b)=>b.at-a.at),keep=new Set(s.slice(0,2).map(x=>x.name));
+  const day=new Date(now);day.setHours(0,0,0,0);const wk=new Date(day);wk.setDate(wk.getDate()-((wk.getDay()+6)%7));
+  const a=s.find(x=>x.at<day.getTime()),b=s.find(x=>x.at<wk.getTime());if(a)keep.add(a.name);if(b)keep.add(b.name);
+  return keep}
+function bkDB(){return BK.db||(BK.db=new Promise((ok,no)=>{const r=indexedDB.open('focus-backup',1);
+  r.onupgradeneeded=()=>{r.result.createObjectStore('kv');r.result.createObjectStore('snaps',{keyPath:'key'})};r.onsuccess=()=>ok(r.result);r.onerror=()=>{BK.db=null;no(r.error)}}))}
+async function bkTx(store,mode,fn){const db=await bkDB();return new Promise((ok,no)=>{const tx=db.transaction(store,mode),r=fn(tx.objectStore(store));let out;
+  if(r)r.onsuccess=()=>{out=r.result};tx.oncomplete=()=>ok(out);tx.onerror=()=>no(tx.error)})}
+const bkSnaps=async u=>((await bkTx('snaps','readonly',st=>st.getAll()))||[]).filter(x=>x.user===u);
+async function bkPerm(ask){if(!BK.dir)return false;if(typeof BK.dir.queryPermission!=='function')return true;
+  try{let p=await BK.dir.queryPermission({mode:'readwrite'});if(p!=='granted'&&ask)p=await BK.dir.requestPermission({mode:'readwrite'});BK.perm=p;return p==='granted'}catch(e){BK.perm='error';return false}}
+async function bkFolderList(){const out=[];if(!BK.dir)return out;const pre=bkPrefix();
+  for await(const [n,h] of BK.dir.entries())if(h.kind==='file'&&n.startsWith(pre)&&bkAt(n))out.push({name:n,at:bkAt(n),h});return out}
+const bkData=()=>JSON.stringify({format:'focus-tasks-backup',version:1,savedAt:new Date().toISOString(),user:{id:CL.uid,email:CL.email},state:S});
+// one backup now: browser copy always, folder when one is picked and allowed; returns where it went
+async function runBackup(){if(BK.busy)return [];BK.busy=true;const where=[];
+  try{const now=new Date(),name=bkPrefix()+bkStamp(now)+'.json',data=bkData(),u=bkUser();
+    try{await bkTx('snaps','readwrite',st=>st.put({key:u+'|'+name,user:u,name,at:now.getTime(),data}));
+      const all=await bkSnaps(u),keep=bkKeep(all,now);for(const x of all)if(!keep.has(x.name))await bkTx('snaps','readwrite',st=>st.delete(x.key));where.push('browser')}catch(e){}
+    if(BK.dir&&await bkPerm(false)){try{const fh=await BK.dir.getFileHandle(name,{create:true}),w=await fh.createWritable();await w.write(data);await w.close();
+      const all=await bkFolderList(),keep=bkKeep(all,now);for(const x of all)if(!keep.has(x.name))await BK.dir.removeEntry(x.name);where.push('folder');BK.err=''}
+      catch(e){BK.err=e.message||String(e)}}
+    if(where.length)try{localStorage.setItem('focus-backup-last:'+u,String(now.getTime()))}catch(e){}
+  }finally{BK.busy=false}return where}
+async function bkLoadDir(){const u=bkUser();if(BK.for===u)return;BK.for=u;BK.dir=null;BK.dirName='';
+  try{const d=await bkTx('kv','readonly',st=>st.get('dir:'+u));if(d){BK.dir=d;BK.dirName=d.name}}catch(e){}}
+async function bkPick(){
+  if(!bkCanFolder()){toast('Saving to a folder needs Chrome or Edge with focus-tasks.html opened on its own.');return false}
+  try{const d=await window.showDirectoryPicker({id:'focus-backup',mode:'readwrite'});BK.dir=d;BK.dirName=d.name;BK.perm='granted';BK.for=bkUser();
+    await bkTx('kv','readwrite',st=>st.put(d,'dir:'+bkUser()));const w=await runBackup();toast(w.includes('folder')?`Backups go to "${d.name}" now.`:`Could not write to "${d.name}".`);return true}
+  catch(e){if(e&&e.name!=='AbortError')toast('Could not use that folder: '+(e.message||e.name));return false}}
+async function bkTick(){if(CL.enabled&&!CL.on)return; // landing page, nobody signed in
+  await bkLoadDir();const h=bkHours();if(!h||Date.now()-bkLast()<h*3600e3)return;
+  if(BK.dir&&!(await bkPerm(false))&&Date.now()-BK.askedAt>30*60e3){BK.askedAt=Date.now();
+    toast(`Backup: allow saving to the folder "${BK.dirName}".`,async()=>{if(await bkPerm(true)){await runBackup();toast('Backup saved.')}},'Allow')}
+  await runBackup()}
+setTimeout(bkTick,3000);setInterval(bkTick,60e3);
+// load: everything is replaced (the view you are on stays); what you had is kept as "before-load"
+async function bkRestore(text,label){let B;try{B=JSON.parse(text)}catch(e){toast('That file is not a Focus Tasks backup.');return false}
+  const st=B&&B.format==='focus-tasks-backup'?B.state:B;
+  if(!st||!Array.isArray(st.tasks)){toast(B&&B.format==='focus-tasks-project'?'That is a project file: use "Import a project" in the sidebar.':'That file is not a Focus Tasks backup.');return false}
+  const u=bkUser();try{await bkTx('snaps','readwrite',x=>x.put({key:u+'|before-load',user:u+':before',name:'before-load',at:Date.now(),data:bkData()}))}catch(e){}
+  const ui=S.ui;S=normalize(JSON.parse(JSON.stringify(st)));S.ui=ui;commit();toast(`Loaded the backup from ${label}.`);return true}
+async function openBkLoad(){closePop();closeModal();await bkLoadDir();const u=bkUser(),rows=new Map();let before=null;
+  try{(await bkSnaps(u)).forEach(x=>rows.set(x.name,{at:x.at,where:'This browser',get:async()=>x.data}));
+    before=((await bkTx('snaps','readonly',st=>st.get(u+'|before-load')))||null)}catch(e){}
+  if(BK.dir&&await bkPerm(true))try{(await bkFolderList()).forEach(x=>rows.set(x.name,{at:x.at,where:`Folder "${BK.dirName}"`,get:async()=>(await x.h.getFile()).text()}))}catch(e){}
+  const list=[...rows.values()].sort((a,b)=>b.at-a.at);if(before)list.push({at:before.at,where:'Right before the last load',get:async()=>before.data,undo:true});
+  const back=document.createElement('div');back.className='modal-back';
+  back.innerHTML=`<div class="modal bk-load" role="dialog" aria-modal="true" aria-labelledby="bk-h"><h2 id="bk-h">Load a backup</h2>
+    <p class="sp-hint">Loading replaces all your tasks, projects, tags and settings with the backup. What you have now is kept, so you can come back to it.</p>
+    <div class="bk-list">${list.length?list.map((r,i)=>`<div class="bk-item${r.undo?' undo':''}"><div><strong>${esc(bkWhen(r.at))}</strong><span>${esc(r.where)}</span></div><button type="button" class="btn sm" data-bki="${i}">Load</button></div>`).join(''):'<p class="sp-hint">No backups yet.</p>'}</div>
+    <div class="modal-actions"><label class="btn">From a file...<input type="file" accept=".json,application/json" id="bk-file" hidden></label><button type="button" class="btn" data-x>Close</button></div></div>`;
+  document.body.appendChild(back);modal=back;
+  back.addEventListener('mousedown',e=>{if(e.target===back)closeModal()});back.querySelector('[data-x]').onclick=closeModal;
+  back.querySelectorAll('[data-bki]').forEach(b=>b.onclick=async()=>{const r=list[+b.dataset.bki];
+    if(!b.classList.contains('armed')){back.querySelectorAll('[data-bki]').forEach(x=>{x.classList.remove('armed');x.textContent='Load'});b.classList.add('armed');b.textContent='Replace everything?';return}
+    try{if(await bkRestore(await r.get(),bkWhen(r.at)))closeModal()}catch(e){toast('Could not read that backup: '+(e.message||e))}});
+  back.querySelector('#bk-file').onchange=async e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(f&&await bkRestore(await f.text(),f.name))closeModal()}}
+// Settings section
+{const _os=openSettings;openSettings=function(){_os.apply(this,arguments);const f=modal&&modal.querySelector('form.settings');if(!f)return;const h=bkHours();
+  const folder=bkCanFolder()?`<div class="bk-row"><span class="bk-dir">${BK.dir?`Folder: <b>${esc(BK.dirName)}</b>${BK.perm&&BK.perm!=='granted'?' <em>(needs your OK)</em>':''}`:'No folder picked'}</span><button type="button" class="btn sm" data-bkdir>${BK.dir?'Change folder':'Choose folder'}</button></div>`
+    :`<p class="sp-hint">Saving to a folder on your computer works in Chrome or Edge when you open focus-tasks.html on its own. Here backups are kept in this browser, and you can download one.</p>`;
+  f.querySelector('.modal-actions').insertAdjacentHTML('beforebegin',`<div class="fld bk-set"><span>AUTOMATIC BACKUP</span>
+    <div class="bk-row"><select id="st-bkh" aria-label="How often">${[[1,'Every hour'],[3,'Every 3 hours'],[6,'Every 6 hours'],[12,'Every 12 hours'],[24,'Every day'],[0,'Off']].map(([v,l])=>`<option value="${v}"${h===v?' selected':''}>${l}</option>`).join('')}</select><button type="button" class="btn sm" data-bknow>Back up now</button></div>
+    ${folder}
+    <p class="sp-hint bk-last">${bkLast()?`Last backup: ${esc(bkWhen(bkLast()))}.`:'No backup yet.'} It keeps the last 2 backups, the last one of the day before and the last one of the week before.${BK.err?` <b class="err">${esc(BK.err)}</b>`:''}</p>
+    <div class="bk-row"><button type="button" class="btn sm" data-bkload>Load a backup...</button><button type="button" class="btn sm" data-bkdl>Download a backup</button></div></div>`);
+  f.querySelector('#st-bkh').onchange=e=>{S.prefs.backupHours=+e.target.value;save();bkTick()};
+  const reopen=()=>{if(modal&&modal.querySelector('form.settings')){const n=f.querySelector('#st-name').value;openSettings();const i=modal.querySelector('#st-name');if(i)i.value=n}};
+  f.querySelector('[data-bknow]').onclick=async()=>{if(BK.dir)await bkPerm(true);const w=await runBackup();
+    toast(w.length?`Backup saved${w.includes('folder')?` to "${BK.dirName}"`:''}${BK.dir&&!w.includes('folder')?' (only in this browser: the folder was not allowed)':''}.`:'Could not save the backup.');reopen()};
+  const d=f.querySelector('[data-bkdir]');if(d)d.onclick=async()=>{if(await bkPick())reopen()};
+  f.querySelector('[data-bkload]').onclick=openBkLoad;
+  f.querySelector('[data-bkdl]').onclick=()=>saveFile(bkPrefix()+bkStamp(new Date())+'.json',bkData())}}
 async function initCloud(){
   const cfg=window.FOCUS_CONFIG||{};
   if(cfg.url&&cfg.key){try{if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');}catch(e){return}

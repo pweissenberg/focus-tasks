@@ -2,6 +2,7 @@
    'h' is a dashed line under node `from` (like "Before Jan."), 'v' is a dashed bracket ] from node `from` to node `to` with short dashes
    going out at the top and bottom (like "Phase 1"), 'box' is a dashed frame around the nodes from `from` to `to`.
    Positions are worked out from the nodes on screen after each render, so the guides follow when nodes are added, folded or hidden.
+   'a' (v72) is an arrow from the right side of node `from` going right, ending in a text (`label`), its length `m.len` px (drag the tip).
    "Show done" (S.ui.trDone) shows or hides the nodes of done tasks. Drag a line or a handle to snap it to another node; drag a bracket sideways (m.dx px); its top/bottom dashes reach their node by default and can be dragged shorter (m.stubT/m.stubB, snapping to equal) ---------- */
 const TM_COLORS=['#d64545','#3aa655','#3d6fd6','#d08a3c','#9b6bff','#8a94a6'];
 const tmList=p=>(p.treeMarks=p.treeMarks||[]);
@@ -16,15 +17,15 @@ const trDoneNode=n=>{const t=trTask(n);return !!(t&&t.done)};
   if(!S.ui.trDone)body.querySelectorAll('.tr-node.done').forEach(d=>{const li=d.closest('.tr-li');if(li)li.remove()});
   if(bar){
     if(nDone)bar.insertAdjacentHTML('beforeend',`<label class="gd-done"><input type="checkbox" data-trdone${S.ui.trDone?' checked':''}> Show done (${nDone})</label>`);
-    if(!ro&&trNodes(p).length)bar.querySelector('[data-trroot]').insertAdjacentHTML('afterend',`<span class="gd-add" role="group" aria-label="Add a dashed guide"><button class="btn sm" type="button" data-tmadd="h" title="Dashed line under a node">┄ Line</button><button class="btn sm" type="button" data-tmadd="v" title="Dashed bracket next to some nodes">┆ Bracket</button><button class="btn sm" type="button" data-tmadd="box" title="Dashed box around some nodes">⬚ Box</button></span>`)}
+    if(!ro&&trNodes(p).length)bar.querySelector('[data-trroot]').insertAdjacentHTML('afterend',`<span class="gd-add" role="group" aria-label="Add a dashed guide"><button class="btn sm" type="button" data-tmadd="h" title="Dashed line under a node">┄ Line</button><button class="btn sm" type="button" data-tmadd="v" title="Dashed bracket next to some nodes">┆ Bracket</button><button class="btn sm" type="button" data-tmadd="box" title="Dashed box around some nodes">⬚ Box</button><button class="btn sm" type="button" data-tmadd="a" title="Arrow going right from a node, ending in a text">→ Arrow</button></span>`)}
   const cv=document.createElement('div');cv.className='tr-canvas';
   [...body.children].filter(c=>c!==bar).forEach(c=>cv.appendChild(c));body.appendChild(cv);
   const M=p.treeMarks=tmList(p).filter(m=>m.from);
   if(M.length)cv.insertAdjacentHTML('beforeend',`<div class="gd-layer">${M.map(m=>`<div class="gd gd-${m.type}${tmSel===m.id?' sel':''}" data-tm="${m.id}" style="--mc:${m.color}" hidden>
-      ${m.type==='h'?'<i class="gd-hit" data-tmdrag="from"></i>':m.type==='v'?'<i class="gd-hit" data-tmdrag="x" title="Drag sideways to move it closer to or farther from the nodes"></i><i class="gd-stub top"><i class="gd-sh" data-tmdrag="st" title="Drag to make this dash longer or shorter"></i></i><i class="gd-stub bot"><i class="gd-sh" data-tmdrag="sb" title="Drag to make this dash longer or shorter"></i></i>':'<i class="gd-edge" data-tmsel style="top:-5px;left:0;right:0;height:10px"></i><i class="gd-edge" data-tmsel style="bottom:-5px;left:0;right:0;height:10px"></i><i class="gd-edge" data-tmsel style="left:-5px;top:0;bottom:0;width:10px"></i><i class="gd-edge" data-tmsel style="right:-5px;top:0;bottom:0;width:10px"></i>'}
-      <span class="gd-lab">${ro?esc(m.label||''):`<input class="gd-in" type="text" value="${esc(m.label||'')}" placeholder="Name" aria-label="Name of this guide" size="${Math.max(4,(m.label||'').length+1)}">`}</span>
+      ${m.type==='h'?'<i class="gd-hit" data-tmdrag="from"></i>':m.type==='a'?'<i class="gd-hit" data-tmdrag="from" title="Drag up or down to another node"></i><i class="gd-tip" data-tmdrag="len" title="Drag to make the arrow longer or shorter"></i>':m.type==='v'?'<i class="gd-hit" data-tmdrag="x" title="Drag sideways to move it closer to or farther from the nodes"></i><i class="gd-stub top"><i class="gd-sh" data-tmdrag="st" title="Drag to make this dash longer or shorter"></i></i><i class="gd-stub bot"><i class="gd-sh" data-tmdrag="sb" title="Drag to make this dash longer or shorter"></i></i>':'<i class="gd-edge" data-tmsel style="top:-5px;left:0;right:0;height:10px"></i><i class="gd-edge" data-tmsel style="bottom:-5px;left:0;right:0;height:10px"></i><i class="gd-edge" data-tmsel style="left:-5px;top:0;bottom:0;width:10px"></i><i class="gd-edge" data-tmsel style="right:-5px;top:0;bottom:0;width:10px"></i>'}
+      <span class="gd-lab">${ro?esc(m.label||''):`<input class="gd-in" type="text" value="${esc(m.label||'')}" placeholder="${m.type==='a'?'Text':'Name'}" aria-label="${m.type==='a'?'Text at the end of the arrow':'Name of this guide'}" size="${Math.max(4,(m.label||'').length+1)}">`}</span>
       ${m.type==='h'?`<span class="gd-lab below">${ro?esc(m.label2||''):`<input class="gd-in" data-lab2 type="text" value="${esc(m.label2||'')}" placeholder="Text below" aria-label="Text below the line" size="${Math.max(6,(m.label2||'').length+1)}">`}</span>`:''}
-      ${ro||m.type==='h'?'':'<i class="gd-rs top" data-tmdrag="from" title="Drag to the first node"></i><i class="gd-rs bot" data-tmdrag="to" title="Drag to the last node"></i>'}
+      ${ro||m.type==='h'||m.type==='a'?'':'<i class="gd-rs top" data-tmdrag="from" title="Drag to the first node"></i><i class="gd-rs bot" data-tmdrag="to" title="Drag to the last node"></i>'}
       ${ro?'':`<span class="gd-tools"><button type="button" data-tmcol title="Change color" style="background:${m.color}"></button><button type="button" data-tmdel title="Delete">×</button></span>`}
     </div>`).join('')}</div>`);
   tmLayout(p);requestAnimationFrame(()=>tmLayout(p));
@@ -40,13 +41,19 @@ function tmLayout(p){
   tmList(p).forEach(m=>{if(m.type==='v'){const d=cv.querySelector(`[data-tm="${m.id}"]`);if(d)vk++}});
   vk=0;const hs=[];let need=maxRight+8;
   tmList(p).forEach(m=>{const d=cv.querySelector(`[data-tm="${m.id}"]`);if(!d)return;
-    const a=idx(m.from),b=m.type==='h'?a:idx(m.to);if(a<0||b<0){d.hidden=true;return}
+    const a=idx(m.from),b=m.type==='h'||m.type==='a'?a:idx(m.to);if(a<0||b<0){d.hidden=true;return}
     const lo=Math.min(a,b),hi=Math.max(a,b);
     if(m.type==='h'){
       // under the last node shown at or before `from`
       const prev=rows.filter(r=>r.i<=hi&&r.i>=0).pop(),next=prev?rows[rows.indexOf(prev)+1]:rows[0];
       const y=prev?(next?(prev.bottom+next.top)/2:prev.bottom+8):rows[0].top-6;
       Object.assign(d.style,{left:'0px',top:y+'px',height:''});hs.push(d);d.hidden=false;return}
+    if(m.type==='a'){
+      // starts at the right side of its node, in the middle, and goes right; the text sits at the tip
+      const r=rows.find(x=>x.i===a);if(!r){d.hidden=true;return}
+      const x=r.right+6,w=Math.max(24,m.len||70);
+      Object.assign(d.style,{left:x+'px',top:((r.top+r.bottom)/2)+'px',width:w+'px',height:''});d.hidden=false;
+      const lab=d.querySelector('.gd-lab');need=Math.max(need,x+w+10+(lab?lab.offsetWidth:0)+8);return}
     const inR=rows.filter(r=>r.i>=lo&&r.i<=hi);if(!inR.length){d.hidden=true;return}
     const top=inR[0].top,bot=inR[inR.length-1].bottom;
     if(m.type==='box'){const l=Math.max(0,Math.min(...inR.map(r=>r.left))-8),rt=Math.max(...inR.map(r=>r.right))+8;
@@ -70,17 +77,17 @@ function tmSelect(id){tmSel=id;document.querySelectorAll('#projBody .gd').forEac
 function openTmAdd(anchor,k){
   const p=curProject(),flat=trFlat(p),N=trNodes(p),nm=id=>{const n=N.find(x=>x.id===id),t=trTask(n);return (t?t.name:n.name)||'Untitled'};
   const opts=sel=>flat.map(id=>`<option value="${id}"${id===sel?' selected':''}>${esc(nm(id))}</option>`).join('');
-  const one=k==='h';
-  openPop(anchor,`<form class="gd-pop" autocomplete="off"><div class="asg-h">${one?'Dashed line':k==='v'?'Dashed bracket':'Dashed box'}</div>
-    <label>${one?'Under':'From'} <select id="tm-from">${opts(flat[0])}</select></label>
+  const one=k==='h'||k==='a',arr=k==='a';
+  openPop(anchor,`<form class="gd-pop" autocomplete="off"><div class="asg-h">${arr?'Arrow':one?'Dashed line':k==='v'?'Dashed bracket':'Dashed box'}</div>
+    <label>${arr?'From':one?'Under':'From'} <select id="tm-from">${opts(flat[0])}</select></label>
     ${one?'':`<label>To <select id="tm-to">${opts(flat[Math.min(flat.length-1,2)])}</select></label>`}
-    <label>${one?'Above':'Name'} <input id="tm-name" type="text" placeholder="${one?'Before Jan.':'Phase 1'}" maxlength="40"></label>
-    ${one?'<label>Below <input id="tm-name2" type="text" placeholder="After Jan." maxlength="40"></label>':''}
+    <label>${arr?'Text':one?'Above':'Name'} <input id="tm-name" type="text" placeholder="${arr?'Ask Ana':one?'Before Jan.':'Phase 1'}" maxlength="60"></label>
+    ${one&&!arr?'<label>Below <input id="tm-name2" type="text" placeholder="After Jan." maxlength="40"></label>':''}
     <button class="btn sm primary">Add</button></form>`,el=>{
     el.classList.add('pop-menu','gd-popw');place(el,anchor);
     el.querySelector('form').addEventListener('submit',e=>{e.preventDefault();
       let from=el.querySelector('#tm-from').value,to=one?from:el.querySelector('#tm-to').value;if(flat.indexOf(to)<flat.indexOf(from))[from,to]=[to,from];
-      const m={id:uid(),type:k,from,to,label:el.querySelector('#tm-name').value.trim(),label2:one?el.querySelector('#tm-name2').value.trim():'',color:k==='h'?TM_COLORS[1]:TM_COLORS[0]};
+      const m={id:uid(),type:k,from,to,label:el.querySelector('#tm-name').value.trim(),label2:one&&!arr?el.querySelector('#tm-name2').value.trim():'',color:arr?TM_COLORS[2]:k==='h'?TM_COLORS[1]:TM_COLORS[0]};if(arr)m.len=70;
       tmList(p).push(m);tmSel=m.id;closePop();commit()});
     setTimeout(()=>el.querySelector('#tm-name').focus(),0)});
 }
@@ -89,7 +96,7 @@ pp.addEventListener('click',e=>{
   const {p,m}=tmOf(e.target);
   if(!m){if(tmSel&&!e.target.closest('.gd'))tmSelect(null);return}
   if(e.target.closest('[data-tmdel]')){const old=JSON.stringify(p.treeMarks);p.treeMarks=tmList(p).filter(x=>x!==m);tmSel=null;commit();
-    toast(`Deleted the ${m.type==='h'?'line':m.type==='v'?'bracket':'box'}${m.label?` "${m.label}"`:''}.`,()=>{p.treeMarks=JSON.parse(old);commit()});return}
+    toast(`Deleted the ${m.type==='a'?'arrow':m.type==='h'?'line':m.type==='v'?'bracket':'box'}${m.label?` "${m.label}"`:''}.`,()=>{p.treeMarks=JSON.parse(old);commit()});return}
   if(e.target.closest('[data-tmcol]')){m.color=TM_COLORS[(TM_COLORS.indexOf(m.color)+1)%TM_COLORS.length];commit();return}
   tmSelect(m.id);
 });
@@ -116,18 +123,23 @@ pp.addEventListener('pointerdown',e=>{
     const us=()=>{window.removeEventListener('pointermove',ms);window.removeEventListener('pointerup',us);d.classList.remove('gd-eq');
       if(moved){m[which==='st'?'stubT':'stubB']=snap==='auto'?null:Math.round(v);commit()}};
     window.addEventListener('pointermove',ms);window.addEventListener('pointerup',us);return}
+  if(which==='len'){const x0=e.clientX,w0=parseFloat(d.style.width);let w=w0;
+    const ml=ev=>{const dx=ev.clientX-x0;if(Math.abs(dx)>2)moved=true;w=Math.max(24,w0+dx);d.style.width=w+'px'};
+    const ul=()=>{window.removeEventListener('pointermove',ml);window.removeEventListener('pointerup',ul);if(moved){m.len=Math.round(w);commit()}};
+    window.addEventListener('pointermove',ml);window.addEventListener('pointerup',ul);return}
   if(which==='x'){const x0=e.clientX,l0=parseFloat(d.style.left),base=+d.dataset.base,min=+d.dataset.min;let nx=l0;
     const mx=ev=>{const dx=ev.clientX-x0;if(Math.abs(dx)>2)moved=true;nx=Math.max(min,l0+dx);d.style.left=nx+'px'};
     const ux=()=>{window.removeEventListener('pointermove',mx);window.removeEventListener('pointerup',ux);if(moved){m.dx=Math.round(nx-base);commit()}};
     window.addEventListener('pointermove',mx);window.addEventListener('pointerup',ux);return}
   const mvf=ev=>{const dy=ev.clientY-y0;if(Math.abs(dy)>3)moved=true;if(!moved)return;
     const y=(m.type==='h'||which==='from'?top0:top0+h0)+dy;
-    let best=null,bd=1e9;R.rows.forEach(r=>{const ry=m.type==='h'||which==='to'?r.bottom:r.top,dd=Math.abs(ry-y);if(dd<bd){bd=dd;best=r}});
+    let best=null,bd=1e9;R.rows.forEach(r=>{const ry=m.type==='a'?(r.top+r.bottom)/2:m.type==='h'||which==='to'?r.bottom:r.top,dd=Math.abs(ry-y);if(dd<bd){bd=dd;best=r}});
+    if(m.type==='a'){d.style.top=y+'px';if(best)d.style.left=(best.right+6)+'px';pick=best&&best.id;return}
     if(m.type==='h'){d.style.top=y+'px';pick=best&&best.id;return}
     const other=flat.indexOf(which==='from'?m.to:m.from),bi=best?flat.indexOf(best.id):-1;
     if(bi<0||(which==='from'?bi>other:bi<other))return;pick=best.id;
     if(which==='from'){d.style.top=best.top+'px';d.style.height=(top0+h0-best.top)+'px'}else d.style.height=(best.bottom-top0)+'px'};
   const up=()=>{window.removeEventListener('pointermove',mvf);window.removeEventListener('pointerup',up);
-    if(moved&&pick){m[which]=pick;if(m.type==='h')m.to=pick}commit()};
+    if(moved&&pick){m[which]=pick;if(m.type==='h'||m.type==='a')m.to=pick}commit()};
   window.addEventListener('pointermove',mvf);window.addEventListener('pointerup',up);
 });

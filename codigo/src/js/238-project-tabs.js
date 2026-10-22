@@ -8,12 +8,12 @@ function projFull(p){const r=tabRoot(p);return r?r.name+', '+p.name:p.name}
 
 // templates also keep the Tree (nodes, comments, guides); task nodes point at the template's tasks
 {const _s=saveTemplate;saveTemplate=function(p,name){const tpl=_s(p,name),ids=new Set(tpl.tasks.map(x=>x.id));
-  tpl.tree=(p.tree||[]).map(n=>{const t=n.taskId&&byId(n.taskId);return{id:n.id,parent:n.parent||null,name:t?t.name:n.name,taskId:ids.has(n.taskId)?n.taskId:null,comment:n.comment||'',closed:!!n.closed}});
+  tpl.tree=(p.tree||[]).map(n=>{const t=n.taskId&&byId(n.taskId);return{id:n.id,parent:n.parent||null,name:t?t.name:n.name,taskId:ids.has(n.taskId)?n.taskId:null,comment:n.comment||'',closed:!!n.closed,color:n.color||''}});
   tpl.treeMarks=(p.treeMarks||[]).map(m=>Object.assign({},m));return tpl}}
 {const _a=applyTemplate;applyTemplate=function(p,tpl){const n0=S.tasks.length;_a(p,tpl);
   const tid=new Map();(tpl.tasks||[]).forEach((x,i)=>{const t=S.tasks[n0+i];if(t)tid.set(x.id,t.id)});
   const nid=new Map();(tpl.tree||[]).forEach(n=>nid.set(n.id,uid()));
-  p.tree=(p.tree||[]).concat((tpl.tree||[]).map(n=>({id:nid.get(n.id),name:n.name,parent:n.parent?nid.get(n.parent)||null:null,taskId:tid.get(n.taskId)||null,closed:n.closed,comment:n.comment||''})));
+  p.tree=(p.tree||[]).concat((tpl.tree||[]).map(n=>({id:nid.get(n.id),name:n.name,parent:n.parent?nid.get(n.parent)||null:null,taskId:tid.get(n.taskId)||null,closed:n.closed,comment:n.comment||'',color:n.color||''})));
   p.treeMarks=(p.treeMarks||[]).concat((tpl.treeMarks||[]).filter(m=>nid.has(m.from)).map(m=>Object.assign({},m,{id:uid(),from:nid.get(m.from),to:nid.get(m.to)||nid.get(m.from)})))}}
 {const _e=projExtra;projExtra=o=>Object.assign(_e(o),{planStart:o.planStart||'',planStarted:o.planStarted||null,tabOf:o.tabOf||null,createdAt:o.createdAt||null,openedAt:o.openedAt||null,recurring:!!o.recurring,closedAt:o.closedAt||null,cycles:o.cycles||[],resetAt:o.resetAt||null})}
 // project pickers say "Project, Tab"
@@ -51,7 +51,7 @@ function markTabDone(p){const r=tabRoot(p),now=new Date().toISOString();p.planSt
 function reopenTab(p,reset){const r=tabRoot(p);if(p.planStart&&p.planStart<=todayISO()&&!p.planStarted)p.planStarted=new Date().toISOString();p.closedAt=null;p.openedAt=new Date().toISOString();if(reset){resetChecks(p,true);p.resetAt=new Date().toISOString()}
   logAct(r,`reopened "${p.name}"${reset?' and reset it':''}`);logAct(p,reset?'reopened and reset this tab':'reopened this tab')}
 function importMainTree(p){const r=tabRoot(p),src=r?r.tree||[]:[],map=new Map();src.forEach(n=>map.set(n.id,uid()));
-  const made=src.map(n=>{const t=n.taskId&&byId(n.taskId);return[{id:map.get(n.id),name:t?t.name:n.name,parent:n.parent?map.get(n.parent)||null:null,taskId:null,closed:!!n.closed,comment:n.comment||''},!!t]});
+  const made=src.map(n=>{const t=n.taskId&&byId(n.taskId);return[{id:map.get(n.id),name:t?t.name:n.name,parent:n.parent?map.get(n.parent)||null:null,taskId:null,closed:!!n.closed,comment:n.comment||'',color:n.color||''},!!t]});
   p.tree=(p.tree||[]).concat(made.map(m=>m[0]));made.filter(m=>m[1]).forEach(m=>trMakeTask(p,m[0]));
   p.treeMarks=(p.treeMarks||[]).concat((r.treeMarks||[]).filter(m=>map.has(m.from)).map(m=>Object.assign({},m,{id:uid(),from:map.get(m.from),to:map.get(m.to)||map.get(m.from)})));
   logAct(p,`imported the tree of "${r.name}"`);return made.length}

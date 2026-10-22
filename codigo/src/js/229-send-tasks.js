@@ -67,7 +67,7 @@ function paintDmp(){if(S.ui.view!=='done'||S.ui.showArchived||!CL.on)return;
     w.appendChild(row(t,0));sec.appendChild(w)});
   const e=list.querySelector(':scope > .empty');if(e)e.remove();list.prepend(sec)}
 /* test mode: an example of each for User 1, sent by User 2 */
-if(!(window.FOCUS_CONFIG||{}).url&&!window.FOCUS_NO_DEMO){try{
+if(!(window.FOCUS_CONFIG||{}).url&&window.FOCUS_DEMO){try{
   const K='focus-localdb',d=JSON.parse(localStorage.getItem(K)||'null')||{};
   ['profiles','user_state','shared_tasks','shared_projects','accounts'].forEach(k=>d[k]=d[k]||[]);
   if(!d.demoSent){const now=new Date().toISOString(),u1='local-user-1',u2='local-user-2';

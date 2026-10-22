@@ -1,0 +1,48 @@
+/* Tree tab v72: the name fills the node, fold + comment at the end, the other tools float on the node's top edge on hover (not to its right, where the guides are) (so done nodes keep the normal size) */
+.tr-node{position:relative;min-width:300px;max-width:min(560px,100%)}
+.tr-name{field-sizing:content;flex:1 1 auto;min-width:60px;text-overflow:ellipsis}
+.tr-exp{opacity:.4}
+.tr-tools{position:absolute;right:8px;top:-14px;display:none;opacity:1;z-index:5}
+.tr-node:hover>.tr-tools,.tr-node:focus-within>.tr-tools{display:flex}
+.tr-tools button{box-shadow:0 1px 3px rgba(20,30,50,.12)}
+@media (hover:none){.tr-tools{position:static;display:flex;transform:none;padding:0;flex-wrap:wrap}.tr-grip{display:none}}
+@media (max-width:560px){.tr-node{min-width:0}}
+/* node colors (239): the node and the lines next to it */
+.tr-node.tr-has-col{border-color:var(--nc);background:color-mix(in srgb,var(--nc) 9%,var(--surface))}
+.tr-node.tr-has-col:not(.is-task){background:color-mix(in srgb,var(--nc) 10%,var(--surface-2))}
+.tr-node.is-task.tr-has-col{border-left-color:var(--c)}
+.tr-node.tr-has-col:not(.done) .tr-pcheck span{border-color:var(--nc)}
+.tr-node.tr-has-col.done:not(.is-task) .tr-pcheck span{background:var(--nc);border-color:var(--nc)}
+.tr-ul:not(.tr-root)>.tr-li.tr-col::before,.tr-ul:not(.tr-root)>.tr-li.tr-col::after{border-color:var(--lc)}
+.tr-colb{display:inline-flex;align-items:center}
+.tr-colb i{display:block;width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 1px var(--line-strong)}
+.tr-colb i[style*="transparent"]{background:conic-gradient(#d64545,#d6a822,#3aa655,#3d6fd6,#9b6bff,#d64545)!important}
+.pop.trc-popw{width:250px}
+.trc-pop{display:flex;flex-direction:column;gap:8px;padding:4px}
+.trc-sw{display:grid;grid-template-columns:repeat(9,20px);gap:5px}
+.trc-sw button{width:20px;height:20px;padding:0;border:2px solid var(--surface);border-radius:50%;box-shadow:0 0 0 1px var(--line-strong)}
+.trc-sw button.on,.trc-sw button:hover{box-shadow:0 0 0 2px var(--ink)}
+.trc-none{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-2);font-size:12.5px;padding:3px 9px;border-radius:7px}
+.trc-none.on{border-color:var(--accent);color:var(--accent)}
+.trc-none i{width:10px;height:10px;border-radius:50%}
+.trc-all{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;color:var(--ink-2)}
+.trc-hint{margin:0;font-size:12px;color:var(--ink-3)}
+/* moving nodes (239) */
+.tr-grip{cursor:grab;touch-action:none}
+.tr-li.tr-dragging{opacity:.4}
+body.tr-moving,body.tr-moving *{cursor:grabbing!important;user-select:none}
+.tr-node.tr-drop-before{box-shadow:0 -3px 0 0 var(--accent)}
+.tr-node.tr-drop-after{box-shadow:0 3px 0 0 var(--accent)}
+.tr-node.tr-drop-in{outline:2px solid var(--accent);outline-offset:2px}
+.tr-ghost{position:fixed;z-index:1000;pointer-events:none;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:var(--surface);color:var(--ink);border:1px solid var(--accent);border-radius:8px;padding:4px 9px;font-size:13px;box-shadow:0 6px 18px rgba(20,30,50,.18)}
+/* arrow guide (226, type 'a'): from the right side of a node, going right, ending in a text */
+.gd-a{height:0;border-top:2.5px dashed var(--mc);margin-top:-1.25px}
+.gd-a::after{content:'';position:absolute;left:100%;top:-7.25px;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent var(--mc)}
+.gd-a .gd-hit{left:0;right:0;top:-8px;height:14px;cursor:ns-resize}
+.gd-tip{position:absolute;pointer-events:auto;right:-12px;top:-9px;width:16px;height:16px;cursor:ew-resize}
+.gd-a .gd-lab{left:calc(100% + 14px);top:-12.5px}
+.gd-a .gd-tools{left:0;top:6px}
+/* red "!" on a node (239) */
+.tr-flag{color:#d64545;font-weight:800;font-size:16px;line-height:1;flex:none;margin-right:-2px}
+.tr-tools .tr-flagb{color:#d64545;font-weight:800}
+.tr-tools .tr-flagb.on{background:#d64545;color:#fff;border-color:#d64545}

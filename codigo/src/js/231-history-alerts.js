@@ -80,7 +80,7 @@ function openLogPop(anchor,t){const L=[...(t.log||[])].sort((a,b)=>b.at.localeCo
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-act="log"]');if(!b)return;e.stopPropagation();const t=byId(b.closest('.task').dataset.id);if(t)openLogPop(b,t)},true);
 /* test mode: User 1 gets "Get the quotes", on hold waiting for User 2; about 20 s after User 1 opens the site, User 2 does their part
    so the task comes back with the banner and an alert (d.demoBack in the local DB, once) */
-if(!(window.FOCUS_CONFIG||{}).url&&!window.FOCUS_NO_DEMO){try{
+if(!(window.FOCUS_CONFIG||{}).url&&window.FOCUS_DEMO){try{
   const K='focus-localdb',u1='local-user-1',u2='local-user-2',d=JSON.parse(localStorage.getItem(K)||'null')||{};d.shared_tasks=d.shared_tasks||[];
   if(!d.demoBack){const now=new Date().toISOString(),id='demo-back-'+Date.now().toString(36);
     d.shared_tasks.push({id,name:'Get the quotes',note:'Example: you are waiting for User 2. About 20 seconds after you open the site, User 2 does their part.',due:'',done:false,done_at:null,project_id:null,parent_id:null,assignee:null,doing:false,section:'',col:'',start:'',est:null,micro:[],

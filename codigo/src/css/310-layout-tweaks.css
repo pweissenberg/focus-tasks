@@ -1,0 +1,27 @@
+/* v72 (239): wider page (columns out to the sides), wider project list, no project color dots, default tag, History title, folded On hold rows */
+@media (min-width:981px){
+  .app{max-width:none;grid-template-columns:236px minmax(0,1fr) 280px 46px}
+  .app.no-timer{grid-template-columns:236px minmax(0,1fr) 46px}
+  .kfoot{max-width:none}
+}
+@media (min-width:981px) and (max-width:1180px){.app,.app.no-timer{grid-template-columns:216px minmax(0,1fr) 46px}}
+.pitem .pdot{display:none}
+.pitem{padding-inline:6px}
+.pj-deftag{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-3);margin-top:8px}
+.pj-deftag select{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:13.5px;color:var(--ink)}
+.pop.pop-menu:has(.log-pop){width:320px}
+.log-pop{width:auto;max-width:100%}
+.log-pop .bell-h{min-width:0}
+.log-pop .bell-h b{flex:none}
+.log-pop .bell-h span{flex:1;min-width:0}
+.log-pop .bell-h span.wrap{white-space:normal;overflow-wrap:anywhere}
+.hexp{border:0;background:none;padding:0 2px;margin-right:2px;color:var(--ink-3);font-size:12px;line-height:1;cursor:pointer;flex:none}
+.hexp:hover{color:var(--ink)}
+.task.hold-min{padding-block:6px;grid-template-columns:5px minmax(0,1fr);grid-template-areas:"bar body"}
+.task.hold-min > :not(.bar):not(.body){display:none}
+.task.hold-min .body > :not(.name-row){display:none}
+.task.hold-min .name-row{flex-wrap:nowrap;min-width:0}
+.task.hold-min .name-row > :not(.name):not(.hexp):not(.hreason):not(.urg){display:none}
+.task.hold-min .name{flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hreason{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-3);font-size:13px;margin-left:8px}
+.hreason::before{content:'· '}

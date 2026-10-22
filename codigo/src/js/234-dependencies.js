@@ -67,7 +67,7 @@ function depAfterRender(){
 
 // examples to try it, once per account (tests turn them off with FOCUS_NO_DEMO)
 {const _r=render;render=function(){
-  if(!window.FOCUS_NO_DEMO&&S.prefs&&!S.prefs.demoDeps&&S.tasks.length){S.prefs.demoDeps=true;
+  if(window.FOCUS_DEMO&&S.prefs&&!S.prefs.demoDeps&&S.tasks.length){S.prefs.demoDeps=true;
     const p=S.projects.find(x=>x.id==='p_research')||S.projects.find(x=>!x.archived),pid=p?p.id:null,d=todayISO(),now=new Date().toISOString();
     const a=T({name:'Run the survey analysis',projectId:pid,start:d,due:isoAdd(d,2),createdAt:now,order:-3}),
       b=T({name:'Write the survey report',projectId:pid,start:isoAdd(d,3),due:isoAdd(d,5),createdAt:now,order:-2,waits:[a.id],depWas:true}),

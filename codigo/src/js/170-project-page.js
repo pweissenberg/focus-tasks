@@ -41,7 +41,7 @@ function renderProjPage(){
     body.innerHTML=`<form class="pt-add" data-ptadd data-pid="${p.id}" autocomplete="off">
         <input type="text" id="pt-name" placeholder="Add a task to ${esc(p.name)}..." aria-label="Task name">
         <input type="text" id="pt-due" class="mono" placeholder="MM/DD/YYYY" aria-label="Due date (optional)">
-        <select id="pt-tag" aria-label="Tag">${optionList(S.tags,'No tag',keep?keep.t:(S.ui.ptTag||''))}</select>
+        <select id="pt-tag" aria-label="Tag">${optionList(S.tags,'No tag',keep?keep.t:(projDefTag(p.id)||S.ui.ptTag||''))}</select>
         <button class="pflag cprio" id="pt-prio" type="button" aria-label="Priority" aria-haspopup="menu"></button>
         <button class="swatchbtn" id="pt-color" type="button" aria-label="Task color"></button>
         <button class="cgear" id="pt-adv" type="button" aria-label="Advanced settings" aria-expanded="${ADV.pt.open}">${icons.gear}</button>
