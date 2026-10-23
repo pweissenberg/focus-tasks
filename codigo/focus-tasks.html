@@ -1699,6 +1699,17 @@ body.tr-moving,body.tr-moving *{cursor:grabbing!important;user-select:none}
 .tr-flag{color:#d64545;font-weight:800;font-size:16px;line-height:1;flex:none;margin-right:-2px}
 .tr-tools .tr-flagb{color:#d64545;font-weight:800}
 .tr-tools .tr-flagb.on{background:#d64545;color:#fff;border-color:#d64545}
+/* Tree v74 (240): a task node looks like a plan node; "Task" shows only on hover */
+.tr-node.is-task{border:1px dashed var(--line-strong);border-left-width:1px;background:var(--surface-2);box-shadow:none}
+.tr-node.is-task.tr-has-col{border-color:var(--nc);border-left-color:var(--nc);background:color-mix(in srgb,var(--nc) 10%,var(--surface-2))}
+.tr-node.is-task.done{opacity:.75}
+.tr-node.is-task.tr-has-col.done .tr-pcheck span{background:var(--nc);border-color:var(--nc)}
+.tr-node.tr-open.is-task .trn-panel{border-top-style:dashed;border-top-color:var(--line-strong)}
+.tr-node.is-task .tr-badge{display:none;position:absolute;left:10px;top:-9px;z-index:5;font-size:9.5px;padding:1px 6px;box-shadow:0 1px 3px rgba(20,30,50,.12)}
+.tr-node.is-task:hover .tr-badge{display:block}
+/* guide texts can be dragged along the line (240) */
+.gd-h .gd-in:not(:focus),.gd-v .gd-in:not(:focus){cursor:grab}
+body.gd-lmoving,body.gd-lmoving *{cursor:grabbing!important;user-select:none}
 /* Automatic backup (245-auto-backup.js): the Settings section and the "Load a backup" window */
 .bk-set{display:flex;flex-direction:column;gap:8px}
 .bk-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -1740,6 +1751,11 @@ body.tr-moving,body.tr-moving *{cursor:grabbing!important;user-select:none}
 .task.hold-min .name{flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hreason{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-3);font-size:13px;margin-left:8px}
 .hreason::before{content:'· '}
+/* v74 (240): folded On hold rows keep the color bar inside the box, the fold arrow of an open On hold row sits in the top-left corner above the microtask "+", no color dot by the project name */
+.task.hold-min .bar{margin-block:-6px}
+.task.hold:not(.hold-min) .hexp{position:absolute;left:12px;top:5px;z-index:2;width:18px;height:18px;margin:0;display:grid;place-items:center;border-radius:5px;font-size:11px}
+.task.hold:not(.hold-min) .hexp:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
+.pp-name > i{display:none}
 </style>
 
 <section class="landing" id="landing" aria-labelledby="ld-h">
@@ -6616,6 +6632,46 @@ pp.addEventListener('pointerdown',e=>{
     if(trMove(p,n,drop.to,drop.where)){commit();
       const nm=(x=>{const t=trTask(x);return (t?t.name:x.name)||'Untitled'});
       toast(`Moved "${nm(n)}" ${drop.where==='in'?'under':drop.where} "${nm(drop.to)}".`,()=>{p.tree=JSON.parse(old);S.tasks=JSON.parse(snap).map(T);commit()})}};
+  window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);
+});
+/* ---------- v74: On hold tasks go to the top (Pedro's list item 3) ----------
+   Open on hold tasks sort before the others in every list, and a task that has just been put on hold
+   (checkbox, H key, wait popover, review...) gets the lowest order, so it lands first among them. */
+{const _c=cmp;cmp=function(a,b){const x=!!a.onHold&&!a.done,y=!!b.onHold&&!b.done;if(x!==y)return x?-1:1;return _c(a,b)}}
+{let held=null;const _r=render;render=function(){
+  const now=new Set(S.tasks.filter(t=>t.onHold&&!t.done).map(t=>t.id));
+  if(held){const fresh=S.tasks.filter(t=>now.has(t.id)&&!held.has(t.id));
+    if(fresh.length){let min=Math.min(0,...S.tasks.map(t=>t.order||0));fresh.forEach(t=>{t.order=--min});save()}}
+  held=now;return _r.apply(this,arguments)}}
+/* ---------- Tree v74 (Pedro's list items 4 and 7).
+   4: a node made into a task looks exactly like a plan node (same dashed card, same round check box); only on hover a "Task" tag
+      shows on its top-left edge (and the title says it is in your lists). CSS 304-tree-task-look.css.
+   7: the text of a Line (above `m.lx`, below `m.lx2`, px from the line's left end) and of a Bracket (`m.ly`, 0..1 from its top)
+      can be dragged along the line. Press on the text when you are not typing in it; a plain click still edits it. ---------- */
+{const _nh=trNodeHTML;trNodeHTML=function(p,n){let h=_nh(p,n);
+  if(trTask(n))h=h.replace('<label class="mt-check" title="','<label class="mt-check tr-pcheck" title="')
+    .replace(/(class="tr-node[^"]*" data-tn="[^"]*")/,'$1 title="Task: it is in your task lists"');
+  return h}}
+function gdLabPlace(d,m){
+  if(m.type==='h'){const W=d.offsetWidth;d.querySelectorAll('.gd-lab').forEach(l=>{const v=l.classList.contains('below')?m.lx2:m.lx;
+    if(v==null){l.style.left='';l.style.right='';return}
+    l.style.right='auto';l.style.left=Math.max(0,Math.min(W-l.offsetWidth,v))+'px'})}
+  else if(m.type==='v'&&m.ly!=null){const l=d.querySelector('.gd-lab'),H=d.offsetHeight;if(l)l.style.top=(Math.max(0,Math.min(1,m.ly))*H-l.offsetHeight/2)+'px'}
+}
+{const _l=tmLayout;tmLayout=function(p){_l(p);const cv=$('#projBody .tr-canvas');if(!cv)return;
+  tmList(p).forEach(m=>{if(m.type!=='h'&&m.type!=='v')return;const d=cv.querySelector(`[data-tm="${m.id}"]`);if(d&&!d.hidden)gdLabPlace(d,m)})}}
+pp.addEventListener('pointerdown',e=>{
+  const lab=e.target.closest('.gd-h .gd-lab,.gd-v .gd-lab');if(!lab||e.button)return;
+  const {p,d,m}=tmOf(lab);if(!m||(typeof isRO==='function'&&isRO(p)))return;
+  const inp=lab.querySelector('.gd-in');if(inp&&document.activeElement===inp)return;  // typing in it: normal text selection
+  const H=m.type==='v',below=lab.classList.contains('below'),x0=e.clientX,y0=e.clientY,l0=lab.offsetLeft,t0=lab.offsetTop;let moved=false,v=null;
+  const mv=ev=>{const dx=ev.clientX-x0,dy=ev.clientY-y0;
+    if(!moved){if(Math.abs(H?dy:dx)<5)return;moved=true;if(inp)inp.blur();document.body.classList.add('gd-lmoving');tmSelect(m.id)}
+    ev.preventDefault();
+    if(H){const h=d.offsetHeight,lh=lab.offsetHeight,y=Math.max(-lh/2,Math.min(h-lh/2,t0+dy));lab.style.top=y+'px';v=h?(y+lh/2)/h:.5}
+    else{const x=Math.max(0,Math.min(d.offsetWidth-lab.offsetWidth,l0+dx));lab.style.right='auto';lab.style.left=x+'px';v=x}};
+  const up=()=>{window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);document.body.classList.remove('gd-lmoving');
+    if(moved&&v!=null){m[H?'ly':below?'lx2':'lx']=H?Math.round(v*1000)/1000:Math.round(v);commit()}};
   window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);
 });
 /* ---------- Automatic backup of the whole account (v72). Every S.prefs.backupHours (default 6, 0 = off) a backup file

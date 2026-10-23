@@ -1,0 +1,25 @@
+/* v74 (241): project folders in the sidebar, drag to reorder */
+.pfold{list-style:none}
+.pfold .pfkids{list-style:none;margin:0;padding:0 0 0 14px;display:flex;flex-direction:column;gap:2px}
+.pfold.closed .pfkids{display:none}
+.pfhead{font-weight:600;color:var(--ink-2)}
+.pfhead .pfarr{width:12px;font-size:11px;color:var(--ink-3);flex:none;text-align:center}
+.pfhead .pfic{flex:none;color:var(--ink-3)}
+.pfempty{font-size:12px;color:var(--ink-3);padding:4px 8px}
+#addFolder{margin-top:-14px}
+.pdrag-on,.pdrag-on *{cursor:grabbing!important;user-select:none}
+.pitem.pdragging{opacity:.45}
+.pitem.pd-before{box-shadow:0 -2px 0 0 var(--accent)}
+.pitem.pd-after{box-shadow:0 2px 0 0 var(--accent)}
+.pitem.pd-in{outline:2px dashed var(--accent);outline-offset:-2px}
+.pj-folder{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-3);margin-top:8px}
+.pj-folder select,.pj-folder input{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:13.5px;color:var(--ink)}
+.pj-move{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-3);margin-top:8px}
+.pj-move span{flex:1}
+.pj-move .btn{padding:3px 8px;font-size:12.5px}
+.fd-hint{margin:6px 0 0;font-size:12px;color:var(--ink-3)}
+@media (max-width:980px){
+  .pfold,.pfold .pfkids{display:contents}
+  .pfold.closed .pfkids{display:none}
+  .pfempty{display:none}
+}

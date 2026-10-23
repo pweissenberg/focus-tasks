@@ -3,7 +3,7 @@
 async function saveFile(filename,data){
   try{const dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null;
     if(dl){try{await dl.save({filename,data});toast(`Saved ${filename}.`)}catch(e){if(e&&e.code!=='declined')toast('Could not save the file: '+(e.message||e.code))}return}}catch(e){}
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:filename.endsWith('.json')?'application/json':'text/markdown'}));a.download=filename;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:filename.endsWith('.json')?'application/json':filename.endsWith('.html')?'text/html':'text/markdown'}));a.download=filename;
   document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast(`Saved ${filename}.`)}
 const fileSlug=s=>String(s||'project').normalize('NFKD').replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-').slice(0,60)||'project';
 function projBundle(p){const ids=new Set([p.id]),ts=S.tasks.filter(t=>t.projectId===p.id);ts.forEach(t=>ids.add(t.id));
