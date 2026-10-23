@@ -1751,7 +1751,7 @@ body.gd-lmoving,body.gd-lmoving *{cursor:grabbing!important;user-select:none}
 .task.hold-min .name{flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hreason{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-3);font-size:13px;margin-left:8px}
 .hreason::before{content:'· '}
-/* v74 (240): folded On hold rows keep the color bar inside the box, the fold arrow of an open On hold row sits in the top-left corner above the microtask "+", no color dot by the project name */
+/* v76 (240): folded On hold rows keep the color bar inside the box, the fold arrow of an open On hold row sits in the top-left corner above the microtask "+", no color dot by the project name */
 .task.hold-min .bar{margin-block:-6px}
 .task.hold:not(.hold-min) .hexp{position:absolute;left:12px;top:5px;z-index:2;width:18px;height:18px;margin:0;display:grid;place-items:center;border-radius:5px;font-size:11px}
 .task.hold:not(.hold-min) .hexp:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
@@ -1761,7 +1761,7 @@ body.gd-lmoving,body.gd-lmoving *{cursor:grabbing!important;user-select:none}
 .bk-steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--ink)}
 .bk-steps li>span{display:block;margin-bottom:6px}
 .bk-steps li::marker{color:var(--ink-2)}
-/* v74 (241): project folders in the sidebar, drag to reorder */
+/* v76 (241): project folders in the sidebar, drag to reorder */
 .pfold{list-style:none}
 .pfold .pfkids{list-style:none;margin:0;padding:0 0 0 14px;display:flex;flex-direction:column;gap:2px}
 .pfold.closed .pfkids{display:none}
@@ -6676,7 +6676,7 @@ pp.addEventListener('pointerdown',e=>{
       toast(`Moved "${nm(n)}" ${drop.where==='in'?'under':drop.where} "${nm(drop.to)}".`,()=>{p.tree=JSON.parse(old);S.tasks=JSON.parse(snap).map(T);commit()})}};
   window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);
 });
-/* ---------- v74: On hold tasks go to the top (Pedro's list item 3) ----------
+/* ---------- v76: On hold tasks go to the top (Pedro's list item 3) ----------
    Open on hold tasks sort before the others in every list, and a task that has just been put on hold
    (checkbox, H key, wait popover, review...) gets the lowest order, so it lands first among them. */
 {const _c=cmp;cmp=function(a,b){const x=!!a.onHold&&!a.done,y=!!b.onHold&&!b.done;if(x!==y)return x?-1:1;return _c(a,b)}}
@@ -6716,7 +6716,7 @@ pp.addEventListener('pointerdown',e=>{
     if(moved&&v!=null){m[H?'ly':below?'lx2':'lx']=H?Math.round(v*1000)/1000:Math.round(v);commit()}};
   window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);
 });
-/* ---------- v74: project folders and project order in the sidebar (Pedro's list item 6) ----------
+/* ---------- v76: project folders and project order in the sidebar (Pedro's list item 6) ----------
    Folders S.folders [{id,name,closed}] (synced key); a project's folder is p.folder (travels with S.projects).
    The sidebar shows loose projects first, then each folder with its projects; S.projects order is the list order.
    Drag a project (mouse) above/below another one or onto a folder header; drag a folder header to reorder folders.

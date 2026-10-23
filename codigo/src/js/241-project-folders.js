@@ -1,4 +1,4 @@
-/* ---------- v74: project folders and project order in the sidebar (Pedro's list item 6) ----------
+/* ---------- v76: project folders and project order in the sidebar (Pedro's list item 6) ----------
    Folders S.folders [{id,name,closed}] (synced key); a project's folder is p.folder (travels with S.projects).
    The sidebar shows loose projects first, then each folder with its projects; S.projects order is the list order.
    Drag a project (mouse) above/below another one or onto a folder header; drag a folder header to reorder folders.

@@ -1,4 +1,4 @@
-/* ---------- v74: On hold tasks go to the top (Pedro's list item 3) ----------
+/* ---------- v76: On hold tasks go to the top (Pedro's list item 3) ----------
    Open on hold tasks sort before the others in every list, and a task that has just been put on hold
    (checkbox, H key, wait popover, review...) gets the lowest order, so it lands first among them. */
 {const _c=cmp;cmp=function(a,b){const x=!!a.onHold&&!a.done,y=!!b.onHold&&!b.done;if(x!==y)return x?-1:1;return _c(a,b)}}

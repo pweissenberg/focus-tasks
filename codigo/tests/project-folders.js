@@ -1,4 +1,4 @@
-// v75 (240, 241): On hold polish (bar inside folded rows, fold arrow above the "+", held task goes to the top), no dot on the project page, project folders + drag order
+// v76 (240, 241): On hold polish (bar inside folded rows, fold arrow above the "+", held task goes to the top), no dot on the project page, project folders + drag order
 const {chromium}=require('playwright');
 const {open,sleep,checks,shot,state,noSideScroll}=require('./harness');
 const t=checks();

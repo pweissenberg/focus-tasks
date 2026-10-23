@@ -1,4 +1,4 @@
-/* v74 (241): project folders in the sidebar, drag to reorder */
+/* v76 (241): project folders in the sidebar, drag to reorder */
 .pfold{list-style:none}
 .pfold .pfkids{list-style:none;margin:0;padding:0 0 0 14px;display:flex;flex-direction:column;gap:2px}
 .pfold.closed .pfkids{display:none}
