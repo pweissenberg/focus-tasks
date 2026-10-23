@@ -1756,6 +1756,36 @@ body.gd-lmoving,body.gd-lmoving *{cursor:grabbing!important;user-select:none}
 .task.hold:not(.hold-min) .hexp{position:absolute;left:12px;top:5px;z-index:2;width:18px;height:18px;margin:0;display:grid;place-items:center;border-radius:5px;font-size:11px}
 .task.hold:not(.hold-min) .hexp:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
 .pp-name > i{display:none}
+/* Backup folder help window (246-backup-folder-help.js) */
+.modal.bk-help{max-width:480px}
+.bk-steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--ink)}
+.bk-steps li>span{display:block;margin-bottom:6px}
+.bk-steps li::marker{color:var(--ink-2)}
+/* v74 (241): project folders in the sidebar, drag to reorder */
+.pfold{list-style:none}
+.pfold .pfkids{list-style:none;margin:0;padding:0 0 0 14px;display:flex;flex-direction:column;gap:2px}
+.pfold.closed .pfkids{display:none}
+.pfhead{font-weight:600;color:var(--ink-2)}
+.pfhead .pfarr{width:12px;font-size:11px;color:var(--ink-3);flex:none;text-align:center}
+.pfhead .pfic{flex:none;color:var(--ink-3)}
+.pfempty{font-size:12px;color:var(--ink-3);padding:4px 8px}
+#addFolder{margin-top:-14px}
+.pdrag-on,.pdrag-on *{cursor:grabbing!important;user-select:none}
+.pitem.pdragging{opacity:.45}
+.pitem.pd-before{box-shadow:0 -2px 0 0 var(--accent)}
+.pitem.pd-after{box-shadow:0 2px 0 0 var(--accent)}
+.pitem.pd-in{outline:2px dashed var(--accent);outline-offset:-2px}
+.pj-folder{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-3);margin-top:8px}
+.pj-folder select,.pj-folder input{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:13.5px;color:var(--ink)}
+.pj-move{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-3);margin-top:8px}
+.pj-move span{flex:1}
+.pj-move .btn{padding:3px 8px;font-size:12.5px}
+.fd-hint{margin:6px 0 0;font-size:12px;color:var(--ink-3)}
+@media (max-width:980px){
+  .pfold,.pfold .pfkids{display:contents}
+  .pfold.closed .pfkids{display:none}
+  .pfempty{display:none}
+}
 </style>
 
 <section class="landing" id="landing" aria-labelledby="ld-h">
@@ -1885,6 +1915,18 @@ body.gd-lmoving,body.gd-lmoving *{cursor:grabbing!important;user-select:none}
 
 <script>
 (function(){
+/* ---------- A copy of this page as a file that opens on its own (focus-tasks.html), taken while the page loads, before anything
+   is drawn: the style, the markup and this script. Used by "Get focus-tasks.html" (246-backup-folder-help.js) so a backup folder can be
+   used from claude.ai too. null when the page was not loaded the usual way. ---------- */
+const PAGE_SRC=(()=>{try{const sc=document.currentScript;if(!sc)return null;
+  const st=[...document.querySelectorAll('style')].find(s=>s.textContent.includes('/* Layout: projects rail'));if(!st)return null;
+  const box=document.createElement('div'),nodes=[];let n=sc.previousSibling;
+  for(;n&&n!==st;n=n.previousSibling)if(!(n.nodeType===1&&/^(SCRIPT|STYLE)$/.test(n.tagName)))nodes.unshift(n.cloneNode(true));
+  if(!n)return null;nodes.forEach(x=>box.appendChild(x));
+  return {css:st.textContent,markup:box.innerHTML,js:sc.textContent}}catch(e){return null}})();
+const pageCopy=()=>PAGE_SRC&&'<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">\n</head><body>\n<title>Focus Tasks</title>\n'+
+  '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">\n'+
+  '<style>'+PAGE_SRC.css+'</style>'+PAGE_SRC.markup+'<script>'+PAGE_SRC.js+'</'+'script>\n</body></html>\n';
 const KEY='focus-todo-v1';
 const PALETTE=['#3d6fd6','#4e9a5b','#d08a3c','#c2553f','#8e5cc9','#2a9d9a','#c9a227','#d0607f','#5f6f86','#8a8f98'];
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -6025,7 +6067,7 @@ function isWaitMe(x){try{return waitingForMe(x)}catch(e){return false}}
 async function saveFile(filename,data){
   try{const dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null;
     if(dl){try{await dl.save({filename,data});toast(`Saved ${filename}.`)}catch(e){if(e&&e.code!=='declined')toast('Could not save the file: '+(e.message||e.code))}return}}catch(e){}
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:filename.endsWith('.json')?'application/json':'text/markdown'}));a.download=filename;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:filename.endsWith('.json')?'application/json':filename.endsWith('.html')?'text/html':'text/markdown'}));a.download=filename;
   document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast(`Saved ${filename}.`)}
 const fileSlug=s=>String(s||'project').normalize('NFKD').replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-').slice(0,60)||'project';
 function projBundle(p){const ids=new Set([p.id]),ts=S.tasks.filter(t=>t.projectId===p.id);ts.forEach(t=>ids.add(t.id));
@@ -6674,6 +6716,106 @@ pp.addEventListener('pointerdown',e=>{
     if(moved&&v!=null){m[H?'ly':below?'lx2':'lx']=H?Math.round(v*1000)/1000:Math.round(v);commit()}};
   window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);
 });
+/* ---------- v74: project folders and project order in the sidebar (Pedro's list item 6) ----------
+   Folders S.folders [{id,name,closed}] (synced key); a project's folder is p.folder (travels with S.projects).
+   The sidebar shows loose projects first, then each folder with its projects; S.projects order is the list order.
+   Drag a project (mouse) above/below another one or onto a folder header; drag a folder header to reorder folders.
+   The project pencil popup has Folder + Move up/down (works on touch too); the folder pencil renames or deletes. */
+SYNC_KEYS.push('folders');
+const folders=()=>S.folders||(S.folders=[]);
+const folderOf=p=>p&&p.folder&&folders().some(f=>f.id===p.folder)?p.folder:'';
+const sideProjs=()=>S.projects.filter(p=>!p.tabOf);
+{const _r=render;render=function(){const out=_r.apply(this,arguments);try{paintFolders()}catch(e){console.error(e)}return out}}
+function paintFolders(){
+  const ul=$('#plist');if(!ul)return;
+  const lis=[...ul.querySelectorAll(':scope > li')].filter(li=>{const d=li.querySelector('[data-proj]');return d&&d.dataset.proj!=='all'});
+  const tail=ul.querySelector(':scope > li:has(.parchtoggle)')||ul.querySelector(':scope > li.mobile-add');
+  folders().forEach(f=>{
+    const kids=lis.filter(li=>folderOf(S.projects.find(p=>p.id===li.querySelector('[data-proj]').dataset.proj))===f.id);
+    const n=kids.reduce((s,li)=>s+(+((li.querySelector('.pcount')||{}).textContent)||0),0);
+    const fl=document.createElement('li');fl.className='pfold'+(f.closed?' closed':'');fl.dataset.fold=f.id;
+    fl.innerHTML=`<div class="pitem pfhead" role="button" tabindex="0" data-pfold="${f.id}" aria-expanded="${!f.closed}" title="${f.closed?'Open':'Close'} folder"><span class="pfarr">${f.closed?'▸':'▾'}</span>${icons.folder}<span class="pname">${esc(f.name)}</span><span class="pcount">${n}</span><button class="pedit" type="button" data-fedit="${f.id}" aria-label="Edit folder">${icons.pencil}</button></div><ul class="pfkids"></ul>`;
+    const box=fl.querySelector('.pfkids');kids.forEach(li=>box.appendChild(li));
+    if(!kids.length)box.innerHTML='<li class="pfempty">Drag projects here</li>';
+    ul.insertBefore(fl,tail)});
+}
+icons.folder='<svg class="pfic" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M1.75 4.25c0-.83.67-1.5 1.5-1.5h3l1.5 1.75h5c.83 0 1.5.67 1.5 1.5v5.75c0 .83-.67 1.5-1.5 1.5h-9.5c-.83 0-1.5-.67-1.5-1.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+
+function openFolderPop(anchor,f){let armed=false;
+  openPop(anchor,`<form class="pop-form"><strong>${f?'Edit folder':'New folder'}</strong>
+    <input type="text" id="fd-name" placeholder="Folder name" value="${f?esc(f.name):''}" maxlength="60" aria-label="Folder name">
+    ${f?'':'<p class="fd-hint">Then drag projects onto it, or pick the folder with the pencil on a project.</p>'}
+    <div class="pop-actions">${f?'<button type="button" class="danger-link" data-del>Delete</button>':''}<button type="button" class="btn" data-x>Cancel</button><button class="btn primary">Save</button></div></form>`,el=>{
+    el.querySelector('[data-x]').onclick=closePop;
+    const del=el.querySelector('[data-del]');
+    if(del)del.onclick=()=>{if(!armed){armed=true;del.textContent='Click again (projects are kept)';return}
+      S.folders=folders().filter(x=>x!==f);S.projects.forEach(p=>{if(p.folder===f.id)delete p.folder});closePop();commit();toast(`Folder "${f.name}" deleted. Its projects are still in the list.`)};
+    el.querySelector('form').onsubmit=e=>{e.preventDefault();const inp=el.querySelector('#fd-name'),name=inp.value.trim();
+      if(!name){inp.classList.add('invalid');inp.focus();return}
+      if(f)f.name=name;else folders().push({id:uid(),name,closed:false});closePop();commit()};
+    setTimeout(()=>el.querySelector('#fd-name').focus(),0)});
+}
+$('#addProject').insertAdjacentHTML('afterend','<button class="addlink sidebottom" id="addFolder" type="button">+ New folder</button>');
+$('#addFolder').onclick=e=>openFolderPop(e.currentTarget,null);
+
+/* project pencil: Folder select + Move up / Move down */
+function moveProj(p,dir){const f=folderOf(p),L=sideProjs().filter(x=>folderOf(x)===f&&(!x.archived||S.ui.showArchProj)),i=L.indexOf(p),o=L[i+dir];if(!o)return false;
+  const a=S.projects.indexOf(p),b=S.projects.indexOf(o);S.projects[a]=o;S.projects[b]=p;return true}
+{const _po=openProjPop;openProjPop=function(anchor,proj){_po.apply(this,arguments);const el=pop&&pop.el;if(!el)return;
+  const at=el.querySelector('.pop-actions');if(!at)return;
+  const cur=proj?folderOf(proj):'';
+  at.insertAdjacentHTML('beforebegin',`<label class="pj-folder"><span>Folder</span><select id="pj-folder"><option value="">No folder</option>${folders().map(f=>`<option value="${f.id}"${f.id===cur?' selected':''}>${esc(f.name)}</option>`).join('')}<option value="+">+ New folder…</option></select></label>${proj?`<div class="pj-move"><span>Position in the list</span><button type="button" class="btn" data-pmv="-1" title="Move up">↑ Up</button><button type="button" class="btn" data-pmv="1" title="Move down">↓ Down</button></div>`:''}`);
+  const sel=el.querySelector('#pj-folder');
+  sel.insertAdjacentHTML('afterend','<input type="text" id="pj-newfolder" placeholder="New folder name" maxlength="60" hidden>');
+  const nf=el.querySelector('#pj-newfolder');
+  sel.onchange=()=>{nf.hidden=sel.value!=='+';if(!nf.hidden)nf.focus()};
+  el.querySelectorAll('[data-pmv]').forEach(b=>b.onclick=()=>{if(!moveProj(proj,+b.dataset.pmv))return;save();render();
+    const a=document.querySelector(`#plist .pitem[data-proj="${proj.id}"]`);if(a&&pop){pop.anchor=a;place(pop.el,a)}});
+  const fm=el.querySelector('form'),sub=fm.onsubmit;
+  fm.onsubmit=e=>{let v=sel.value;if(v==='+'){const nm=nf.value.trim();v='';if(nm){const f={id:uid(),name:nm,closed:false};folders().push(f);v=f.id}}const before=new Set(S.projects.map(p=>p.id));sub(e);
+    const p=proj||S.projects.find(x=>!before.has(x.id));if(!p)return;if(v)p.folder=v;else delete p.folder;
+    const f=folders().find(x=>x.id===v);if(f)f.closed=false;save();render()}}}
+
+/* folder header: click opens/closes, pencil edits */
+$('#plist').addEventListener('click',e=>{
+  const ed=e.target.closest('[data-fedit]');if(ed){e.stopPropagation();openFolderPop(ed.closest('.pitem'),folders().find(f=>f.id===ed.dataset.fedit));return}
+  const h=e.target.closest('[data-pfold]');if(!h)return;e.stopPropagation();
+  const f=folders().find(x=>x.id===h.dataset.pfold);if(f){f.closed=!f.closed;commit()}},true);
+$('#plist').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-pfold]')){e.preventDefault();e.target.click()}});
+
+/* drag with the mouse: projects onto/between projects and folders, folders between folders */
+{let dr=null,eat=false;const pl=$('#plist');
+  const clear=()=>pl.querySelectorAll('.pd-before,.pd-after,.pd-in').forEach(x=>x.classList.remove('pd-before','pd-after','pd-in'));
+  const target=(x,y)=>{const el=document.elementFromPoint(x,y),it=el&&el.closest('#plist .pitem');if(!it||it===dr.el)return null;
+    const r=it.getBoundingClientRect(),top=y<r.top+r.height/2;
+    if(dr.fold){const h=it.closest('.pfold');if(!h||h.dataset.fold===dr.id)return null;const hd=h.querySelector('.pfhead');
+      return {el:hd,fold:h.dataset.fold,pos:it===hd&&top?'before':'after'}}
+    if(it.matches('[data-pfold]'))return {el:it,fold:it.dataset.pfold,pos:'in'};
+    const pid=it.dataset.proj;if(!pid)return null;
+    if(pid==='all')return {el:it,pid,pos:'after'};
+    return {el:it,pid,pos:top?'before':'after'}};
+  pl.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.button!==0||e.target.closest('button:not(.pitem),input,select'))return;
+    const it=e.target.closest('.pitem');if(!it)return;const pid=it.dataset.proj,fid=it.dataset.pfold;
+    if(!(fid||pid&&pid!=='all'&&S.projects.some(p=>p.id===pid)))return;
+    dr={el:it,id:fid||pid,fold:!!fid,x:e.clientX,y:e.clientY,on:false,t:null}});
+  addEventListener('pointermove',e=>{if(!dr)return;
+    if(!dr.on){if(Math.hypot(e.clientX-dr.x,e.clientY-dr.y)<6)return;dr.on=true;dr.el.classList.add('pdragging');document.body.classList.add('pdrag-on')}
+    clear();dr.t=target(e.clientX,e.clientY);if(dr.t)dr.t.el.classList.add('pd-'+dr.t.pos)});
+  addEventListener('pointerup',()=>{if(!dr)return;const d=dr;dr=null;clear();d.el.classList.remove('pdragging');document.body.classList.remove('pdrag-on');
+    if(!d.on)return;eat=true;setTimeout(()=>eat=false,0);const t=d.t;if(!t)return;
+    if(d.fold){const L=folders(),f=L.find(x=>x.id===d.id),o=L.find(x=>x.id===t.fold);if(!f||!o)return;
+      L.splice(L.indexOf(f),1);L.splice(L.indexOf(o)+(t.pos==='after'?1:0),0,f);commit();return}
+    const p=S.projects.find(x=>x.id===d.id);if(!p)return;
+    if(t.pos==='in'){p.folder=t.fold;const f=folders().find(x=>x.id===t.fold);if(f)f.closed=false;
+      S.projects.splice(S.projects.indexOf(p),1);S.projects.push(p);commit();toast(`"${p.name}" moved to the folder "${f?f.name:''}".`);return}
+    S.projects.splice(S.projects.indexOf(p),1);
+    if(t.pid==='all'){delete p.folder;S.projects.unshift(p);commit();return}
+    const o=S.projects.find(x=>x.id===t.pid);if(!o){S.projects.push(p);commit();return}
+    const f=folderOf(o);if(f)p.folder=f;else delete p.folder;
+    S.projects.splice(S.projects.indexOf(o)+(t.pos==='after'?1:0),0,p);commit()});
+  pl.addEventListener('click',e=>{if(eat){e.stopPropagation();e.preventDefault();eat=false}},true);
+  pl.addEventListener('dragstart',e=>{if(e.target.closest&&e.target.closest('.pitem'))e.preventDefault()});
+}
 /* ---------- Automatic backup of the whole account (v72). Every S.prefs.backupHours (default 6, 0 = off) a backup file
    (format focus-tasks-backup, the whole S) goes to a folder picked in Settings and a copy is kept in this browser (IndexedDB
    "focus-backup"). The folder needs the File System Access API: Chrome or Edge on the standalone focus-tasks.html; inside claude.ai
@@ -6766,6 +6908,30 @@ async function openBkLoad(){closePop();closeModal();await bkLoadDir();const u=bk
   const d=f.querySelector('[data-bkdir]');if(d)d.onclick=async()=>{if(await bkPick())reopen()};
   f.querySelector('[data-bkload]').onclick=openBkLoad;
   f.querySelector('[data-bkdl]').onclick=()=>saveFile(bkPrefix()+bkStamp(new Date())+'.json',bkData())}}
+/* ---------- Backup folder help: where a folder cannot be used (claude.ai, or a browser without the folder API), Settings still shows
+   "Choose folder"; it opens a window with the steps to move to focus-tasks.html in Chrome/Edge: get the file (pageCopy, 005),
+   download a backup, load it there, pick the folder. ---------- */
+function openBkHelp(){closePop();closeModal();const inFrame=window.self!==window.top,file=!!pageCopy();
+  const back=document.createElement('div');back.className='modal-back';
+  back.innerHTML=`<div class="modal bk-help" role="dialog" aria-modal="true" aria-labelledby="bkh-h"><h2 id="bkh-h">Save backups to a folder</h2>
+    <p class="sp-hint">${inFrame?'Inside claude.ai a page is not allowed to write to folders on your computer.':'This browser cannot write to folders on your computer.'} Use Focus Tasks as a file on your computer, opened in <b>Chrome</b> or <b>Edge</b>:</p>
+    <ol class="bk-steps">
+      ${inFrame?`<li><span>Get the file and keep it in a folder you use, like Documents.</span>${file?'<button type="button" class="btn sm" data-bkh-file>Get focus-tasks.html</button>':''}</li>
+      <li><span>Download a backup of everything you have here.</span><button type="button" class="btn sm" data-bkh-dl>Download a backup</button></li>
+      <li><span>Open focus-tasks.html in Chrome or Edge (double-click it, or drag it into the browser). Sign in, open <b>Settings</b> (click your photo, top right) &gt; <b>Load a backup...</b> &gt; <b>From a file...</b> and pick that backup.</span></li>`
+      :`<li><span>Open this same file in Chrome or Edge (drag it into the browser).</span></li>`}
+      <li><span>There, in <b>Settings</b> &gt; Automatic backup, click <b>Choose folder</b>, pick the folder and click <b>Allow</b>. If Chrome offers <b>Allow on every visit</b>, pick it so it does not ask again.</span></li>
+    </ol>
+    <p class="sp-hint">From then on a backup goes to that folder every few hours (you pick how often), plus one when you click <b>Back up now</b>.</p>
+    <div class="modal-actions"><button type="button" class="btn" data-x>Close</button></div></div>`;
+  document.body.appendChild(back);modal=back;
+  back.addEventListener('mousedown',e=>{if(e.target===back)closeModal()});back.querySelector('[data-x]').onclick=closeModal;
+  const f=back.querySelector('[data-bkh-file]');if(f)f.onclick=()=>saveFile('focus-tasks.html',pageCopy());
+  const d=back.querySelector('[data-bkh-dl]');if(d)d.onclick=()=>saveFile(bkPrefix()+bkStamp(new Date())+'.json',bkData())}
+{const _os=openSettings;openSettings=function(){_os.apply(this,arguments);if(bkCanFolder())return;const s=modal&&modal.querySelector('.bk-set');if(!s)return;
+  const hint=[...s.querySelectorAll('p.sp-hint')].find(p=>!p.classList.contains('bk-last'));if(!hint)return;
+  hint.outerHTML=`<div class="bk-row"><span class="bk-dir">No folder: ${window.self!==window.top?'not possible inside claude.ai':'needs Chrome or Edge'}</span><button type="button" class="btn sm" data-bkdir>Choose folder</button></div>`;
+  s.querySelector('[data-bkdir]').onclick=openBkHelp}}
 async function initCloud(){
   const cfg=window.FOCUS_CONFIG||{};
   if(cfg.url&&cfg.key){try{if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');}catch(e){return}

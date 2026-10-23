@@ -8,7 +8,7 @@ function openBkHelp(){closePop();closeModal();const inFrame=window.self!==window
     <ol class="bk-steps">
       ${inFrame?`<li><span>Get the file and keep it in a folder you use, like Documents.</span>${file?'<button type="button" class="btn sm" data-bkh-file>Get focus-tasks.html</button>':''}</li>
       <li><span>Download a backup of everything you have here.</span><button type="button" class="btn sm" data-bkh-dl>Download a backup</button></li>
-      <li><span>Open focus-tasks.html in Chrome or Edge (double-click it, or drag it into the browser). Sign in, open <b>Settings</b> (your photo, bottom left) &gt; <b>Load a backup...</b> &gt; <b>From a file...</b> and pick that backup.</span></li>`
+      <li><span>Open focus-tasks.html in Chrome or Edge (double-click it, or drag it into the browser). Sign in, open <b>Settings</b> (click your photo, top right) &gt; <b>Load a backup...</b> &gt; <b>From a file...</b> and pick that backup.</span></li>`
       :`<li><span>Open this same file in Chrome or Edge (drag it into the browser).</span></li>`}
       <li><span>There, in <b>Settings</b> &gt; Automatic backup, click <b>Choose folder</b>, pick the folder and click <b>Allow</b>. If Chrome offers <b>Allow on every visit</b>, pick it so it does not ask again.</span></li>
     </ol>
