@@ -1858,6 +1858,82 @@ body.gd-lmoving,body.gd-lmoving *{cursor:grabbing!important;user-select:none}
 .gd-hvlen{display:none!important}
 .tr-org .gd-hv.sel .gd-hvlen{display:block!important;left:-7.5px;right:auto;bottom:-7px;top:auto}
 .tr-org .gd-hv .gd-tools{top:auto;bottom:4px}
+/* v78: written dates chip under the add bars (248), focus mode overlay (250) */
+.nl-chip{position:fixed;z-index:61;display:flex;align-items:center;gap:7px;max-width:calc(100vw - 16px);padding:5px 6px 5px 10px;border-radius:999px;background:var(--accent-soft);color:var(--ink);border:1px solid var(--accent);font-size:12.5px;box-shadow:var(--shadow)}
+.nl-chip svg{color:var(--accent);flex:none}
+.nl-chip b{font-weight:700}
+.nl-chip .nl-w{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.nl-chip button{border:0;background:none;color:var(--ink-2);font-size:15px;line-height:1;width:22px;height:22px;border-radius:50%;cursor:pointer}
+.nl-chip button:hover{background:var(--surface);color:var(--danger)}
+
+body.fm-on{overflow:hidden}
+.fm{position:fixed;inset:0;z-index:39;background:var(--bg);color:var(--ink);display:flex;flex-direction:column}
+.fm-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface)}
+.fm-brand{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:var(--ink-2)}
+.fm-brand svg{width:18px;height:18px;color:var(--accent)}
+.fm-top select{max-width:min(260px,50vw);font:inherit;padding:5px 8px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.fm-sp{flex:1}
+.fm .btn.sm{padding:5px 11px;font-size:13px}
+.fm .btn.ghost{background:transparent}
+.fm .btn.ghost.on{border-color:var(--accent);color:var(--accent)}
+.fm .btn svg{width:14px;height:14px;vertical-align:-2px}
+.fm-scroll{flex:1;overflow:auto;padding:28px 16px 48px}
+.fm-main,.fm-pick{max-width:640px;margin:0 auto}
+.fm-scroll.picking{display:flex;flex-direction:column}
+.fm-scroll.picking .fm-pick{width:100%;margin:auto;text-align:center}
+.fm-pick .fm-plist{text-align:left;max-height:min(60vh,520px);overflow:auto;padding:2px}
+.fm-plist button.sug{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.fm-meta{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;color:var(--ink-2);font-size:13px}
+.fm-urg{color:var(--danger);font-weight:700}
+.fm-stepof{display:block;margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.fm-name{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:6px 0 8px;overflow-wrap:anywhere}
+.fm-note{color:var(--ink-2);white-space:pre-wrap;margin:0 0 8px}
+.fm-timer{margin:22px 0;padding:22px 18px;border-radius:14px;background:var(--surface);border:1px solid var(--line);text-align:center;box-shadow:var(--shadow)}
+.fm-phase{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.fm-clock{font-size:clamp(52px,14vw,88px);font-weight:600;line-height:1.1;margin:4px 0 12px;font-variant-numeric:tabular-nums}
+.fm-timer.brk .fm-clock{color:var(--ok)}
+.fm-bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;margin:0 auto 16px;max-width:420px}
+.fm-bar i{display:block;height:100%;background:var(--accent);transition:width .25s linear}
+.fm-timer.brk .fm-bar i{background:var(--ok)}
+.fm-tbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.fm-spent{display:block;margin-top:12px;font-size:12.5px;color:var(--ink-3)}
+.fm-tnote{margin:0 0 10px;color:var(--ink-2)}
+.fm-sec{margin-top:20px}
+.fm-sec h3{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
+.fm-li{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;background:var(--surface);border:1px solid var(--line);margin-bottom:6px;cursor:pointer;overflow-wrap:anywhere}
+.fm-li input{width:18px;height:18px;flex:none;accent-color:var(--accent)}
+.fm-li.on span:last-child{text-decoration:line-through;color:var(--ink-3)}
+.fm-li.cur{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.fm-n{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--surface-2);font-size:12px;font-weight:700;color:var(--ink-2)}
+.fm-add input{width:100%;font:inherit;padding:9px 12px;border-radius:9px;border:1px dashed var(--line-strong);background:transparent;color:var(--ink)}
+.fm-add input:focus{outline:none;border-style:solid;border-color:var(--accent)}
+.fm-done{margin-top:28px;text-align:center}
+.fm-done .btn{padding:10px 22px;font-size:15px}
+.fm-pick h2{font-size:clamp(22px,4vw,30px);margin:0 0 16px}
+.fm-plist{display:flex;flex-direction:column;gap:6px}
+.fm-plist button{display:flex;align-items:center;gap:10px;text-align:left;font:inherit;color:var(--ink);padding:10px 12px;margin-left:calc(var(--d,0) * 22px);border-radius:9px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.fm-plist button:hover{border-color:var(--accent)}
+.fm-plist i{width:9px;height:9px;border-radius:50%;flex:none}
+.fm-plist span{flex:1;overflow-wrap:anywhere}
+.fm-plist em{font-style:normal;font-size:12px;color:var(--ink-3)}
+.fm-empty{color:var(--ink-2)}
+@media (max-width:560px){.fm-brand span,.fm-brand{font-size:0}.fm-brand svg{width:20px;height:20px}.fm-scroll{padding-top:18px}}
+/* v81 Done log card (251-done-log.js) */
+#logCard{max-height:calc(100vh - 48px);overflow:hidden}
+.dl-body{overflow-y:auto;margin:0 -6px;padding:0 6px;display:flex;flex-direction:column;gap:14px;min-height:0;flex:1}
+.dl-gh{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.dl-gh span{font-family:'JetBrains Mono',monospace;letter-spacing:0;font-weight:600}
+.dl-row{display:flex;gap:10px;align-items:flex-start;padding:6px 4px;border-radius:8px;transition:opacity .2s,transform .2s}
+.dl-row:hover{background:var(--surface-2)}
+.dl-row.leaving{opacity:0;transform:translateX(12px)}
+.dl-chk{flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%;border:2px solid var(--accent);background:var(--accent);cursor:pointer;position:relative;padding:0}
+.dl-chk::after{content:"";position:absolute;left:4.5px;top:1.5px;width:4px;height:8px;border:solid var(--accent-ink);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.dl-chk:hover{background:transparent}.dl-chk:hover::after{border-color:var(--accent)}
+.dl-txt{min-width:0;flex:1}
+.dl-name{font-size:13.5px;line-height:1.3;color:var(--ink-2);text-decoration:line-through;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent);overflow-wrap:anywhere}
+.dl-meta{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--ink-2);margin-top:2px}
+.dl-tag{display:inline-flex;align-items:center;gap:4px}.dl-tag i{width:7px;height:7px;border-radius:50%;background:var(--dot)}
+.dl-empty{margin:0;font-size:13px;color:var(--ink-2)}
 </style>
 
 <section class="landing" id="landing" aria-labelledby="ld-h">
@@ -7219,6 +7295,319 @@ pp.addEventListener('pointerdown',e=>{
     if(!moved||v==null)return;if(box){m.bx=v;m.bedge=edge}else m.ly=Math.round(v*1000)/1000;commit()};
   window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);
 });
+/* ---------- written dates in the add bars (v78): "amanhã 15h", "sexta", "next friday 3pm", "em 3 dias", "15 de novembro" ---------- */
+// nlFind(text) finds one date and/or one time in the task name, in Portuguese or English. On submit (after 221's quick entry took
+// out [tag, @project, !, ;time) the words leave the name and fill the bar's due date and the Advanced settings time, unless those
+// were already filled. A chip under the bar shows what was read; its × keeps the words as plain text for this task.
+// The due date fields also accept the same words (parseDate wrap).
+const NL_B='(?<![\\p{L}\\d])',NL_E='(?![\\p{L}\\d’\x27])';
+const NL_WD=[['domingo','sunday'],['segunda','monday'],['terça|terca','tuesday'],['quarta','wednesday'],['quinta','thursday'],['sexta','friday'],['sábado|sabado','saturday']];
+const NL_MON=[['janeiro|january','jan'],['fevereiro|february','fev|feb'],['março|marco|march','mar'],['abril|april','abr|apr'],['maio','mai'],['junho|june','jun'],['julho|july','jul'],['agosto|august','ago|aug'],['setembro|september','set|sept|sep'],['outubro|october','out|oct'],['novembro|november','nov'],['dezembro|december','dez|dec']];
+const nlRe=s=>new RegExp(NL_B+'(?:'+s+')'+NL_E,'iu');
+const nlAdd=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const nlMonIdx=w=>{w=w.toLowerCase();return NL_MON.findIndex(([f,a])=>(f+(a?'|'+a:'')).split('|').includes(w)||w==='may'&&f.startsWith('maio'))};
+const NL_MONW=NL_MON.map(([f,a])=>f+(a?'|'+a:'')).join('|')+'|may';
+const NL_TIMEPRE='(?:(?:às|as|at|by|até às|até as|ate as|a partir das)\\s*)?';
+const NL_TIMEAHEAD='(?=\\s*(?:$|[,.;!?)]|(?:às|as|at)\\s|\\d{1,2}(?:[:h]\\d{0,2}|\\s*(?:am|pm))(?![\\p{L}\\d])))';
+// each rule: [regex source, (match, now) => {due?:Date, time?:'HH:MM'}]; the first match of each kind (date, time) wins
+const NL_RULES=[
+  ['date','(?:(?:para|pra|até|ate|for|by)\\s+)?(?:depois de amanhã|depois de amanha|the day after tomorrow|day after tomorrow)',(m,n)=>nlAdd(n,2)],
+  ['date','(?:(?:para|pra|até|ate|for|by)\\s+)?(?:amanhã|amanha|tomorrow|tmrw)',(m,n)=>nlAdd(n,1)],
+  ['date','(?:(?:para|pra|até|ate|for|by)\\s+)?(?:hoje|today|tonight)',(m,n)=>new Date(n)],
+  ['date','(?:em|daqui a|daqui|in)\\s+(\\d{1,3}|um|uma|dois|duas|três|tres|one|two|three)\\s+(dias?|days?|semanas?|weeks?|meses|mês|mes|months?)',(m,n)=>{
+    const w={um:1,uma:1,one:1,dois:2,duas:2,two:2,'três':3,tres:3,three:3},k=+m[1]||w[m[1].toLowerCase()]||1,u=m[2].toLowerCase();
+    if(/^(m|mo)/.test(u)){const x=new Date(n);x.setMonth(x.getMonth()+k);return x}return nlAdd(n,/^(s|w)/.test(u)?7*k:k)}],
+  ['date','(?:(?:na|para|pra|até|ate)\\s+)?(?:semana que vem|próxima semana|proxima semana)|(?:(?:by|for)\\s+)?next week',(m,n)=>nlAdd(n,((8-n.getDay())%7)||7)],
+  ['date','(?:(?:no|para|pra|até|ate)\\s+)?(?:mês que vem|mes que vem|próximo mês|proximo mes|próximo mes)|(?:(?:by|for)\\s+)?next month',(m,n)=>new Date(n.getFullYear(),n.getMonth()+1,1)],
+  ['date','(?:(?:no|neste|este|para|pra|até|ate)\\s+)?(?:fim de semana|final de semana)|(?:(?:on|by|for)\\s+)?(?:this\\s+)?weekend',(m,n)=>nlAdd(n,n.getDay()===0?0:6-n.getDay())],
+  // "15 de novembro", "15 nov", "nov 15", "november 15th", "15th of november" (abbreviations that are also words need "de" or the day after them)
+  ['date','(?:(?:no dia|dia|em|para|pra|até|ate|on|by|for)\\s+)?(\\d{1,2})(?:st|nd|rd|th|º)?\\s+(?:de\\s+|of\\s+)?('+NL_MONW+')\\.?(?:\\s+(?:de\\s+)?(\\d{4}))?',(m,n)=>{
+    const mo=nlMonIdx(m[2]),d=+m[1];if(mo<0)return null;if(['mar','set','out','may'].includes(m[2].toLowerCase())&&!/\s(de|of)\s/i.test(m[0]))return null;return nlYear(n,mo,d,m[3])}],
+  ['date','(?:(?:on|by|for)\\s+)?('+NL_MONW+')\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?(?:,?\\s+(\\d{4}))?',(m,n)=>{
+    const mo=nlMonIdx(m[1]);if(mo<0||['mar','set','out','may'].includes(m[1].toLowerCase()))return null;return nlYear(n,mo,+m[2],m[3])}],
+  // "dia 15", "on the 15th": the next day 15
+  ['date','(?:(?:no|até|ate|para|pra)\\s+)?dia\\s+(\\d{1,2})|(?:(?:on|by)\\s+)?the\\s+(\\d{1,2})(?:st|nd|rd|th)',(m,n)=>{
+    const d=+(m[1]||m[2]);if(d<1||d>31)return null;for(let k=0;k<3;k++){const x=new Date(n.getFullYear(),n.getMonth()+k,d);if(x.getDate()===d&&x>=new Date(n.getFullYear(),n.getMonth(),n.getDate()))return x}return null}],
+  // weekdays. "segunda", "terça" ... also mean "second", "third": without "-feira" or a word like "na" before them they count
+  // only at the end of the name or right before a time ("Reunião segunda 15h"), so "Revisar segunda versão" stays text
+  ['date',NL_WD.map(([pt,en],i)=>`(?<w${i}>(?:(?:(?:na|no|nesta|neste|esta|este|até|ate|para|pra|toda|próxima|proxima|próximo|proximo)\\s+)(?:${pt})(?:[-\\s]feira)?(?:\\s+que vem)?|(?:${pt})[-\\s]feira(?:\\s+que vem)?|(?:${pt})(?:\\s+que vem)?${NL_TIMEAHEAD}|(?:(?:on|this|next|by|until|for)\\s+)?(?:${en})))`).join('|'),(m,n)=>{
+    const i=NL_WD.findIndex((_,j)=>m.groups['w'+j]);let k=(i-n.getDay()+7)%7;if(!k&&/(next|próxim|proxim|que vem)/i.test(m[0]))k=7;return nlAdd(n,k)}],
+  ['time','(?:(?:ao|at)\\s+)?(?:meio-dia|meio dia|noon|midday)',()=>'12:00'],
+  ['time',NL_TIMEPRE+'(\\d{1,2})(?:[:.](\\d{2}))?\\s*(am|pm|a\\.m\\.|p\\.m\\.)',m=>{let h=+m[1];const pm=/^p/i.test(m[3]);if(h<1||h>12)return null;if(h===12)h=0;return nlHM(h+(pm?12:0),+(m[2]||0))}],
+  ['time',NL_TIMEPRE+'(\\d{1,2})\\s*(?:h\\s*)?(?:da|de)\\s+(tarde|noite|manhã|manha)',m=>{let h=+m[1];if(h>12)return null;if(/^(t|n)/i.test(m[2])&&h<12)h+=12;return nlHM(h,0)}],
+  ['time',NL_TIMEPRE+'(\\d{1,2})h(\\d{2})?(?:min)?',m=>{if(+m[1]<6&&!/^(às|as|at|by|até|ate|a partir)/i.test(m[0]))return null;return nlHM(+m[1],+(m[2]||0))}], // "2h" or "1h30" alone reads like a length: no
+  ['time',NL_TIMEPRE+'(\\d{1,2}):(\\d{2})',m=>nlHM(+m[1],+m[2])],
+  ['time','(?:às|as|at)\\s+(\\d{1,2})(?![:.h\\d])',m=>nlHM(+m[1],0)],
+].map(([kind,src,fn])=>({kind,re:nlRe(src),fn}));
+function nlYear(n,mo,d,y){const t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());let x=new Date(y?+y:n.getFullYear(),mo,d);if(x.getMonth()!==mo)return null;if(!y&&x<t0)x=new Date(n.getFullYear()+1,mo,d);return x}
+function nlHM(h,m){return h>=0&&h<24&&m>=0&&m<60?pad(h)+':'+pad(m):null}
+// → null or {due:'YYYY-MM-DD'|'', time:'HH:MM'|'', rest: text without those words, words:[matched texts]}
+function nlFind(text,now){
+  now=now||new Date();let rest=String(text||''),due='',time='';const words=[];
+  for(const r of NL_RULES){
+    if(r.kind==='date'?due:time)continue;
+    const m=rest.match(r.re);if(!m)continue;
+    const v=r.fn(m,now);if(!v)continue;
+    if(r.kind==='date')due=dateToISO(v);else time=v;
+    words.push(m[0].trim());rest=(rest.slice(0,m.index)+' '+rest.slice(m.index+m[0].length));
+  }
+  if(!due&&!time)return null;
+  rest=rest.replace(/\s+([,.;!?])/g,'$1').replace(/\s{2,}/g,' ').replace(/\s*[,\-–]\s*$/,'').trim();
+  if(time&&!due){const [h,mi]=time.split(':').map(Number),x=new Date(now);x.setHours(h,mi,0,0);due=dateToISO(x<now?nlAdd(now,1):now)} // a time already gone today means tomorrow
+  return {due,time,rest,words};
+}
+const nlTaskPart=v=>String(v||'').replace(/;[^;]*$/,'').replace(/\[[^\]]*\]?/g,' ').replace(/(^|\s)@[^@\[;]*/g,' '); // what quick entry will leave
+const nlBar=inp=>inp.id==='c-name'?{k:'c',due:$('#c-due')}:{k:'pt',due:$('#pt-due')};
+const nlWhen=r=>{const d=r.due?new Date(r.due+'T12:00'):null,t0=todayISO(),tm=dateToISO(nlAdd(new Date(),1));
+  const day=!d?'':r.due===t0?'Today':r.due===tm?'Tomorrow':d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});return day+(r.time?' · '+r.time:'')};
+function nlRead(inp){ // what this bar will take, or null
+  if(inp._nlOff&&inp.value.trim()&&!inp.value.includes(inp._nlOff))inp._nlOff=null;
+  if(!inp.value.trim())inp._nlOff=null;
+  const r=nlFind(nlTaskPart(inp.value));if(!r||!r.rest)return null;
+  if(inp._nlOff&&r.words.some(w=>inp._nlOff.includes(w)))return null;
+  const b=nlBar(inp),dueSet=!!(b.due&&b.due.value.trim()),timeSet=!!ADV[b.k].a.time;
+  if(dueSet&&(!r.time||timeSet))return null;
+  if(dueSet){r.due='';}if(timeSet)r.time='';
+  return r.due||r.time?r:null;
+}
+let nlChip=null;
+function nlClose(){if(nlChip){nlChip.remove();nlChip=null}}
+function nlDraw(inp){
+  const r=nlRead(inp);if(!r){nlClose();return}
+  if(!nlChip){nlChip=document.createElement('div');nlChip.className='nl-chip';nlChip.setAttribute('role','status');document.body.appendChild(nlChip);
+    nlChip.addEventListener('mousedown',e=>e.preventDefault());
+    nlChip.addEventListener('click',e=>{if(!e.target.closest('[data-nloff]'))return;const i=nlChip._inp,x=nlRead(i);if(x)i._nlOff=x.words.join(' ');nlClose();i.focus()})}
+  nlChip._inp=inp;
+  nlChip.innerHTML=`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Due <b>${esc(nlWhen(r))}</b></span><span class="nl-w">from "${esc(r.words.join(' '))}"</span><button type="button" data-nloff title="Keep these words in the name, no date" aria-label="Keep these words as text">×</button>`;
+  const rc=inp.getBoundingClientRect();nlChip.style.top=(rc.bottom+6)+'px';
+  nlChip.style.left=Math.max(8,Math.min(rc.right-nlChip.offsetWidth,innerWidth-nlChip.offsetWidth-8))+'px';
+}
+document.addEventListener('input',e=>{if(e.target.matches&&e.target.matches(qeInputs))nlDraw(e.target);else if(e.target.id==='c-due'||e.target.id==='pt-due'){const i=$(e.target.id==='c-due'?'#c-name':'#pt-name');if(i)nlDraw(i)}});
+document.addEventListener('focusin',e=>{if(e.target.matches&&e.target.matches(qeInputs))nlDraw(e.target)});
+document.addEventListener('focusout',e=>{if(e.target.matches&&e.target.matches(qeInputs))setTimeout(()=>{if(!document.activeElement||!document.activeElement.matches(qeInputs))nlClose()},0)});
+window.addEventListener('scroll',e=>{if(!(e.target.matches&&e.target.matches(qeInputs)))nlClose()},true);window.addEventListener('resize',nlClose);
+// on submit: runs after 221 (registered later, same capture phase), before the bar's own handler
+window.addEventListener('submit',e=>{
+  const f=e.target,inp=f.id==='composer'?$('#c-name'):f.matches&&f.matches('[data-ptadd]')?$('#pt-name'):null;if(!inp)return;
+  const r=nlRead(inp);nlClose();inp._nlOff=null;if(!r)return;
+  const b=nlBar(inp);inp.value=nlFind(inp.value).rest||inp.value;
+  if(r.due&&b.due)b.due.value=isoToUS(r.due);
+  if(r.time)ADV[b.k].a.time=r.time;
+},true);
+// the due date fields: "sexta", "next friday", "em 3 dias", "15 de nov" too
+{const _pd=parseDate;parseDate=function(s){const v=_pd(s);if(v!==null)return v;const r=nlFind(s);return r&&r.due&&!r.rest?r.due:null}}
+/* ---------- Ctrl+Z / Ctrl+Shift+Z (Ctrl+Y): undo and redo many steps (v78) ---------- */
+// Every save() that changed the data (SYNC_KEYS without timer, noise, theme, alerts, example) keeps the state from before it.
+// Saves less than 120 ms apart (one action that saves twice) count as one step (typing). Up to 60 steps, kept in memory only (a reload starts empty).
+// Changes that come from the account (CL.applying) or a change of user only move the base, so Undo never brings back
+// someone else's data. Ctrl+Z in a field with text is the browser's own text undo; in an empty field (right after adding a task) it is this one.
+const UNDO_SKIP=['timer','noise','theme','alerts','example'];
+const UNDO={past:[],future:[],base:null,uid:null,at:0,quiet:false,max:60};
+const undoKeys=()=>SYNC_KEYS.filter(k=>!UNDO_SKIP.includes(k)).concat(['folders'].filter(k=>!SYNC_KEYS.includes(k)));
+function undoSnap(){const o={};undoKeys().forEach(k=>{o[k]=S[k]});return JSON.stringify(o)}
+function undoTrim(){let n=0;for(let i=UNDO.past.length-1;i>=0;i--){n+=UNDO.past[i].length;if(n>4e7||UNDO.past.length-i>UNDO.max){UNDO.past.splice(0,i+1);break}}}
+function undoTrack(){
+  let cur;try{cur=undoSnap()}catch(e){return}
+  const u=CL.uid||'';
+  if(UNDO.base==null||UNDO.uid!==u||CL.applying||UNDO.quiet){if(UNDO.uid!==u){UNDO.past=[];UNDO.future=[]}UNDO.base=cur;UNDO.uid=u;return}
+  if(cur===UNDO.base)return;
+  const now=Date.now();
+  if(now-UNDO.at>120||!UNDO.past.length){UNDO.past.push(UNDO.base);undoTrim()}
+  UNDO.at=now;UNDO.future=[];UNDO.base=cur;
+}
+{const _sv=save;save=function(){_sv.apply(this,arguments);undoTrack()}}
+// first base (and a new one after a sign-in) as soon as the screen is drawn, before the first change
+{const _rnu=render;render=function(){_rnu.apply(this,arguments);if(UNDO.base==null||UNDO.uid!==(CL.uid||''))undoTrack()}}
+// what changed between two snapshots, said from the side of the one we go back to
+function undoSay(fromStr,toStr){
+  try{const a=JSON.parse(fromStr).tasks||[],b=JSON.parse(toStr).tasks||[],A=new Map(a.map(t=>[t.id,t])),B=new Map(b.map(t=>[t.id,t]));
+    const back=b.filter(t=>!A.has(t.id)&&!t.stepOf),gone=a.filter(t=>!B.has(t.id)&&!t.stepOf);
+    const q=t=>`"${t.name||'(no name)'}"`;
+    if(gone.length&&!back.length)return gone.length>1?`Removed ${q(gone[0])} and ${gone.length-1} more`:`Removed ${q(gone[0])}`;
+    if(back.length&&!gone.length)return back.length>1?`Brought back ${q(back[0])} and ${back.length-1} more`:`Brought back ${q(back[0])}`;
+    const ch=b.find(t=>A.has(t.id)&&JSON.stringify(A.get(t.id))!==JSON.stringify(t));
+    if(ch){const o=A.get(ch.id);if(o.done!==ch.done)return `${q(ch)} is ${ch.done?'done':'open'} again`;if(o.onHold!==ch.onHold)return `${q(ch)} is ${ch.onHold?'on hold':'off hold'} again`;
+      if(o.name!==ch.name)return `Name is ${q(ch)} again`;return `Changed ${q(ch)} back`}
+  }catch(e){}
+  return 'Went back one change';
+}
+function undoGo(dir){ // -1 undo, +1 redo
+  undoTrack();const from=dir<0?UNDO.past:UNDO.future,to=dir<0?UNDO.future:UNDO.past;
+  if(!from.length){toast(dir<0?'Nothing to undo.':'Nothing to redo.');return false}
+  const snap=from.pop(),cur=UNDO.base;to.push(cur);
+  const o=JSON.parse(snap);undoKeys().forEach(k=>{if(k in o)S[k]=o[k];else delete S[k]});normalize(S);
+  closePop();closeModal();
+  UNDO.quiet=true;try{commit()}finally{UNDO.quiet=false}
+  UNDO.base=undoSnap();UNDO.at=0;
+  const say=undoSay(cur,snap);
+  toast(`${dir<0?'Undo':'Redo'}: ${say}.`,()=>undoGo(-dir),dir<0?'Redo':'Undo');
+  return true;
+}
+const undo=()=>undoGo(-1),redo=()=>undoGo(1);
+document.addEventListener('keydown',e=>{
+  if(!(e.ctrlKey||e.metaKey)||e.altKey)return;const k=e.key.toLowerCase();
+  const isUndo=k==='z'&&!e.shiftKey,isRedo=(k==='z'&&e.shiftKey)||(k==='y'&&!e.shiftKey);if(!isUndo&&!isRedo)return;
+  if(document.body.classList.contains('show-landing'))return;
+  const f=e.target.closest&&e.target.closest('input,textarea,[contenteditable]');
+  if(f&&(f.isContentEditable?f.textContent:f.value||'').length&&!/^(checkbox|radio|range|color|button|submit)$/.test(f.type||''))return; // the field's own text undo
+  e.preventDefault();e.stopPropagation();
+  if(isUndo)undo();else redo();
+},true);
+KEYS[0][1].push(['Ctrl+Z','Undo (many steps)'],['Ctrl+Shift+Z','Redo']);
+/* ---------- Focus mode (v78): one task on the whole screen with its steps, microtasks, subtasks and the timer ---------- */
+// Opens from the rail button #focusBtn or Shift+F (the task selected with J/K, else the timer's task, else a list to pick from).
+// The timer is linked to the task when it opens (not started). Esc or "Exit" closes it. "Full screen" asks the browser for
+// real full screen (inside claude.ai the frame may not allow it; the overlay still covers the page). Page state only: FM.
+const FM={id:null,open:false};
+const fmIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg>';
+{const nt=$('#noiseToggle');if(nt&&!$('#focusBtn'))nt.insertAdjacentHTML('afterend',`<button class="rbtn" id="focusBtn" type="button" aria-label="Focus mode" title="Focus mode (Shift+F)">${fmIcon}</button>`)}
+function fmPickId(){const sel=kbSel&&byId(kbSel);if(sel&&!sel.done)return sel.id;const t=byId(S.timer.taskId);return t&&!t.done?t.id:null}
+function openFocus(id){
+  FM.open=true;FM.id=id||null;FM.sug=fmPickId();closePop();
+  if(FM.id&&S.timer.taskId!==FM.id&&!S.timer.running){setTimerTask(FM.id);save()}
+  document.body.classList.add('fm-on');fmDraw();
+}
+function closeFocus(){FM.open=false;const el=$('#fm');if(el)el.remove();document.body.classList.remove('fm-on');try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}}
+function fmTask(){const t=FM.id&&byId(FM.id);return t&&!t.stepOf?t:null}
+// the open tasks exactly as the Tasks list shows them (all tags and projects, no Shared filter); on hold ones left out
+function fmOpenList(){
+  const u=S.ui,keep={view:u.view,tag:u.tag,project:u.project,sr:u.sr,hideHold:u.hideHold},out=[];
+  Object.assign(u,{view:'tasks',tag:'all',project:'all',sr:null,hideHold:false});memo=new Map();
+  try{const walk=(list,depth)=>list.filter(t=>!t.done&&!t.stepOf&&vis(t)).sort(cmp).forEach(t=>{if(!t.onHold)out.push({t,depth});walk(kids(t),depth+1)});
+    walk(S.tasks.filter(t=>isOpenRoot(t)&&!rootOf(t).longTerm),0)}
+  finally{Object.assign(u,keep);memo=new Map()}
+  return out;
+}
+function fmPickerHTML(msg){
+  const opts=fmOpenList();
+  return `<div class="fm-pick"><h2>${esc(msg||'What do you want to focus on?')}</h2>
+    ${opts.length?`<div class="fm-plist">${opts.map(({t,depth})=>{const g=tagOf(t);const sug=t.id===FM.sug;return `<button type="button" data-fmpick="${t.id}" class="${sug?'sug':''}" style="--d:${depth}"${sug?' title="Selected in the list or on the timer"':''}><i style="background:${(g&&g.color)||t.color||'var(--line)'}"></i><span>${esc(t.name)}</span>${t.due?`<em>${esc(isoToUS(t.due))}</em>`:''}</button>`}).join('')}</div>`:'<p class="fm-empty">No open tasks. Add one first.</p>'}</div>`;
+}
+function fmTimerHTML(t){
+  const tm=S.timer,p=timerParts(),mine=tm.taskId===t.id,brk=isBreak(),pomo=tm.mode==='pomo';
+  const started=tm.durMs>0?tm.remainingMs<tm.durMs&&tm.remainingMs>0:tm.upMs>0;
+  const phase=pomo?(tm.phase==='focus'?`Focus ${Math.min((tm.round||0)+1,S.prefs.pomo.every)} of ${S.prefs.pomo.every}`:tm.phase==='short'?'Short break':'Long break'):(p.up?'Counting up':'Timer');
+  if(!mine)return `<div class="fm-timer"><p class="fm-tnote">The timer is on "${esc((byId(tm.taskId)||{}).name||'another task')}".</p><button type="button" class="btn primary" data-fmtake>Time this task instead</button></div>`;
+  return `<div class="fm-timer${brk?' brk':''}"><span class="fm-phase">${esc(phase)}</span><div class="fm-clock mono" id="fm-clock">${p.text}</div>
+    <div class="fm-bar"><i id="fm-bar" style="width:${(p.frac*100).toFixed(1)}%"></i></div>
+    <div class="fm-tbtns">${tm.running?`<button type="button" class="btn" data-fmt="pause">${icons.pause} Pause</button>`:`<button type="button" class="btn primary" data-fmt="start">${icons.play} ${started?'Resume':pomo&&!brk?'Start focus':'Start'}</button>`}<button type="button" class="btn ghost" data-fmt="reset">${pomo?'Start over':'Reset'}</button></div>
+    <span class="fm-spent">⏱ ${fmtDur(spentOf(t.id))} on this task</span></div>`;
+}
+function fmBodyHTML(t){
+  const g=tagOf(t),pj=projOf(t),st=t.steps||[],cur=st.length?stepSel(t):-1,m=microOf(t),ks=kids(t);
+  const meta=[g?`<span class="chip" style="--dot:${g.color}"><i></i>${esc(g.name)}</span>`:'',pj?`<span>${esc(projFull(pj))}</span>`:'',t.due?`<span>Due ${esc(isoToUS(t.due))}${t.time?' '+esc(t.time):''}</span>`:'',t.prio===3?'<span class="fm-urg">Urgent</span>':''].filter(Boolean).join('');
+  return `<div class="fm-main">
+    <div class="fm-meta">${meta}</div>
+    ${st.length?`<span class="fm-stepof">Step ${cur+1} of ${st.length}</span>`:''}
+    <h1 class="fm-name">${esc(t.name)}</h1>
+    ${t.note?`<p class="fm-note">${esc(t.note)}</p>`:''}
+    ${fmTimerHTML(t)}
+    ${st.length?`<section class="fm-sec"><h3>Steps</h3>${st.map((x,i)=>`<label class="fm-li${x.done?' on':''}${i===cur?' cur':''}"><input type="checkbox" data-fmstep="${i}"${x.done?' checked':''}><span class="fm-n">${i+1}</span><span>${esc(i===cur?t.name:x.name)}</span></label>`).join('')}</section>`:''}
+    <section class="fm-sec"><h3>Microtasks</h3>${m.map(x=>`<label class="fm-li${x.done?' on':''}"><input type="checkbox" data-fmmt="${x.id}"${x.done?' checked':''}><span>${esc(x.name||'(empty)')}</span></label>`).join('')}
+      <form class="fm-add" data-fmmtadd><input type="text" id="fm-mt" placeholder="Add a microtask and press Enter" aria-label="Add a microtask" autocomplete="off"></form></section>
+    ${ks.length?`<section class="fm-sec"><h3>Subtasks</h3>${ks.sort(cmp).map(k=>`<label class="fm-li"><input type="checkbox" data-fmkid="${k.id}"><span>${esc(k.name)}</span></label>`).join('')}</section>`:''}
+    <div class="fm-done"><button type="button" class="btn primary" data-fmdone>${st.length&&stepsLeft(t)>1?'Finish this step':'Mark task done'}</button></div>
+  </div>`;
+}
+function fmDraw(){
+  if(!FM.open)return;let el=$('#fm');
+  const a=document.activeElement,keep=a&&a.id==='fm-mt'?{v:a.value,s:a.selectionStart}:null,sc=el?el.querySelector('.fm-scroll').scrollTop:0;
+  if(!el){el=document.createElement('div');el.id='fm';el.className='fm';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');el.setAttribute('aria-label','Focus mode');document.body.appendChild(el);fmBind(el)}
+  const t=fmTask();if(FM.id&&!t)FM.id=null;
+  const opts=fmOpenList();
+  el.innerHTML=`<div class="fm-top"><span class="fm-brand">${fmIcon} Focus mode</span>
+    ${t?`<select id="fm-sw" aria-label="Switch task"><option value="">Switch task…</option>${opts.map(({t:x,depth})=>`<option value="${x.id}"${x.id===t.id?' disabled':''}>${'  '.repeat(depth)}${esc(x.name)}</option>`).join('')}</select>`:''}
+    <span class="fm-sp"></span>
+    <button type="button" class="btn ghost sm${noise?' on':''}" data-fmnoise title="White noise">${noise?'Sound on':'Sound off'}</button>
+    <button type="button" class="btn ghost sm" data-fmfull title="Use the whole screen">${document.fullscreenElement?'Leave full screen':'Full screen'}</button>
+    <button type="button" class="btn sm" data-fmx title="Close (Esc)">Exit</button></div>
+    <div class="fm-scroll${t?'':' picking'}">${t?fmBodyHTML(t):fmPickerHTML(FM.doneMsg)}</div>`;
+  FM.doneMsg=null;el.querySelector('.fm-scroll').scrollTop=sc;
+  if(!t&&!keep&&!el.contains(document.activeElement)){const b=el.querySelector('.fm-plist .sug')||el.querySelector('.fm-plist button');if(b)b.focus({preventScroll:false})}
+  if(keep){const i=$('#fm-mt');if(i){i.value=keep.v;i.focus();try{i.setSelectionRange(keep.s,keep.s)}catch(e){}}}
+}
+function fmBind(el){
+  el.addEventListener('click',e=>{
+    const b=e.target.closest('button,[data-fmstep],[data-fmmt],[data-fmkid]');if(!b)return;const t=fmTask();
+    if(b.dataset.fmx!=null){closeFocus();return}
+    if(b.dataset.fmpick){FM.id=b.dataset.fmpick;if(!S.timer.running)setTimerTask(FM.id);commit();return}
+    if(b.dataset.fmfull!=null){try{if(document.fullscreenElement)document.exitFullscreen();else{const r=document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();if(r&&r.catch)r.catch(()=>toast('Full screen is not allowed here. Press F11 or open focus-tasks.html.'))}}catch(x){toast('Full screen is not allowed here.')}return}
+    if(b.dataset.fmnoise!=null){noise?stopNoise():startNoise();fmDraw();return}
+    if(!t)return;
+    if(b.dataset.fmtake!=null){setTimerTask(t.id);commit();return}
+    if(b.dataset.fmt){const k=b.dataset.fmt;if(k==='start')timerStart();else if(k==='pause')timerPause();else timerReset();return}
+    if(b.dataset.fmdone!=null){fmFinish(t);return}
+  });
+  el.addEventListener('change',e=>{
+    const t=fmTask(),c=e.target;
+    if(c.id==='fm-sw'&&c.value){FM.id=c.value;if(!S.timer.running)setTimerTask(FM.id);commit();return}
+    if(!t)return;
+    if(c.dataset.fmstep!=null){const i=+c.dataset.fmstep,s=t.steps[i];
+      if(c.checked&&!s.done){if(stepsLeft(t)<=1){fmFinish(t);return}doStep(t,i)}else if(!c.checked&&s.done)undoStep(t,i);commit();return}
+    if(c.dataset.fmmt){const m=microOf(t).find(x=>x.id===c.dataset.fmmt);if(m){m.done=c.checked;commit()}return}
+    if(c.dataset.fmkid){const k=byId(c.dataset.fmkid);if(k&&c.checked){complete(k);commit();toast(`"${k.name}" moved to Done.`,()=>{reopen(k);commit()})}return}
+  });
+  el.addEventListener('submit',e=>{if(!e.target.matches('[data-fmmtadd]'))return;e.preventDefault();e.stopPropagation();const t=fmTask(),i=$('#fm-mt'),v=i.value.trim();if(!t||!v)return;
+    t.micro=microOf(t).concat([{id:uid(),name:v,done:false}]);i.value='';commit();const n=$('#fm-mt');if(n)n.focus()});
+}
+function fmFinish(t){
+  const many=stepsLeft(t)>1;if(S.timer.taskId===t.id&&S.timer.running&&!many)timerPause();
+  complete(t);commit();
+  if(many){toast(`Step done. ${stepsLeft(t)} left.`);return}
+  toast(`"${t.name}" is done.`,()=>{reopen(t);FM.id=t.id;commit()});
+  FM.id=null;FM.doneMsg='Nice work. What is next?';fmDraw();
+}
+{const _rfm=render;render=function(){_rfm.apply(this,arguments);if(FM.open)fmDraw()}}
+setInterval(()=>{if(!FM.open||!S.timer.running)return;const c=$('#fm-clock'),b=$('#fm-bar');if(!c)return;const p=timerParts();c.textContent=p.text;if(b)b.style.width=(p.frac*100).toFixed(1)+'%'},250);
+document.addEventListener('fullscreenchange',()=>{if(FM.open)fmDraw()});
+$('#focusBtn').onclick=()=>FM.open?closeFocus():openFocus(null); // always starts on the list of open tasks (Pedro); the selected / timer task is marked there
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  const typing=e.target.closest&&e.target.closest('input,textarea,select,[contenteditable]');
+  if(FM.open&&e.key==='Escape'&&!modal&&!pop&&!dp){if(typing&&e.target.value){e.target.value='';return}e.preventDefault();e.stopPropagation();closeFocus();return}
+  if(FM.open&&!typing&&!modal&&!pop&&e.key.length===1&&!(e.key==='F'&&e.shiftKey)){e.stopPropagation(); // the list shortcuts stay off behind the overlay; P still starts or pauses
+    if(e.key.toLowerCase()==='p'){e.preventDefault();if(S.timer.running)timerPause();else timerStart()}return}
+  if(e.key==='F'&&e.shiftKey&&!typing&&!modal&&!pop&&!document.body.classList.contains('show-landing')){e.preventDefault();e.stopPropagation();FM.open?closeFocus():openFocus(null)}
+},true);
+KEYS[1][1].splice(KEYS[1][1].findIndex(x=>x[0]==='F')+1,0,['Shift+F','Focus mode on it (or on the timer\'s task)']);
+/* ---------- v81: Done log card (Pedro) ----------
+   Rail button #logBtn (the page icon used for task history) opens a card in the timer aside, like Timer / White noise:
+   every done task grouped by when it was done (Today, Yesterday, Earlier this week, Last week, Older).
+   The round check on a line marks it undone: the task goes back to its open list. State S.ui.logOpen. */
+{const rb=$('#focusBtn')||$('#noiseToggle');
+  if(rb&&!$('#logBtn'))rb.insertAdjacentHTML('afterend',`<button class="rbtn" id="logBtn" type="button" aria-label="Show or hide the done log" title="Done log">${LOG_ICON}</button>`);
+  if(!$('#logCard'))$('#timerPanel').insertAdjacentHTML('beforeend',`<section class="card" id="logCard" aria-label="Done log" hidden><div class="card-head"><h2>Done log</h2><button class="closex" id="logClose" type="button" aria-label="Hide done log">×</button></div><div class="dl-body" id="dl-body"></div></section>`)}
+if(innerWidth<=1180)S.ui.logOpen=false;
+function dlGroups(){
+  const now=new Date(),d0=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime(),day=864e5;
+  const wk=weekStartOf(now).getTime(),lwk=wk-7*day;
+  const G=[['Today',[]],['Yesterday',[]],['Earlier this week',[]],['Last week',[]],['Older',[]]];
+  S.tasks.filter(t=>t.done&&t.doneAt&&!t.doneWithParent).sort((a,b)=>a.doneAt<b.doneAt?1:-1).forEach(t=>{
+    const x=new Date(t.doneAt).getTime();
+    G[x>=d0?0:x>=d0-day?1:x>=wk?2:x>=lwk?3:4][1].push(t)});
+  return G.filter(g=>g[1].length)}
+function dlWhen(t,g){const d=new Date(t.doneAt),h=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  if(g==='Today'||g==='Yesterday')return h;
+  if(g==='Older')return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:d.getFullYear()===new Date().getFullYear()?undefined:'numeric'});
+  return d.toLocaleDateString('en-US',{weekday:'short'})+' '+h}
+function dlDraw(){const b=$('#dl-body');if(!b)return;const G=dlGroups();
+  b.innerHTML=G.length?G.map(([g,ts])=>`<div class="dl-grp"><div class="dl-gh">${g}<span>${ts.length}</span></div>${ts.map(t=>{
+    const tag=S.tags.find(x=>x.id===t.tagId),p=t.projectId&&S.projects.find(x=>x.id===t.projectId);
+    return `<div class="dl-row" data-dlid="${t.id}"><button class="dl-chk" type="button" data-dlundo title="Mark as undone (back to the list)" aria-label="Mark as undone"></button><div class="dl-txt"><div class="dl-name">${esc(t.name)}</div><div class="dl-meta"><span>${dlWhen(t,g)}</span>${tag?`<span class="dl-tag" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''}${p?`<span>${esc(projFull(p))}</span>`:''}</div></div></div>`}).join('')}</div>`).join(''):'<p class="dl-empty">Nothing done yet. Finished tasks show up here.</p>'}
+{const _r=render;render=function(){const r=_r.apply(this,arguments);const u=S.ui,c=$('#logCard');
+  if(c){c.hidden=!u.logOpen;if(u.logOpen){$('#timerPanel').hidden=false;$('#app').classList.remove('no-timer');dlDraw()}}
+  const lb=$('#logBtn');if(lb)lb.classList.toggle('on',!!u.logOpen);return r}}
+$('#logBtn').onclick=()=>{S.ui.logOpen=!S.ui.logOpen;commit()};
+$('#logClose').onclick=()=>{S.ui.logOpen=false;commit()};
+$('#logCard').addEventListener('click',e=>{const b=e.target.closest('[data-dlundo]');if(!b)return;
+  const t=byId(b.closest('.dl-row').dataset.dlid);if(!t||!t.done)return;
+  b.closest('.dl-row').classList.add('leaving');
+  setTimeout(()=>{reopen(t);dlLog(t,false);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Long term':'Tasks'}.`,()=>{complete(t);dlLog(t,true);commit()})},200)});
+/* same History lines as the row checkbox (231) */
+function dlLog(t,d){if(t.parentId){const w=`${d?'did':'reopened'} the subtask "${t.name}"${d?'':' from the Done log'}`;logTask(t,w,false);logTask(rootTask(t),w,false)}
+  else logTask(t,d?'marked it done':'reopened it from the Done log')}
+/* on narrow screens the card floats like the timer: a click outside closes it */
+document.addEventListener('click',e=>{if(S.ui.logOpen&&innerWidth<=1180&&!e.target.closest('#timerPanel,#logBtn,.pop,.toast')){S.ui.logOpen=false;save();render()}});
 async function initCloud(){
   const cfg=window.FOCUS_CONFIG||{};
   if(cfg.url&&cfg.key){try{if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');}catch(e){return}
