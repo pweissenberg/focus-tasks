@@ -1,0 +1,72 @@
+/* Tree v77 (247): view switch, side by side / top down views, vertical names, vertical line, box name along its edges */
+.trv-seg{display:inline-flex;margin-left:auto;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden;flex:none}
+.trv-seg button{border:0;background:var(--surface);color:var(--ink-2);font-size:12.5px;padding:4px 9px;white-space:nowrap}
+.trv-seg button+button{border-left:1px solid var(--line)}
+.trv-seg button:hover{color:var(--accent)}
+.trv-seg button.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+/* top down: the nodes under a node side by side below it; 247 centers each parent over its children (--cx / --pcx) */
+.tr-canvas.tr-org .tr-root{width:max-content;min-width:0}
+.tr-canvas.tr-org .tr-node{min-width:150px;max-width:280px}
+.tr-canvas.tr-org .tr-node.tr-open{width:280px}
+.tr-canvas.tr-org .tr-root{display:flex;align-items:flex-start;gap:28px;padding:16px 4px 6px}
+.tr-canvas.tr-org .tr-ul:not(.tr-root){display:flex;align-items:flex-start;padding:24px 0 0}
+.tr-canvas.tr-org .tr-li{display:flex;flex-direction:column;align-items:flex-start;padding:0 7px}
+.tr-canvas.tr-org .tr-root>.tr-li{padding:0}
+.tr-canvas.tr-org .tr-ul:not(.tr-root)::before{content:'';position:absolute;top:0;left:var(--pcx,50%);height:12px;border-left:2px solid var(--lc,var(--line-strong))}
+.tr-canvas.tr-org .tr-ul:not(.tr-root)>.tr-li::before{top:-12px;left:0;right:0;bottom:auto;width:auto;height:0;border-left:0;border-top:2px solid var(--lc,var(--line-strong))}
+.tr-canvas.tr-org .tr-ul:not(.tr-root)>.tr-li:first-child::before{left:var(--cx,50%)}
+.tr-canvas.tr-org .tr-ul:not(.tr-root)>.tr-li:last-child::before{right:calc(100% - var(--cx,50%));height:0}
+.tr-canvas.tr-org .tr-ul:not(.tr-root)>.tr-li::after{top:-12px;left:var(--cx,50%);width:0;height:12px;border-top:0;border-left:2px solid var(--lc,var(--line-strong))}
+/* top down: guides turned (247 tmOrg) */
+.tr-org .gd-v.gd-tv{width:auto;height:0;border-right:0;border-top:2.5px dashed var(--mc)}
+.tr-org .gd-v.gd-tv .gd-stub{top:auto;bottom:0;right:auto;width:0;border-top:0;border-left:2.5px dashed var(--mc)}
+.tr-org .gd-v.gd-tv .gd-stub.top{left:-2.5px}
+.tr-org .gd-v.gd-tv .gd-stub.bot{left:auto;right:-2.5px}
+.tr-org .gd-v.gd-tv .gd-sh{display:none!important}
+.tr-org .gd-v.gd-tv .gd-hit{left:0;right:0;top:-8px;bottom:auto;width:auto;height:14px;cursor:ns-resize}
+.tr-org .gd-v.gd-tv .gd-rs{top:-7.5px;bottom:auto;cursor:ew-resize}
+.tr-org .gd-v.gd-tv .gd-rs.top{left:-7px;right:auto}
+.tr-org .gd-v.gd-tv .gd-rs.bot{left:auto;right:-7px}
+.tr-org .gd-v.gd-tv .gd-tools{left:0;top:-34px}
+.tr-org .gd-v.gd-tv .gd-lab{cursor:grab}
+.tr-org .gd-h.gd-hv{border-top:0;border-left:2.5px dashed var(--mc);width:0}
+.tr-org .gd-hv .gd-hit{left:-8px;right:auto;top:0;bottom:0;width:14px;height:auto;cursor:ew-resize}
+.tr-org .gd-hv .gd-lab{left:auto;right:8px;top:0;bottom:auto}
+.tr-org .gd-hv .gd-lab.below{left:8px;right:auto;top:0}
+.tr-org .gd-hv .gd-lab.below .gd-in{text-align:left}
+.tr-org .gd-hv .gd-tools{left:8px;top:30px}
+.tr-org .gd-a.gd-ad{border-top:0;border-left:2.5px dashed var(--mc);margin:0 0 0 -1.25px;width:0}
+.tr-org .gd-ad::after{left:-7.25px;top:100%;border-width:10px 6px 0 6px;border-color:var(--mc) transparent transparent transparent}
+.tr-org .gd-ad .gd-hit{left:-8px;right:auto;top:0;bottom:0;width:14px;height:auto;cursor:pointer}
+.tr-org .gd-ad .gd-tip{right:auto;left:-8px;top:auto;bottom:-14px;cursor:ns-resize}
+.tr-org .gd-ad .gd-lab{left:0;top:calc(100% + 12px);transform:translateX(-50%)}
+.tr-org .gd-ad .gd-tools{left:8px;top:0}
+/* names written vertically (bracket and vertical line) */
+.gd-vert .gd-lab{writing-mode:vertical-rl}
+.gd-vert .gd-in{writing-mode:vertical-rl;padding:4px 1px;text-align:start}
+.gd-v.gd-vert .gd-lab{left:8px}
+.gd-vert .gd-tools,.gd-vl .gd-tools{left:10px;top:-32px}
+.gd-tools button[data-tmrot]{font-size:12px}
+/* vertical line */
+.gd-vl{width:0;border-right:2.5px dashed var(--mc)}
+.gd-vl .gd-hit{top:0;bottom:0;right:-8px;width:14px;cursor:ew-resize}
+.gd-vl .gd-rs{right:-7.5px}
+.gd-vl .gd-lab{left:10px}
+/* a box's name and the vertical line's name drag along their line */
+.gd-vl .gd-in:not(:focus),.gd-box .gd-in:not(:focus){cursor:grab}
+.gd-pop label.vl-vert{display:flex;grid-column:1/-1;align-items:center;gap:6px}
+.gd-pop .vl-vert input{width:auto;height:auto}
+.tr-canvas{padding-top:12px}
+.gd-bkic{vertical-align:-2px}
+/* top down: an upright bracket on the left of its nodes when their right side is taken */
+.tr-org .gd-v.gd-vleft{border-right:0;border-left:2.5px dashed var(--mc)}
+.tr-org .gd-vleft .gd-stub{right:auto;left:-2.5px}
+.tr-org .gd-vleft .gd-sh{left:auto;right:-6px}
+.tr-org .gd-vleft .gd-hit{right:auto;left:-8px}
+.tr-org .gd-vleft .gd-rs{right:auto;left:-7.5px}
+.tr-org .gd-vleft .gd-lab{left:auto;right:10px}
+.tr-org .gd-vleft .gd-tools{left:auto;right:12px}
+/* the Line's length handle only exists standing (Top down) */
+.gd-hvlen{display:none!important}
+.tr-org .gd-hv.sel .gd-hvlen{display:block!important;left:-7.5px;right:auto;bottom:-7px;top:auto}
+.tr-org .gd-hv .gd-tools{top:auto;bottom:4px}
