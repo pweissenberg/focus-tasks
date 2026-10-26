@@ -1,0 +1,5 @@
+/* v86 (252): fold arrow on every task: top-left corner of an open row (on hover, always on touch), before the name on a folded one */
+.task:not(.hold-min) .fexp{position:absolute;left:12px;top:5px;z-index:2;width:18px;height:18px;margin:0;display:grid;place-items:center;border-radius:5px;font-size:11px;opacity:0;transition:opacity .12s}
+.task:not(.hold-min):hover .fexp,.task:not(.hold-min) .fexp:focus-visible{opacity:1}
+.task:not(.hold-min) .fexp:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
+@media (hover:none){.task:not(.hold-min) .fexp{opacity:.6}}

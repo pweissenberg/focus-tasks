@@ -1947,6 +1947,11 @@ body.fm-on{overflow:hidden}
 .dl-col{width:20px;height:20px;border-radius:50%;border:0;padding:0;background:var(--c);box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--line)}
 .dl-col.on{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
 .dl-clear{align-self:flex-start;border:0;background:none;color:var(--accent);font-weight:600;font-size:12.5px;padding:0}
+/* v86 (252): fold arrow on every task: top-left corner of an open row (on hover, always on touch), before the name on a folded one */
+.task:not(.hold-min) .fexp{position:absolute;left:12px;top:5px;z-index:2;width:18px;height:18px;margin:0;display:grid;place-items:center;border-radius:5px;font-size:11px;opacity:0;transition:opacity .12s}
+.task:not(.hold-min):hover .fexp,.task:not(.hold-min) .fexp:focus-visible{opacity:1}
+.task:not(.hold-min) .fexp:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
+@media (hover:none){.task:not(.hold-min) .fexp{opacity:.6}}
 </style>
 
 <section class="landing" id="landing" aria-labelledby="ld-h">
@@ -7651,6 +7656,20 @@ document.addEventListener('click',e=>{if(S.ui.logOpen&&innerWidth<=1180&&e.targe
   $('#dl-day').addEventListener('change',e=>set('day',e.target.value));
   $('#dl-cols').addEventListener('click',e=>{const b=e.target.closest('[data-dlcol]');if(b)set('color',dlF().color===b.dataset.dlcol?'':b.dataset.dlcol)});
   $('#dl-clear').onclick=()=>{S.ui.dlF={q:'',tag:'',color:'',date:'',day:''};save();dlDraw()}}
+/* ---------- v86: any task row folds like the On hold ones ----------
+   Normal tasks are open by default; the small arrow (top-left corner, shown on hover) folds the row to the name
+   and its note (same look as 239's folded On hold rows). Folded ids are kept in S.ui.foldMin (this device).
+   Not on On hold rows (239 does those), steps, the Done view, or tasks waiting on your part. */
+const foldMin=id=>(S.ui.foldMin||[]).includes(id);
+{const _row=row;row=function(t,depth){const el=_row.apply(this,arguments);
+  if(t.onHold||t.done||t.stepOf||S.ui.view==='done'||(typeof waitingForMe==='function'&&waitingForMe(t)))return el;
+  const nr=el.querySelector('.name-row'),n=nr&&nr.querySelector('.name');if(!n||nr.querySelector('.hexp'))return el;
+  const mn=foldMin(t.id),why=t.note||'';
+  n.insertAdjacentHTML('beforebegin',`<button class="hexp fexp" type="button" data-foldexp aria-expanded="${!mn}" title="${mn?'Show the whole task':'Fold this task'}" aria-label="${mn?'Expand':'Fold'} ${esc(t.name)}">${mn?'▸':'▾'}</button>`);
+  if(mn){el.classList.add('hold-min','fold-min');if(why)n.insertAdjacentHTML('afterend',`<span class="hreason" title="${esc(why)}">${esc(why)}</span>`)}
+  return el}}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-foldexp]');if(!b)return;e.stopPropagation();e.preventDefault();
+  const id=b.closest('.task').dataset.id,L=S.ui.foldMin||[];S.ui.foldMin=L.includes(id)?L.filter(x=>x!==id):[...L,id];save();render()},true);
 async function initCloud(){
   const cfg=window.FOCUS_CONFIG||{};
   if(cfg.url&&cfg.key){try{if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');}catch(e){return}
