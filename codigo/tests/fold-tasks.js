@@ -1,5 +1,6 @@
+// v86 (252): any task row folds (open by default), state kept after reload
 const {chromium}=require('playwright');
-const {open,sleep,checks}=require('/mnt/project-files/todo-site/tests/harness');
+const {open,sleep,checks}=require('./harness');
 const t=checks();
 (async()=>{const br=await chromium.launch();
  try{const {p,errs}=await open(br,{w:1440,h:900});
