@@ -41,7 +41,7 @@ function qeDraw(inp){
     qeMenu.addEventListener('mousedown',e=>e.preventDefault());
     qeMenu.addEventListener('click',e=>{const b=e.target.closest('[data-qe]');if(b)qePick(qeMenu._inp,+b.dataset.qe)})}
   qeMenu._inp=inp;qeMenu.classList.toggle('tip-only',!st);
-  if(!st){qeHits=[];qeMenu.innerHTML=`<div class="qe-t qe-tip">Type <kbd>[</kbd> to pick a tag${inp.id==='c-name'?', <kbd>@</kbd> for a project (<b>@Project, Subproject</b> for one of its tabs)':''} (Tab takes the first) and <kbd>;</kbd> to say how long it takes, like <b>;2</b> or <b>;1h</b>. A <kbd>!</kbd> marks it urgent, <b>!1</b> low, <b>!2</b> medium.</div>`}
+  if(!st){qeHits=[];qeMenu.innerHTML=`<div class="qe-t qe-tip">Type <kbd>[</kbd> to pick a tag${inp.id==='c-name'?', <kbd>@</kbd> for a project (<b>@Project, Subproject</b> for one of its tabs)':''} (Tab takes the first) and <kbd>;</kbd> to say how long it takes, like <b>;2</b> or <b>;1h</b>. A <kbd>!</kbd> marks it urgent, <b>!1</b> low, <b>!2</b> medium. Write a date in the name, like <b>tomorrow 3pm</b>, <b>next tuesday</b> or <b>sexta 15h</b>, and it becomes the due date.</div>`}
   else if(st.kind==='proj'){const q=st.q.trim().toLowerCase().replace(/\s*,\s*/g,', '),P=S.projects.filter(p=>!p.archived);
     qeHits=P.filter(p=>projFull(p).toLowerCase().startsWith(q)).concat(q?P.filter(p=>!projFull(p).toLowerCase().startsWith(q)&&projFull(p).toLowerCase().includes(q)):[]).slice(0,7);qeHi=Math.min(qeHi,Math.max(0,qeHits.length-1));
     qeMenu.innerHTML=qeHits.length?`<div class="qe-h">Project <span>Tab picks the first</span></div>`+qeHits.map((p,i)=>`<button type="button" role="option" data-qe="${i}" class="${i===qeHi?'on':''}"><i style="background:${p.color||'var(--accent)'}"></i>${esc(projFull(p))}</button>`).join('')

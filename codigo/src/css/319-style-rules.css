@@ -1,0 +1,53 @@
+/* v92 task patterns / pictures (t.bgPat) and Settings "Task style rules" (257) */
+.bgp{--pk:color-mix(in srgb,var(--tbg) 30%,transparent)}
+.bgp-dots{--pat:radial-gradient(var(--pk) 1.6px,transparent 2px);--patsz:12px 12px}
+.bgp-stripes{--pat:repeating-linear-gradient(0deg,var(--pk) 0 3px,transparent 3px 10px);--patsz:auto}
+.bgp-diag{--pat:repeating-linear-gradient(45deg,var(--pk) 0 3px,transparent 3px 11px);--patsz:auto}
+.bgp-grid{--pat:repeating-linear-gradient(0deg,var(--pk) 0 1px,transparent 1px 14px),repeating-linear-gradient(90deg,var(--pk) 0 1px,transparent 1px 14px);--patsz:auto,auto}
+.bgp-checks{--pat:repeating-conic-gradient(var(--pk) 0 25%,transparent 0 50%);--patsz:16px 16px}
+.bgp-waves{--pat:radial-gradient(circle at 50% 100%,transparent 6px,var(--pk) 6.5px 8px,transparent 8.5px),radial-gradient(circle at 50% 0,transparent 6px,var(--pk) 6.5px 8px,transparent 8.5px);--patsz:20px 10px,20px 10px}
+.bgp-zigzag{--pat:linear-gradient(135deg,var(--pk) 25%,transparent 25%),linear-gradient(225deg,var(--pk) 25%,transparent 25%);--patsz:14px 14px,14px 14px}
+.bgp-cross{--pat:conic-gradient(from 90deg at 2px 2px,transparent 25%,var(--pk) 0);--patsz:16px 16px}
+.bgp-img{--pat:linear-gradient(color-mix(in srgb,var(--surface) 50%,transparent),color-mix(in srgb,var(--surface) 50%,transparent)),var(--tbgimg);--patsz:auto,cover}
+.task.bgp:not(.hold),.mt-wrap.bgp{background-image:var(--pat)!important;background-size:var(--patsz)!important;background-position:center}
+.task.glow.bgp:not(.hold){background-image:linear-gradient(90deg,var(--c) 0 5px,transparent 5px),var(--pat)!important;background-size:100% 100%,var(--patsz)!important}
+.mt-wrap.bgp::before{background:var(--surface)}
+/* pickers */
+.pat-pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pat-pick label{cursor:pointer;position:relative}
+.pat-pick input[type=radio]{position:absolute;opacity:0;pointer-events:none}
+.psw{display:block;width:26px;height:26px;border-radius:6px;border:1px solid var(--line-strong);outline:2px solid transparent;
+  --tbg:var(--accent);background-color:color-mix(in srgb,var(--accent) 12%,var(--surface));background-image:var(--pat);background-size:var(--patsz)}
+.psw.none{display:grid;place-items:center;font-size:13px;color:var(--ink-3);background:var(--surface)}
+.psw.img{background-size:cover;background-position:center}
+.pat-pick input:checked+.psw{outline-color:var(--accent);outline-offset:1px}
+.pat-pick input:focus-visible+.psw{outline-color:var(--accent)}
+.pat-up{width:26px;height:26px;border-radius:6px;border:1.5px dashed var(--line-strong);display:grid;place-items:center;color:var(--ink-3);font-size:15px}
+.pat-up:hover{color:var(--accent);border-color:var(--accent)}
+/* Settings section */
+.modal.settings.has-sr{max-width:560px;width:min(560px,100%)}
+.sr-set{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:12px}
+.sr-h{display:flex;align-items:center;justify-content:space-between;gap:8px;font:600 11px var(--f-mono);letter-spacing:.06em;color:var(--ink-3)}
+.sr-empty{margin:0;font-size:13px;color:var(--ink-3)}
+.sr-card{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface-2,var(--surface))}
+.sr-card.off{opacity:.55}
+.sr-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sr-on{font-weight:600;font-size:13px;display:flex;gap:6px;align-items:center}
+.sr-tools{display:flex;gap:8px}
+.sr-tools .linkbtn[disabled]{opacity:.3;pointer-events:none}
+.sr-if{display:grid;grid-template-columns:auto 1fr 1fr;gap:6px;align-items:center}
+.sr-if b,.sr-then>b{font:600 11px var(--f-mono);color:var(--accent)}
+.sr-if input{grid-column:2/4}
+.sr-if select:first-of-type{grid-column:2}
+.sr-if input,.sr-if select{min-width:0;width:100%}
+.sr-then{display:flex;flex-direction:column;gap:6px}
+.sr-row{display:grid;grid-template-columns:76px 1fr;gap:8px;align-items:center;font-size:12.5px;color:var(--ink-2)}
+.sr-row.sr-chk{display:flex;gap:16px;padding-left:84px}
+.sr-row.sr-chk label{display:flex;gap:6px;align-items:center}
+.swatches.sm .sw,.swatches.sm .custom,.sr-row .psw,.sr-row .pat-up,.sr-row .gsw{width:20px;height:20px}
+.swatches.sm .sw.auto{width:auto;padding:0 5px;font-size:10.5px}
+.sr-imgs{display:flex;flex-wrap:wrap;gap:8px}
+.sr-img{width:64px;height:44px;border-radius:8px;background-size:cover;background-position:center;border:1px solid var(--line);position:relative}
+.sr-img button{position:absolute;top:-7px;right:-7px;width:20px;height:20px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-2);font-size:13px;line-height:1;padding:0}
+.sr-img button:hover{color:#c2553f;border-color:#c2553f}
+@media (max-width:520px){.sr-if{grid-template-columns:auto 1fr}.sr-if input,.sr-if select,.sr-if select:first-of-type{grid-column:2}.sr-row{grid-template-columns:1fr}.sr-row.sr-chk{padding-left:0}}

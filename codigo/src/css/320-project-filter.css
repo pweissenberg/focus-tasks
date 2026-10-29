@@ -1,0 +1,5 @@
+/* v91 "All projects" dropdown at the left of the Sort row */
+.pfbtn{max-width:220px;margin-right:8px}
+.pfbtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pfbtn.on{color:var(--accent)}
+.pop.pop-menu:has(.pf-menu){max-height:60vh;overflow:auto}
