@@ -13,7 +13,7 @@ const FROG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
     const sec=document.createElement('div');sec.className='hard-sec';
     sec.innerHTML=`<div class="hard-h">${FROG}<b>Hard task chosen for the day</b><span>Do it first.</span><button type="button" class="linkbtn" data-hardx title="Stop showing a hard task today">Not today</button></div>`;
     const r=row(t,0);sec.appendChild(r);list.prepend(sec);
-    const m=typeof microHTML==='function'&&microHTML(t);if(m){r.insertAdjacentHTML('afterend',m);r.classList.add('has-mt');const b=r.nextElementSibling;b.style.setProperty('--c',r.style.getPropertyValue('--c'))}}
+    const m=typeof microHTML==='function'&&!r.classList.contains('hold-min')&&microHTML(t);if(m){r.insertAdjacentHTML('afterend',m);r.classList.add('has-mt');const b=r.nextElementSibling;b.style.setProperty('--c',r.style.getPropertyValue('--c'))}}
   /* no hard task chosen: nothing shows in the list (Pedro, v46); it is picked from the Plan and review menu */}}
 function openHardPop(anchor){
   const ts=S.tasks.filter(hardOk).sort((a,b)=>(b.prio||0)-(a.prio||0)||a.createdAt.localeCompare(b.createdAt));

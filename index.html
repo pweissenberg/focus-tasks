@@ -5663,7 +5663,7 @@ const FROG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
     const sec=document.createElement('div');sec.className='hard-sec';
     sec.innerHTML=`<div class="hard-h">${FROG}<b>Hard task chosen for the day</b><span>Do it first.</span><button type="button" class="linkbtn" data-hardx title="Stop showing a hard task today">Not today</button></div>`;
     const r=row(t,0);sec.appendChild(r);list.prepend(sec);
-    const m=typeof microHTML==='function'&&microHTML(t);if(m){r.insertAdjacentHTML('afterend',m);r.classList.add('has-mt');const b=r.nextElementSibling;b.style.setProperty('--c',r.style.getPropertyValue('--c'))}}
+    const m=typeof microHTML==='function'&&!r.classList.contains('hold-min')&&microHTML(t);if(m){r.insertAdjacentHTML('afterend',m);r.classList.add('has-mt');const b=r.nextElementSibling;b.style.setProperty('--c',r.style.getPropertyValue('--c'))}}
   /* no hard task chosen: nothing shows in the list (Pedro, v46); it is picked from the Plan and review menu */}}
 function openHardPop(anchor){
   const ts=S.tasks.filter(hardOk).sort((a,b)=>(b.prio||0)-(a.prio||0)||a.createdAt.localeCompare(b.createdAt));
@@ -7869,6 +7869,12 @@ document.addEventListener('click',e=>{const b=e.target.closest('.tnd-row [data-t
   const x=ttFind(p,id);if(x&&!x.cur)ttSwitch(p,x.tab.id)},true);
 document.addEventListener('change',e=>{const c=e.target.closest('.tnd-row [data-tndopen]');if(!c||c.checked)return;const {p,id}=tndOf(c);if(!p||!ttHas(p))return;
   const x=ttFind(p,id);if(!x||x.cur)return;e.stopImmediatePropagation();const n=x.tree.find(y=>y.id===id);delete n.done;delete n.doneAt;commit();toast(`Back in the tree "${x.tab.name}" as an open step.`)},true);
+/* ---------- v89: a folded task hides its microtasks ----------
+   A row folded with its arrow (252, or a folded On hold row from 239) drops the microtask box and its ▸/▾ button,
+   so it looks the same as a folded task with no microtasks. Opening the row brings them back as they were. */
+{const _row=row;row=function(t,depth){const el=_row.apply(this,arguments);
+  if(el.classList.contains('hold-min')&&el.classList.contains('has-mt')){el.classList.remove('has-mt');const f=el.querySelector('.mt-fold');if(f)f.remove()}
+  return el}}
 async function initCloud(){
   const cfg=window.FOCUS_CONFIG||{};
   if(cfg.url&&cfg.key){try{if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');}catch(e){return}
