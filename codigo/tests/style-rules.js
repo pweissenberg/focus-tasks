@@ -36,6 +36,7 @@ const PNG=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4n
   await p.locator('#list').screenshot({path:'/tmp/claude-0/s/sr-list.png'});
   const tz=await p.evaluate(()=>[...document.querySelectorAll('#list .task')].find(r=>r.querySelector('.name').textContent==='Tanzania').dataset.id);
   await t.ok(p,'tag + project rule on Tanzania (Supply, Research)',tz=>document.querySelector(`.task[data-id="${tz}"]`).classList.contains('bgp-stripes'),tz);
+  await t.ok(p,'pattern without a background color adds no fill',tz=>{const r=document.querySelector(`.task[data-id="${tz}"]`);return !r.classList.contains('has-bg')&&!r.classList.contains('tag-fill')&&getComputedStyle(r).backgroundColor===getComputedStyle(document.querySelector('.panel')).backgroundColor},tz);
   await t.ok(p,'not on Econs (other tag)',()=>{const r=[...document.querySelectorAll('#list .task')].find(r=>r.querySelector('.name').textContent==='Econs');return r&&!r.classList.contains('bgp-stripes')});
   await openSettings();await p.locator('.sr-card').nth(1).locator('[data-srf=on]').uncheck();await sleep(200);await p.click('.modal.settings [data-x]');await sleep(200);
   await t.ok(p,'rule off = no style',tz=>!document.querySelector(`.task[data-id="${tz}"]`).classList.contains('bgp-stripes'),tz);

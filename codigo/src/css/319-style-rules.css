@@ -1,5 +1,5 @@
 /* v92 task patterns / pictures (t.bgPat) and Settings "Task style rules" (257) */
-.bgp{--pk:color-mix(in srgb,var(--tbg) 30%,transparent)}
+.bgp{--pk:color-mix(in srgb,var(--tpk,var(--tbg)) 30%,transparent)}
 .bgp-dots{--pat:radial-gradient(var(--pk) 1.6px,transparent 2px);--patsz:12px 12px}
 .bgp-stripes{--pat:repeating-linear-gradient(0deg,var(--pk) 0 3px,transparent 3px 10px);--patsz:auto}
 .bgp-diag{--pat:repeating-linear-gradient(45deg,var(--pk) 0 3px,transparent 3px 11px);--patsz:auto}
@@ -17,7 +17,7 @@
 .pat-pick label{cursor:pointer;position:relative}
 .pat-pick input[type=radio]{position:absolute;opacity:0;pointer-events:none}
 .psw{display:block;width:26px;height:26px;border-radius:6px;border:1px solid var(--line-strong);outline:2px solid transparent;
-  --tbg:var(--accent);background-color:color-mix(in srgb,var(--accent) 12%,var(--surface));background-image:var(--pat);background-size:var(--patsz)}
+  --tbg:var(--accent);background-color:var(--surface);background-image:var(--pat);background-size:var(--patsz)}
 .psw.none{display:grid;place-items:center;font-size:13px;color:var(--ink-3);background:var(--surface)}
 .psw.img{background-size:cover;background-position:center}
 .pat-pick input:checked+.psw{outline-color:var(--accent);outline-offset:1px}

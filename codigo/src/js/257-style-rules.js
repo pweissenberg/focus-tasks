@@ -29,7 +29,8 @@ const isUrgent=t=>t.prio===3||(!t.done&&!t.prio&&!!srFx(t).urgent);
   if(open&&!t.glow&&!t.stepOf&&fx.glow&&!el.classList.contains('glow'))el.classList.add('glow','g-'+fx.glow);
   if(!t.bg&&fx.bg){el.style.setProperty('--tbg',fx.bg);el.classList.remove('tag-fill');el.classList.add('has-bg')}
   const pat=patOf(t);
-  if(pat&&!t.stepOf){if(!el.style.getPropertyValue('--tbg'))el.style.setProperty('--tbg',colorOf(t));el.classList.remove('tag-fill');el.classList.add('has-bg','bgp');
+  // a pattern alone adds no background color (Pedro): its lines take the task color, the row keeps its own background
+  if(pat&&!t.stepOf){if(!el.style.getPropertyValue('--tbg'))el.style.setProperty('--tpk',colorOf(t));el.classList.add('bgp');
     if(pat.startsWith('img:')){const im=imgOf(pat);if(im){el.classList.add('bgp-img');el.style.setProperty('--tbgimg',`url("${im.data}")`)}else el.classList.remove('bgp')}
     else el.classList.add('bgp-'+pat)}
   if(open&&!t.prio&&fx.urgent){const n=el.querySelector('.name-row .name');if(n&&!el.querySelector('.urg'))n.insertAdjacentHTML('beforebegin','<b class="urg" title="Urgent (style rule)" aria-label="Urgent">!</b>')}
@@ -37,7 +38,7 @@ const isUrgent=t=>t.prio===3||(!t.done&&!t.prio&&!!srFx(t).urgent);
 // the microtask box under a row takes its pattern too
 {const _r=render;render=function(){_r.apply(this,arguments);
   document.querySelectorAll('.task.bgp+.mt-wrap').forEach(w=>{const r=w.previousElementSibling;if(r.classList.contains('hold'))return;
-    w.classList.add('bgp',...[...r.classList].filter(c=>c.startsWith('bgp-')));w.style.setProperty('--tbg',r.style.getPropertyValue('--tbg'));
+    w.classList.add('bgp',...[...r.classList].filter(c=>c.startsWith('bgp-')));['--tbg','--tpk'].forEach(v=>{const x=r.style.getPropertyValue(v);if(x)w.style.setProperty(v,x)});
     const im=r.style.getPropertyValue('--tbgimg');if(im)w.style.setProperty('--tbgimg',im)})}}
 // sorting: Top first (open tasks), urgent rules count as High in Priority sort
 {const _c=cmp;cmp=function(a,b){
