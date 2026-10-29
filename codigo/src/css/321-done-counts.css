@@ -1,0 +1,7 @@
+/* v94 Stats: tasks done counts */
+.done-counts{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+.dc-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;margin-bottom:16px}
+.dc-head .big{font-family:var(--f-mono);font-size:30px;font-weight:700;color:var(--ink)}
+.dc-head .sub{color:var(--ink-2);font-size:13.5px}
+.dc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 28px}
+@media (max-width:900px){.dc-grid{grid-template-columns:1fr}}
