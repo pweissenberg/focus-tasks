@@ -1,4 +1,5 @@
 /* v96: Glow / Background / Pattern buttons in the add bars' Advanced settings */
+.cadv .lk-line{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 28px}
 .cadv .alook{justify-content:flex-end}
 .lk-row{display:flex;gap:10px;align-items:flex-end}
 .lk-g{display:flex;flex-direction:column;align-items:center;gap:4px}

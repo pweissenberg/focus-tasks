@@ -2060,6 +2060,7 @@ body.fm-on{overflow:hidden}
 .schedwin .modal-actions{align-items:center}
 .schedwin .modal-actions .linkbtn{margin-right:auto}
 /* v96: Glow / Background / Pattern buttons in the add bars' Advanced settings */
+.cadv .lk-line{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px 28px}
 .cadv .alook{justify-content:flex-end}
 .lk-row{display:flex;gap:10px;align-items:flex-end}
 .lk-g{display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -8198,8 +8199,8 @@ function lkPopHTML(k,w){const a=ADV[k].a;
   return `<div class="lk-pop" data-lkpop="${w}" role="group" aria-label="${LK_NAMES[w]}">${body}</div>`}
 {const _ap=advPanelHTML;advPanelHTML=function(k){const st=ADV[k];
   const btns=['glow','bg','pat'].map(w=>`<div class="lk-g"><span>${LK_NAMES[w]}</span><button type="button" class="lk-b" data-lk="${w}" aria-expanded="${st.lk===w}" title="${esc(lkTitle(k,w))}">${lkPreview(k,w)}</button></div>`).join('');
-  const h=`<div class="afld alook"><div class="lk-row">${btns}</div></div>${st.lk?lkPopHTML(k,st.lk):''}`;
-  return _ap(k).replace('<p class="sp-hint" data-advhint',h+'<p class="sp-hint" data-advhint')}}
+  const h=`<div class="afld alook"><div class="lk-row">${btns}</div></div>`; // on the "Long-term task" line
+  return _ap(k).replace(/<label class="chk" data-advlong[\s\S]*?<\/label>/,m=>`<div class="lk-line">${m}${h}</div>${st.lk?lkPopHTML(k,st.lk):''}`)}}
 function lkPaint(k){const f=advForm(k);if(!f)return;
   f.querySelectorAll('.cadv [data-lk]').forEach(b=>{b.innerHTML=lkPreview(k,b.dataset.lk);b.title=lkTitle(k,b.dataset.lk)});advSync(k)}
 function lkBind(k){const w=ADV[k].lk,f=advForm(k),P=w&&f&&f.querySelector('.lk-pop');if(!P)return;
