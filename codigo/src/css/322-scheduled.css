@@ -1,0 +1,4 @@
+/* v95 scheduled tasks: shared end-of-list line and window (260-scheduled.js) */
+.schedline .sch-sep{margin:0 8px;color:var(--ink-3)}
+.schedwin .modal-actions{align-items:center}
+.schedwin .modal-actions .linkbtn{margin-right:auto}

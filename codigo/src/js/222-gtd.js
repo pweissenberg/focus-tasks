@@ -17,7 +17,7 @@ const fmtDays=n=>n===0?'today':n===1?'1 day':`${n} days`;
   const meta=el.querySelector('.meta');
   if(meta&&t.onHold&&!t.done){const since=t.waitSince?fmtDays(daysSince(t.waitSince)):'';
     meta.insertAdjacentHTML('beforeend',`<button class="waitc" type="button" data-wait title="Who you are waiting for (click to change)">${t.waitFor?`Waiting for <b>${esc(t.waitFor)}</b>`:'Waiting'}${since?` · ${since}`:''}</button>`)}
-  if(meta&&isDeferred(t))meta.insertAdjacentHTML('beforeend',`<span class="defc" title="Hidden from the list until this day">Deferred until ${isoToUS(t.defer)}</span>`);
+  if(meta&&isDeferred(t))meta.insertAdjacentHTML('beforeend',`<span class="defc" title="Hidden from the list until this day">Shows on ${isoToUS(t.defer)}</span>`);
   return el}}
 // a repeating task carries its time and microtasks
 {const _cp=complete;complete=function(t){const sp=t.spawnedId;_cp.apply(this,arguments);
@@ -53,7 +53,7 @@ list.addEventListener('click',e=>{if(e.target.closest('[data-defshow]')){S.ui.sh
 // the edit window gets "Takes" and "Defer until"
 {const _oe=openEdit;openEdit=function(id){_oe.apply(this,arguments);const t=byId(id),f=modal&&modal.querySelector('form');if(!t||!f||!f.querySelector('#ed-name'))return;
   f.querySelector('.modal-actions').insertAdjacentHTML('beforebegin',`<div class="row2"><label class="fld"><span>TAKES</span><input id="ed-est" type="text" class="mono" placeholder="2, 15m, 1h30" value="${t.est?esc(fmtEst(t.est)):''}"></label>
-    <label class="fld"><span>DEFER UNTIL</span><input id="ed-defer" type="text" class="mono" placeholder="MM/DD/YYYY" value="${t.defer?isoToUS(t.defer):''}"></label></div>
+    <label class="fld"><span>SHOW FROM</span><input id="ed-defer" type="text" class="mono" placeholder="MM/DD/YYYY" value="${t.defer?isoToUS(t.defer):''}"></label></div>
     <div class="fld"><span>GLOW</span>${glowPickHTML('ed-glow',t.glow||'',true)}</div>`);
   bindDate(f.querySelector('#ed-defer'));
   const sub=f.onsubmit;f.onsubmit=e=>{const ei=f.querySelector('#ed-est'),di=f.querySelector('#ed-defer'),est=parseDur(ei.value),df=parseDate(di.value);

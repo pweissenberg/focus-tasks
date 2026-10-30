@@ -24,7 +24,7 @@ const t=checks();
     s=await state(a);const d1=s.tasks.find(x=>x.id===r1);t.is('edit window saves a glow',d1.glow==='violet');
     t.is('edit window saves defer and time',!!d1.defer&&d1.est===10);
     await t.ok(a,'deferred task is hidden with a line to show it',id=>!document.querySelector(`.task[data-id="${id}"]`)&&!!document.querySelector('.defline'),r1);
-    await a.click('[data-defshow]');await sleep(200);
+    await a.click('#list [data-schedall]');await sleep(200);await a.click('.schedwin [data-defshow]');await sleep(200);
     await t.ok(a,'Show them brings it back, glowing violet',id=>{const r=document.querySelector(`.task[data-id="${id}"]`);return !!r.querySelector('.defc')&&r.classList.contains('g-violet')},r1);
     await shot(a,'gtd-glow');
     // weekly review
