@@ -2065,14 +2065,48 @@ body.fm-on{overflow:hidden}
 .lk-row{display:flex;gap:10px;align-items:flex-end}
 .lk-g{display:flex;flex-direction:column;align-items:center;gap:4px}
 .lk-g>span{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
-.lk-b{display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer}
-.lk-b:hover{border-color:var(--line-strong)}
-.lk-b[aria-expanded=true]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.lk-b .gsw,.lk-b .sw,.lk-b .psw{width:22px;height:22px;pointer-events:none}
-.lk-b .sw.auto{width:auto;min-width:22px;padding:0 3px;font-size:9px;display:grid;place-items:center;border-radius:5px}
+/* v100: the swatch itself is the button (no square frame around it) */
+.lk-b{display:grid;place-items:center;width:auto;height:auto;padding:0;border:0;border-radius:6px;background:none;cursor:pointer;line-height:0}
+.lk-b .gsw,.lk-b .sw,.lk-b .psw{width:28px;height:28px;pointer-events:none;outline:2px solid transparent;outline-offset:2px;transition:outline-color .12s,transform .12s}
+.lk-b .gsw{border-radius:50%}
+.lk-b .sw.auto{width:auto;min-width:28px;padding:0 5px;font-size:10px;display:grid;place-items:center;border-radius:6px;border:1px solid var(--line-strong)}
+.lk-b:hover .gsw,.lk-b:hover .sw,.lk-b:hover .psw{transform:scale(1.08)}
+.lk-b:focus-visible{outline:none}
+.lk-b:focus-visible>*,.lk-b[aria-expanded=true]>*{outline-color:var(--accent)}
 .cadv .lk-pop{grid-column:1/-1;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
 .composer .cadv .lk-pop input,.pt-add .cadv .lk-pop input{width:auto;height:auto;border:0;padding:0;box-shadow:none;background:none}
 .composer .cadv .lk-pop .custom input,.pt-add .cadv .lk-pop .custom input{width:100%;height:100%}
+/* the phone rail row got too long (Goals + review + bell + team...): it never runs past the brand, and scrolls sideways when full */
+@media (max-width:980px){.rail{max-width:calc(100% - 92px);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}.rail::-webkit-scrollbar{display:none}.rail>*{flex:none}}
+/* v100: task templates (star on the row, save window, Template select in the add bars) */
+.tstar{border:0;background:none;color:var(--ink-3);padding:2px 4px;border-radius:4px;line-height:0;display:inline-flex;align-items:center;flex:none;opacity:0}
+.task:hover .tstar,.task.ksel .tstar,.tstar:focus-visible{opacity:.8}
+.tstar:hover{opacity:1!important;background:color-mix(in srgb,currentColor 12%,transparent)}
+.tstar.on{opacity:1;color:var(--accent)}
+.tstar.on svg,.tt-row.on .tt-st svg{fill:color-mix(in srgb,var(--accent) 30%,transparent)}
+@media (hover:none){.tstar{opacity:.5}}
+#projPage.ro .tstar{display:none}
+.pop:has(.tt-pop){width:290px}
+.tt-sub{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.tt-fields{display:flex;flex-direction:column;gap:2px}
+.tt-f{display:flex;align-items:center;gap:8px;padding:3px 2px;font-size:13.5px;cursor:pointer;min-width:0}
+.tt-f input{flex:none;margin:0}
+.tt-f em{margin-left:auto;font-style:normal;font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%}
+.tt-f.off{color:var(--ink-3);cursor:default}
+.tt-dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-2px;border:1px solid var(--line-strong)}
+.tt-saved{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}
+.tt-row{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink-2);min-width:0}
+.tt-row .tt-st{line-height:0;color:var(--ink-3)}
+.tt-row.on .tt-st{color:var(--accent)}
+.tt-nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tt-del{border:0;background:none;color:var(--ink-3);font-size:16px;line-height:1;padding:0 4px;border-radius:4px;cursor:pointer}
+.tt-del:hover{color:var(--danger,#c0392b);background:color-mix(in srgb,currentColor 10%,transparent)}
+.cadv .lk-g.atpl{align-items:flex-start;min-width:0}
+.cadv .atpl select{height:34px;width:190px;max-width:100%}
+/* v101: Template sits in the Glow / Background / Pattern row (wraps to its own line on narrow screens) */
+.cadv .lk-row:has(.atpl){flex-wrap:wrap;row-gap:8px}
+.cadv .lk-g.atpl{align-items:flex-start}
+@container panel (max-width:420px){.cadv .atpl select{width:170px}}
 </style>
 
 <section class="landing" id="landing" aria-labelledby="ld-h">
@@ -2628,7 +2662,7 @@ function row(t,depth){
     <button class="caret${ch.length?'':' none'}${t.collapsed?' closed':''}" type="button" data-act="toggle" aria-label="${t.collapsed?'Expand':'Collapse'} subtasks">▼</button>
     <label class="check" title="${open?'Mark as done':'Move back to tasks'}"><input type="checkbox" data-act="done"${open&&!selDone(t)?'':' checked'} aria-label="Done"><span></span></label>
     <div class="body">
-      <div class="name-row">${t.prio?`<button class="pflag pr${t.prio}" type="button" data-act="prio" aria-label="Priority: ${PRIO_NAME[t.prio]}" title="Priority: ${PRIO_NAME[t.prio]}">${icons.flag}</button>`:''}<span class="name">${esc(t.name)}</span>${avStack(t)}${estHTML(t)}${cmtBtnHTML(t)}${assigneeHTML(t)}${total?`<span class="subcount">${doneKids}/${total}</span>`:''}<button class="pencil" type="button" data-act="edit" aria-label="Edit task" title="Edit task (E)">${icons.pencil}</button>${!t.prio&&open?`<button class="pencil pset" type="button" data-act="prio" aria-label="Set priority" title="Set priority">${icons.flagO}</button>`:''}</div>
+      <div class="name-row">${t.prio?`<button class="pflag pr${t.prio}" type="button" data-act="prio" aria-label="Priority: ${PRIO_NAME[t.prio]}" title="Priority: ${PRIO_NAME[t.prio]}">${icons.flag}</button>`:''}<span class="name">${esc(t.name)}</span>${avStack(t)}${estHTML(t)}${cmtBtnHTML(t)}${assigneeHTML(t)}${total?`<span class="subcount">${doneKids}/${total}</span>`:''}${typeof tplStarHTML==='function'?tplStarHTML(t):''}<button class="pencil" type="button" data-act="edit" aria-label="Edit task" title="Edit task (E)">${icons.pencil}</button>${!t.prio&&open?`<button class="pencil pset" type="button" data-act="prio" aria-label="Set priority" title="Set priority">${icons.flagO}</button>`:''}</div>
       <div class="meta"><span>Added: <span class="d">${tsToUS(t.createdAt)}</span></span>${due}${!open?`<span class="fin">Completed: <span class="d">${tsToUS(t.doneAt)}</span></span>`:''}${t.archived&&!open?'<span class="archtag">Archived</span>':''}${tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''}${proj?`<span class="projtag">${esc(projFull(proj))}</span>`:''}${t.longTerm&&!open?'<span>Long term</span>':''}${parentTxt}${t.repeat?`<span class="rep" title="Repeats">↻ ${repLabel(t.repeat)}</span>`:''}${t.shared&&t.passedBy&&t.passedBy!==CL.uid&&CL.on?`<span class="from">from ${esc(personName(t.passedBy))}</span>`:''}${isAct?`<span class="actchip">● Active now until ${hm(act.end)}</span>`:''}${spentOf(t.id)>=60000?`<span class="spent" title="Time tracked on this task">⏱ ${fmtDur(spentOf(t.id))}</span>`:''}</div>
     </div>
     <label class="note"><span>Note:</span><input type="text" data-act="note" value="${esc(t.note)}" placeholder="click to write" aria-label="Note for ${esc(t.name)}"></label>
@@ -8216,6 +8250,102 @@ document.addEventListener('click',e=>{const b=e.target.closest('.cadv [data-lk]'
 {const _s=advSummary;advSummary=k=>{const a=ADV[k].a;return [_s(k),a.glow?'glow':'',a.bg?'background':'',a.bgPat?'pattern':''].filter(Boolean).join(', ')}}
 {const _af=addFromBar;addFromBar=function(k,o){const {glow,bg,bgPat}=ADV[k].a,t=_af.apply(this,arguments);
   if(t){if(glow)t.glow=glow;if(bg)t.bg=bg;if(bgPat)t.bgPat=bgPat}ADV[k].lk=null;return t}}
+/* The Goals view (v98) was removed at Pedro's request; a saved view of 'goals' goes back to Tasks. */
+if(S.ui.view==='goals')S.ui.view='tasks';
+/* ---------- v100: task templates (Pedro) ----------
+   Star on the task row (after the comment icon, before the pencil) opens a small window: name + checkboxes for what goes in
+   (color, project, tag, glow, background, pattern, microtasks, steps, note; never history). Saved in S.taskTpls
+   [{id,name,f:{color,project,tag,glow,bg,pat,micro:[names],steps:[names|null],note}}] (synced key). Only chosen keys are in f.
+   Add bars: "Template" select in Advanced settings (ADV[k].a.tpl) prefills tag/project/color/glow/background/pattern
+   in the bar; microtasks, steps and note are added when the task is created. The star is blue when the task holds
+   everything from some template (tplMatch). */
+SYNC_KEYS.push('taskTpls');
+const ttpls=()=>S.taskTpls||(S.taskTpls=[]);
+const TT_F=[['color','Color'],['project','Project'],['tag','Tag'],['glow','Glow'],['bg','Background'],['pat','Pattern'],['micro','Microtasks'],['steps','Steps'],['note','Note']];
+const starIcon='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.25 1.03 6-5.38-2.83-5.38 2.83 1.03-6L3.3 9.6l6-.9z"/></svg>';
+function tplVal(t,k){
+  if(k==='color')return t.color||null;if(k==='project')return t.projectId||null;if(k==='tag')return t.tagId||null;
+  if(k==='glow')return t.glow||null;if(k==='bg')return t.bg||null;if(k==='pat')return t.bgPat||null;
+  if(k==='micro')return microOf(t).map(m=>m.name.trim()).filter(Boolean);
+  if(k==='steps'){const st=t.steps||[];if(st.length<2)return [];if(typeof syncStep==='function')syncStep(t);
+    const b=st[0].name;return st.map((s,i)=>i===0||s.name===`${b} ${i+1}`?null:s.name)} // null = "<task name> N"
+  if(k==='note')return (t.note||'').trim();
+}
+const tplHas=v=>Array.isArray(v)?v.length>0:!!v;
+function tplShow(k,v){ // short text for the window and the template list
+  if(!tplHas(v))return 'none';
+  if(k==='color'||k==='bg')return `<span class="tt-dot" style="background:${esc(v)}"></span>`;
+  if(k==='project'){const p=projOfId(v);return p?esc(typeof projFull==='function'?projFull(p):p.name):'none'}
+  if(k==='tag'){const g=S.tags.find(x=>x.id===v);return g?esc(g.name):'none'}
+  if(k==='glow')return esc((GLOWS.find(g=>g[0]===v)||['',v])[1]);
+  if(k==='pat')return v.startsWith('img:')?'picture':esc((BGPATS.find(b=>b[0]===v)||['',v])[1]);
+  if(k==='micro')return v.length+' microtask'+(v.length===1?'':'s');
+  if(k==='steps')return v.length+' steps';
+  if(k==='note')return esc(v.length>34?v.slice(0,34)+'…':v);
+}
+function tplMatch(t,tp){
+  const f=tp.f||{},ks=Object.keys(f);if(!ks.length)return false;
+  return ks.every(k=>{const a=f[k],b=tplVal(t,k);
+    if(k==='micro'){const have=b.map(x=>x.toLowerCase());return a.every(n=>have.includes(n.toLowerCase()))}
+    if(k==='steps')return b.length>=a.length&&a.every((n,i)=>n==null||b[i]===n);
+    if(k==='note')return !!a&&b.includes(a);
+    return (a||null)===(b||null)});
+}
+const tplOf=t=>ttpls().find(tp=>tplMatch(t,tp));
+function tplStarHTML(t){
+  if(!t||t.stepOf)return'';const m=tplOf(t);
+  return `<button class="tstar${m?' on':''}" type="button" data-ttpl="${t.id}" title="${m?`Has everything from template "${esc(m.name)}"`:'Save as template'}" aria-label="${m?`Template: ${esc(m.name)}`:'Save as template'}">${starIcon}</button>`;
+}
+function openTplPop(anchor,t){
+  const vals={};TT_F.forEach(([k])=>vals[k]=tplVal(t,k));
+  const listHTML=()=>ttpls().length?`<div class="tt-saved"><span class="tt-sub">Saved templates</span>${ttpls().map(tp=>`<div class="tt-row${tplMatch(t,tp)?' on':''}"><span class="tt-st">${starIcon}</span><span class="tt-nm" title="${esc(TT_F.filter(([k])=>k in tp.f).map(([,l])=>l).join(', '))}">${esc(tp.name)}</span><button type="button" class="tt-del" data-ttdel="${tp.id}" aria-label="Delete template ${esc(tp.name)}" title="Delete template">×</button></div>`).join('')}</div>`:'';
+  openPop(anchor,`<form class="pop-form tt-pop"><strong>Save as template</strong>
+    <input type="text" id="tt-name" maxlength="60" value="${esc(t.name)}" aria-label="Template name" placeholder="Template name">
+    <span class="tt-sub">What goes in</span>
+    <div class="tt-fields">${TT_F.map(([k,l])=>{const h=tplHas(vals[k]);return `<label class="tt-f${h?'':' off'}"><input type="checkbox" data-ttk="${k}"${h?' checked':' disabled'}><span>${l}</span><em>${tplShow(k,vals[k])}</em></label>`}).join('')}</div>
+    <p class="sp-hint" data-tthint hidden></p>
+    <div class="pop-actions"><button type="button" class="btn" data-x>Cancel</button><button class="btn primary">Save template</button></div>
+    <div data-ttlist>${listHTML()}</div></form>`,el=>{
+    const F=el.querySelector('form');
+    el.querySelector('[data-x]').onclick=closePop;
+    F.addEventListener('click',e=>{const d=e.target.closest('[data-ttdel]');if(!d)return;e.preventDefault();
+      const tp=ttpls().find(x=>x.id===d.dataset.ttdel);if(!tp)return;S.taskTpls=ttpls().filter(x=>x!==tp);
+      el.querySelector('[data-ttlist]').innerHTML=listHTML();commit();toast(`Template "${tp.name}" deleted.`)});
+    F.onsubmit=e=>{e.preventDefault();const ni=el.querySelector('#tt-name'),name=ni.value.trim(),h=el.querySelector('[data-tthint]');
+      if(!name){ni.classList.add('invalid');ni.focus();return}
+      const ks=[...el.querySelectorAll('[data-ttk]:checked')].map(c=>c.dataset.ttk);
+      if(!ks.length){h.hidden=false;h.textContent='Pick at least one thing for the template.';return}
+      const f={};ks.forEach(k=>f[k]=Array.isArray(vals[k])?vals[k].slice():vals[k]);
+      const old=ttpls().find(x=>x.name.toLowerCase()===name.toLowerCase());
+      if(old)old.f=f;else ttpls().push({id:uid(),name,f});
+      closePop();commit();toast(old?`Template "${name}" updated.`:`Template "${name}" saved. Pick it in the add bar's Advanced settings.`)};
+  });
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ttpl]');if(!b)return;e.stopPropagation();e.preventDefault();
+  const t=byId(b.dataset.ttpl);if(t)openTplPop(b,t)},true);
+
+/* add bars */
+function tplApply(t,tp){const f=tp.f||{};
+  if(f.micro&&f.micro.length){t.micro=microOf(t).concat(f.micro.map(n=>({id:uid(),name:n,done:false})))}
+  if(f.steps&&f.steps.length>1&&!(t.steps||[]).length){t.steps=f.steps.map((n,i)=>({name:i===0?t.name:(n||`${t.name} ${i+1}`),done:false}));t.stepSel=0}
+  if(f.note)t.note=t.note?t.note+'\n'+f.note:f.note;
+}
+function tplPrefill(k,tp){const f=tp.f||{},a=ADV[k].a,main=k==='c';
+  const tg=$(main?'#c-tag':'#pt-tag'),pj=main&&$('#c-proj');
+  if('tag' in f&&tg&&(!f.tag||S.tags.some(g=>g.id===f.tag)))tg.value=f.tag||'';
+  if('project' in f&&pj&&(!f.project||projOfId(f.project))&&[...pj.options].some(o=>o.value===(f.project||'')))pj.value=f.project||'';
+  if('color' in f){if(main)composerColor=f.color||null;else ptColor=f.color||null}
+  if('glow' in f)a.glow=f.glow||null;if('bg' in f)a.bg=f.bg||null;if('pat' in f)a.bgPat=f.pat||null;
+  if(main)paintComposerColor();else if(typeof paintPtBar==='function')paintPtBar();
+}
+{const _ap=advPanelHTML;advPanelHTML=function(k){const a=ADV[k].a,L=ttpls();if(a.tpl&&!L.some(x=>x.id===a.tpl))a.tpl='';
+  const sel=`<label class="lk-g atpl"><span>Template</span><select id="${k}-tpl" data-tpl>${L.length?`<option value="">No template</option>${L.map(tp=>`<option value="${tp.id}"${a.tpl===tp.id?' selected':''}>${esc(tp.name)}</option>`).join('')}`:'<option value="">None yet: save one with the ☆ on a task</option>'}</select></label>`;
+  return _ap(k).replace(/(<div class="lk-row">[\s\S]*?)(<\/div><\/div>)/,(m,a,b)=>a+'</div>'+sel+'</div>')}} // v101: next to Glow / Background / Pattern
+document.addEventListener('change',e=>{const s=e.target.closest('.cadv [data-tpl]');if(!s)return;const k=s.id.split('-')[0];if(!ADV[k])return;
+  ADV[k].a.tpl=s.value;const tp=ttpls().find(x=>x.id===s.value);if(tp)tplPrefill(k,tp);advShow(k,true);const n=advForm(k)&&advForm(k).querySelector('[data-tpl]');if(n)n.focus()});
+{const _s=advIsSet;advIsSet=k=>_s(k)||!!ADV[k].a.tpl}
+{const _s=advSummary;advSummary=k=>{const tp=ADV[k].a.tpl&&ttpls().find(x=>x.id===ADV[k].a.tpl);return [tp?`template "${tp.name}"`:'',_s(k)].filter(Boolean).join(', ')}}
+{const _af=addFromBar;addFromBar=function(k,o){const id=ADV[k].a.tpl,tp=id&&ttpls().find(x=>x.id===id),t=_af.apply(this,arguments);if(t&&tp)tplApply(t,tp);return t}}
 async function initCloud(){
   const cfg=window.FOCUS_CONFIG||{};
   if(cfg.url&&cfg.key){try{if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');}catch(e){return}

@@ -1,0 +1,2 @@
+/* the phone rail row got too long (Goals + review + bell + team...): it never runs past the brand, and scrolls sideways when full */
+@media (max-width:980px){.rail{max-width:calc(100% - 92px);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}.rail::-webkit-scrollbar{display:none}.rail>*{flex:none}}

@@ -1,0 +1,29 @@
+/* v100: task templates (star on the row, save window, Template select in the add bars) */
+.tstar{border:0;background:none;color:var(--ink-3);padding:2px 4px;border-radius:4px;line-height:0;display:inline-flex;align-items:center;flex:none;opacity:0}
+.task:hover .tstar,.task.ksel .tstar,.tstar:focus-visible{opacity:.8}
+.tstar:hover{opacity:1!important;background:color-mix(in srgb,currentColor 12%,transparent)}
+.tstar.on{opacity:1;color:var(--accent)}
+.tstar.on svg,.tt-row.on .tt-st svg{fill:color-mix(in srgb,var(--accent) 30%,transparent)}
+@media (hover:none){.tstar{opacity:.5}}
+#projPage.ro .tstar{display:none}
+.pop:has(.tt-pop){width:290px}
+.tt-sub{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.tt-fields{display:flex;flex-direction:column;gap:2px}
+.tt-f{display:flex;align-items:center;gap:8px;padding:3px 2px;font-size:13.5px;cursor:pointer;min-width:0}
+.tt-f input{flex:none;margin:0}
+.tt-f em{margin-left:auto;font-style:normal;font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60%}
+.tt-f.off{color:var(--ink-3);cursor:default}
+.tt-dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-2px;border:1px solid var(--line-strong)}
+.tt-saved{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}
+.tt-row{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink-2);min-width:0}
+.tt-row .tt-st{line-height:0;color:var(--ink-3)}
+.tt-row.on .tt-st{color:var(--accent)}
+.tt-nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tt-del{border:0;background:none;color:var(--ink-3);font-size:16px;line-height:1;padding:0 4px;border-radius:4px;cursor:pointer}
+.tt-del:hover{color:var(--danger,#c0392b);background:color-mix(in srgb,currentColor 10%,transparent)}
+.cadv .lk-g.atpl{align-items:flex-start;min-width:0}
+.cadv .atpl select{height:34px;width:190px;max-width:100%}
+/* v101: Template sits in the Glow / Background / Pattern row (wraps to its own line on narrow screens) */
+.cadv .lk-row:has(.atpl){flex-wrap:wrap;row-gap:8px}
+.cadv .lk-g.atpl{align-items:flex-start}
+@container panel (max-width:420px){.cadv .atpl select{width:170px}}
