@@ -21,9 +21,9 @@ function openEdit(id){
     <div class="row2"><label class="fld"><span>REMINDER</span><select id="ed-rem">${REMINDS.map(([v,l])=>`<option value="${v}"${String(t.remind==null?'':t.remind)===String(v)?' selected':''}>${l}</option>`).join('')}</select></label>
       <label class="fld"><span>PRIORITY</span><select id="ed-prio">${PRIOS.map(([v,l])=>`<option value="${v}"${(t.prio||0)===v?' selected':''}>${l}</option>`).join('')}</select></label></div>
     <p class="sp-hint" id="ed-remhint" hidden></p>
-    <div class="row2"><label class="fld"><span>SUBTASK OF</span><select id="ed-parent"><option value="">Nothing (top level)</option>${parents.map(p=>`<option value="${p.id}"${curParent&&curParent.id===p.id?' selected':''}>${esc(p.name)}${rootOf(p).longTerm?' (long term)':''}</option>`).join('')}</select></label>
+    <div class="row2"><label class="fld"><span>SUBTASK OF</span><select id="ed-parent"><option value="">Nothing (top level)</option>${parents.map(p=>`<option value="${p.id}"${curParent&&curParent.id===p.id?' selected':''}>${esc(p.name)}${rootOf(p).longTerm?' (later)':''}</option>`).join('')}</select></label>
       <label class="fld"><span>REPEAT</span><select id="ed-rep">${REPEATS.map(([k,l])=>`<option value="${k}"${(t.repeat?t.repeat.freq:'')===k?' selected':''}>${l}</option>`).join('')}</select></label></div>
-    <label class="chk" id="ed-long-wrap"><input type="checkbox" id="ed-long"${t.longTerm?' checked':''}> Long-term task</label>
+    <label class="chk" id="ed-long-wrap"><input type="checkbox" id="ed-long"${t.longTerm?' checked':''}> Later task</label>
     <div class="modal-actions"><button type="button" class="btn" data-x>Cancel</button><button class="btn primary">Save</button></div></form>`;
   document.body.appendChild(back);modal=back;
   const f=back.querySelector('form'),dueIn=f.querySelector('#ed-due'),par=f.querySelector('#ed-parent'),lw=f.querySelector('#ed-long-wrap');
@@ -51,7 +51,7 @@ function openEdit(id){
     if(np){if(!curParent||curParent.id!==np)nestInto(t.id,np)}
     else{const lt=f.querySelector('#ed-long').checked;
       if(curParent||!!t.longTerm!==lt){t.parentId=null;t.longTerm=lt;const r=S.tasks.filter(x=>x.id!==t.id&&isOpenRoot(x)&&!!x.longTerm===lt);t.order=r.length?Math.max(...r.map(x=>x.order))+1:0;
-        if(!curParent&&lt!==(S.ui.view==='long'))toast(lt?'Moved to Long term.':'Moved to Tasks.')}}
+        if(!curParent&&lt!==(S.ui.view==='long'))toast(lt?'Moved to Later.':'Moved to Tasks.')}}
     closeModal();commit()};
   setTimeout(()=>f.querySelector('#ed-name').focus(),0);
 }

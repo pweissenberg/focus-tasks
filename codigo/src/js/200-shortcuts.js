@@ -1,5 +1,5 @@
 /* ---------- keyboard shortcuts ---------- */
-const KEYS=[['Anywhere',[['N','New task'],['/','Search'],['1','Tasks'],['2','Long term'],['3','Done'],['C','Calendar'],['S','Stats'],['T','Show or hide the timer'],['P','Start or pause the timer'],['W','Show or hide white noise'],['D','Dark or light mode'],['?','These shortcuts']]],
+const KEYS=[['Anywhere',[['N','New task'],['/','Search'],['1','Tasks'],['2','Later'],['3','Done'],['C','Calendar'],['S','Stats'],['T','Show or hide the timer'],['P','Start or pause the timer'],['W','Show or hide white noise'],['D','Dark or light mode'],['?','These shortcuts']]],
   ['Task list',[['J','Select the next task'],['K','Select the previous task'],['E','Edit the selected task'],['X','Mark it done'],['F','Start the timer on it'],['H','Put it on hold, or take it off'],['Esc','Close a popup or clear the selection']]]];
 /* the short list shown at the bottom of the page */
 const FOOT_KEYS=[['N','new task'],['/','search'],['1 2 3','views'],['C','calendar'],['S','stats'],['T','timer'],['P','start / pause'],['J K','select a task'],['E','edit'],['X','done']];
@@ -51,7 +51,7 @@ document.addEventListener('keydown',e=>{
   else if(sel&&k==='x'){
     const rows=[...document.querySelectorAll('#list .task')],i=rows.indexOf(selEl),nx=rows[i+1]||rows[i-1];kbSel=nx?nx.dataset.id:null;
     selEl.classList.add('leaving');
-    setTimeout(()=>{if(sel.done){reopen(sel);commit();toast(`"${sel.name}" is back in ${rootOf(sel).longTerm?'Long term':'Tasks'}.`)}
+    setTimeout(()=>{if(sel.done){reopen(sel);commit();toast(`"${sel.name}" is back in ${rootOf(sel).longTerm?'Later':'Tasks'}.`)}
       else{if(S.timer.taskId===sel.id&&S.timer.running)timerPause();complete(sel);commit();askAddTime(sel)}},220)}
   else return;
   e.preventDefault();

@@ -43,7 +43,7 @@ const hasTask=name=>[...document.querySelectorAll('#list .task .name')].some(n=>
       await p.selectOption('#se-num','0');await p.click('.modal .btn.primary');await sleep(150);
       const m3=(await state(p)).tasks.find(x=>x.steps&&x.steps.length===3);t.is('steps: a step can be moved to number 1',m3.steps[0].name==='Tanzania 3'&&m3.steps[1].name==='Tanzania')}
      await p.locator('#list .task:has(.steps)').first().locator('.stepbox[data-i="0"]').click();await sleep(150);}
-    for(const [sel,title,extra] of [['.views [data-view=long]','Long term'],['.views [data-view=done]','Done'],
+    for(const [sel,title,extra] of [['.views [data-view=long]','Later'],['.views [data-view=done]','Done'],
       ['#rail [data-view=calendar]','Calendar','#cal .cal-grid'],['#rail [data-view=stats]','Stats','#stats .hero-row'],['#rail [data-view=tasks]','Tasks','#list .task']]){
       await p.click(sel);await sleep(250);
       await t.ok(p,`open ${title}`,([ttl,ex])=>document.querySelector('#title').textContent===ttl&&(!ex||!!document.querySelector(ex))&&document.documentElement.scrollWidth<=innerWidth,[title,extra]);

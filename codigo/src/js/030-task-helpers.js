@@ -7,7 +7,7 @@ function parentOf(t){if(!t.parentId)return null;const p=byId(t.parentId);return 
 const kids=p=>S.tasks.filter(t=>!t.done&&t.parentId===p.id);
 function rootOf(t){let r=t,g=0;for(;;){const p=parentOf(r);if(!p||g++>100)return r;r=p}}
 const isOpenRoot=t=>!t.done&&!parentOf(t);
-const inView=t=>S.ui.view==='long'?!!rootOf(t).longTerm:!rootOf(t).longTerm;
+function inView(t){return S.ui.view==="long"?!!rootOf(t).longTerm:!rootOf(t).longTerm} // a function so 265 can wrap it
 function descendants(id){const out=[],st=[id];while(st.length){const x=st.pop();S.tasks.forEach(t=>{if(t.parentId===x){out.push(t);st.push(t.id)}})}return out}
 const projMatch=t=>S.ui.project==='all'||t.projectId===S.ui.project;
 const matches=t=>(S.ui.view==='project'||S.ui.tag==='all'||t.tagId===S.ui.tag)&&projMatch(t);

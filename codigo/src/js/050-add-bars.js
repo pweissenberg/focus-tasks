@@ -14,7 +14,7 @@ function advSummary(k){
   const a=ADV[k].a,par=a.parent&&byId(a.parent),out=[];
   if(a.time)out.push(a.time);if(a.remind!=='')out.push('reminder '+remShort(+a.remind));
   if(a.repeat)out.push((REPEATS.find(r=>r[0]===a.repeat)||['',''])[1].toLowerCase());
-  if(par)out.push(`subtask of "${par.name}"`);else if(advLong(k)!==advLongDef(k))out.push(advLong(k)?'long term':'not long term');
+  if(par)out.push(`subtask of "${par.name}"`);else if(advLong(k)!==advLongDef(k))out.push(advLong(k)?'later':'not later');
   return out.join(', ');
 }
 function advPanelHTML(k){
@@ -26,8 +26,8 @@ function advPanelHTML(k){
     <label class="afld"><span>Time</span><input id="${k}-time" data-adv="time" type="time" class="mono" value="${esc(a.time)}"></label>
     <label class="afld"><span>Reminder</span><select id="${k}-rem" data-adv="remind">${REMINDS.map(([v,l])=>`<option value="${v}"${String(a.remind)===String(v)?' selected':''}>${l}</option>`).join('')}</select></label>
     <label class="afld"><span>Repeat</span><select id="${k}-rep" data-adv="repeat">${REPEATS.map(([v,l])=>`<option value="${v}"${a.repeat===v?' selected':''}>${l}</option>`).join('')}</select></label>
-    <label class="afld"><span>Subtask of</span><select id="${k}-parent" data-adv="parent"><option value="">Nothing (top level)</option>${ps.map(x=>`<option value="${x.id}"${a.parent===x.id?' selected':''}>${esc(x.name)}${rootOf(x).longTerm?' (long term)':''}</option>`).join('')}</select></label>
-    <label class="chk" data-advlong${a.parent?' hidden':''}><input type="checkbox" id="${k}-long" data-adv="long"${advLong(k)?' checked':''}> Long-term task</label>
+    <label class="afld"><span>Subtask of</span><select id="${k}-parent" data-adv="parent"><option value="">Nothing (top level)</option>${ps.map(x=>`<option value="${x.id}"${a.parent===x.id?' selected':''}>${esc(x.name)}${rootOf(x).longTerm?' (later)':''}</option>`).join('')}</select></label>
+    <label class="chk" data-advlong${a.parent?' hidden':''}><input type="checkbox" id="${k}-long" data-adv="long"${advLong(k)?' checked':''}> Later task</label>
     <p class="sp-hint" data-advhint hidden></p>
   </div>`;
 }

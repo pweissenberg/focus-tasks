@@ -2107,6 +2107,22 @@ body.fm-on{overflow:hidden}
 .cadv .lk-row:has(.atpl){flex-wrap:wrap;row-gap:8px}
 .cadv .lk-g.atpl{align-items:flex-start}
 @container panel (max-width:420px){.cadv .atpl select{width:170px}}
+/* v103 Later (265-later.js): Send to later popover, row button pair */
+.pop:has(.later-pop){width:290px}
+.later-pop .pop-actions{flex-wrap:wrap}
+.lp-quick{display:flex;flex-wrap:wrap;gap:6px}
+.lp-quick .chipbtn{border:1px solid var(--line);background:var(--surface,transparent);color:var(--ink-2);font:inherit;font-size:12.5px;padding:4px 10px;border-radius:999px;cursor:pointer}
+.lp-quick .chipbtn:hover,.lp-quick .chipbtn.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.later-pop .afld{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-3)}
+.later-pop input[type=date]{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg,transparent);color:var(--ink)}
+.later-pop input.invalid{border-color:var(--danger)}
+.lt-pair{position:absolute;right:10px;bottom:3px;z-index:2;display:flex;gap:6px}
+.lt-pair>.lt-send{position:static;margin:0}
+.note:has(>.lt-pair){flex-wrap:wrap;row-gap:0}
+.note>.lt-pair{position:static;flex-basis:100%;margin:-3px 0 -6px;line-height:16px}
+.lt-pair>.lt-send{white-space:nowrap}
+.note>.lt-pair>.lt-send{padding:0 6px}
+.later-h:first-child{margin-top:4px}
 </style>
 
 <section class="landing" id="landing" aria-labelledby="ld-h">
@@ -2142,7 +2158,7 @@ body.fm-on{overflow:hidden}
       <div class="ttl"><h1 id="title">Tasks</h1><div class="counter" id="counter"></div></div>
       <nav class="views" aria-label="Views">
         <button class="seg" data-view="tasks" type="button" title="Tasks (1)">Tasks</button>
-        <button class="seg" data-view="long" type="button" title="Long term (2)">Long term</button>
+        <button class="seg" data-view="long" type="button" title="Later (2)">Later</button>
         <button class="seg" data-view="done" type="button" title="Done (3)">Done</button>
       </nav>
       <div class="searchbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="search" type="search" placeholder="Search" aria-label="Search tasks and notes" title="Search tasks and notes (press /)" autocomplete="off"><kbd>/</kbd></div>
@@ -2329,7 +2345,7 @@ function parentOf(t){if(!t.parentId)return null;const p=byId(t.parentId);return 
 const kids=p=>S.tasks.filter(t=>!t.done&&t.parentId===p.id);
 function rootOf(t){let r=t,g=0;for(;;){const p=parentOf(r);if(!p||g++>100)return r;r=p}}
 const isOpenRoot=t=>!t.done&&!parentOf(t);
-const inView=t=>S.ui.view==='long'?!!rootOf(t).longTerm:!rootOf(t).longTerm;
+function inView(t){return S.ui.view==="long"?!!rootOf(t).longTerm:!rootOf(t).longTerm} // a function so 265 can wrap it
 function descendants(id){const out=[],st=[id];while(st.length){const x=st.pop();S.tasks.forEach(t=>{if(t.parentId===x){out.push(t);st.push(t.id)}})}return out}
 const projMatch=t=>S.ui.project==='all'||t.projectId===S.ui.project;
 const matches=t=>(S.ui.view==='project'||S.ui.tag==='all'||t.tagId===S.ui.tag)&&projMatch(t);
@@ -2517,7 +2533,7 @@ function advSummary(k){
   const a=ADV[k].a,par=a.parent&&byId(a.parent),out=[];
   if(a.time)out.push(a.time);if(a.remind!=='')out.push('reminder '+remShort(+a.remind));
   if(a.repeat)out.push((REPEATS.find(r=>r[0]===a.repeat)||['',''])[1].toLowerCase());
-  if(par)out.push(`subtask of "${par.name}"`);else if(advLong(k)!==advLongDef(k))out.push(advLong(k)?'long term':'not long term');
+  if(par)out.push(`subtask of "${par.name}"`);else if(advLong(k)!==advLongDef(k))out.push(advLong(k)?'later':'not later');
   return out.join(', ');
 }
 function advPanelHTML(k){
@@ -2529,8 +2545,8 @@ function advPanelHTML(k){
     <label class="afld"><span>Time</span><input id="${k}-time" data-adv="time" type="time" class="mono" value="${esc(a.time)}"></label>
     <label class="afld"><span>Reminder</span><select id="${k}-rem" data-adv="remind">${REMINDS.map(([v,l])=>`<option value="${v}"${String(a.remind)===String(v)?' selected':''}>${l}</option>`).join('')}</select></label>
     <label class="afld"><span>Repeat</span><select id="${k}-rep" data-adv="repeat">${REPEATS.map(([v,l])=>`<option value="${v}"${a.repeat===v?' selected':''}>${l}</option>`).join('')}</select></label>
-    <label class="afld"><span>Subtask of</span><select id="${k}-parent" data-adv="parent"><option value="">Nothing (top level)</option>${ps.map(x=>`<option value="${x.id}"${a.parent===x.id?' selected':''}>${esc(x.name)}${rootOf(x).longTerm?' (long term)':''}</option>`).join('')}</select></label>
-    <label class="chk" data-advlong${a.parent?' hidden':''}><input type="checkbox" id="${k}-long" data-adv="long"${advLong(k)?' checked':''}> Long-term task</label>
+    <label class="afld"><span>Subtask of</span><select id="${k}-parent" data-adv="parent"><option value="">Nothing (top level)</option>${ps.map(x=>`<option value="${x.id}"${a.parent===x.id?' selected':''}>${esc(x.name)}${rootOf(x).longTerm?' (later)':''}</option>`).join('')}</select></label>
+    <label class="chk" data-advlong${a.parent?' hidden':''}><input type="checkbox" id="${k}-long" data-adv="long"${advLong(k)?' checked':''}> Later task</label>
     <p class="sp-hint" data-advhint hidden></p>
   </div>`;
 }
@@ -2579,7 +2595,7 @@ function render(){
   document.querySelectorAll('[data-view]').forEach(b=>{const on=b.dataset.view===u.view;b.classList.toggle('on',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
   document.querySelectorAll('[data-sort]').forEach(b=>{const k=b.dataset.sort,on=k===u.sort;b.classList.toggle('on',on);b.disabled=isStats||isCal;
     const base={manual:'Manual',created:'Created',due:'Due',az:'A-Z',prio:'Priority'}[k];b.textContent=on&&k!=='manual'?base+(u.dir>0?' ↑':' ↓'):base});
-  $('#title').textContent=isProj?'Project':{tasks:'Tasks',today:'Today',long:'Long term',done:'Done',calendar:'Calendar',stats:'Stats'}[u.view];
+  $('#title').textContent=isProj?'Project':{tasks:'Tasks',today:'Today',long:'Later',done:'Done',calendar:'Calendar',stats:'Stats'}[u.view];
   // counter
   const scope=S.tasks.filter(t=>u.view==='done'?(t.done&&projMatch(t)&&!!t.archived===!!u.showArchived):(!t.done&&projMatch(t)));
   const openScope=S.tasks.filter(t=>!t.done&&projMatch(t));
@@ -2619,7 +2635,7 @@ function render(){
       items.forEach(t=>{frag.appendChild(row(t,depth));if(!t.collapsed)walk(t,depth+1,lt)});
     };
     if(!(projTasks&&secWalk(frag,walk)))walk(null,0,false);
-    if(projTasks){const n0=frag.childNodes.length;const dv=document.createElement('div');dv.className='listdiv';dv.textContent='Long term';frag.appendChild(dv);walk(null,0,true);if(frag.childNodes.length===n0+1)frag.removeChild(dv);
+    if(projTasks){const n0=frag.childNodes.length;const dv=document.createElement('div');dv.className='listdiv';dv.textContent='Later';frag.appendChild(dv);walk(null,0,true);if(frag.childNodes.length===n0+1)frag.removeChild(dv);
       const dn=S.tasks.filter(t=>t.done&&!t.archived&&t.projectId===u.projectPage).sort((a,b)=>a.doneAt<b.doneAt?1:-1);
       if(dn.length){const dd=document.createElement('div');dd.className='listdiv';dd.textContent=`Done (${dn.length})`;frag.appendChild(dd);dn.forEach(t=>frag.appendChild(row(t,0)))}}
   }else{
@@ -2635,7 +2651,7 @@ function render(){
     const filtered=u.tag!=='all'||u.project!=='all'||u.hideHold;
     e.innerHTML=projTasks?'<strong>No tasks in this project yet</strong>Type one above and press Enter.':u.view==='done'?(u.showArchived?'<strong>Nothing archived</strong>Archive done tasks to keep this list short. They still count in Stats.':nArch?'<strong>Everything done is archived</strong>Press "Archived" above to see those tasks.':'<strong>Nothing done yet</strong>Tick a task\'s checkbox and it moves here with its completion date.')
       :filtered?'<strong>No tasks match these filters</strong>Pick "All" or another project to see more.'
-      :u.view==='long'?'<strong>No long-term tasks</strong>Type one above. Tasks added here stay out of your daily list.'
+      :u.view==='long'?'<strong>Nothing for later</strong>Type one above, or send a task here with ↑ Send to later. Tasks here stay out of your daily list, and ones with a date come back on that day.'
       :'<strong>All clear</strong>Type a task above and press Enter.';
     frag.appendChild(e);
   }else if(openView||projTasks){const d=document.createElement('div');d.className='dropend';d.dataset.dropend='1';frag.appendChild(d)}
@@ -2825,9 +2841,9 @@ function openEdit(id){
     <div class="row2"><label class="fld"><span>REMINDER</span><select id="ed-rem">${REMINDS.map(([v,l])=>`<option value="${v}"${String(t.remind==null?'':t.remind)===String(v)?' selected':''}>${l}</option>`).join('')}</select></label>
       <label class="fld"><span>PRIORITY</span><select id="ed-prio">${PRIOS.map(([v,l])=>`<option value="${v}"${(t.prio||0)===v?' selected':''}>${l}</option>`).join('')}</select></label></div>
     <p class="sp-hint" id="ed-remhint" hidden></p>
-    <div class="row2"><label class="fld"><span>SUBTASK OF</span><select id="ed-parent"><option value="">Nothing (top level)</option>${parents.map(p=>`<option value="${p.id}"${curParent&&curParent.id===p.id?' selected':''}>${esc(p.name)}${rootOf(p).longTerm?' (long term)':''}</option>`).join('')}</select></label>
+    <div class="row2"><label class="fld"><span>SUBTASK OF</span><select id="ed-parent"><option value="">Nothing (top level)</option>${parents.map(p=>`<option value="${p.id}"${curParent&&curParent.id===p.id?' selected':''}>${esc(p.name)}${rootOf(p).longTerm?' (later)':''}</option>`).join('')}</select></label>
       <label class="fld"><span>REPEAT</span><select id="ed-rep">${REPEATS.map(([k,l])=>`<option value="${k}"${(t.repeat?t.repeat.freq:'')===k?' selected':''}>${l}</option>`).join('')}</select></label></div>
-    <label class="chk" id="ed-long-wrap"><input type="checkbox" id="ed-long"${t.longTerm?' checked':''}> Long-term task</label>
+    <label class="chk" id="ed-long-wrap"><input type="checkbox" id="ed-long"${t.longTerm?' checked':''}> Later task</label>
     <div class="modal-actions"><button type="button" class="btn" data-x>Cancel</button><button class="btn primary">Save</button></div></form>`;
   document.body.appendChild(back);modal=back;
   const f=back.querySelector('form'),dueIn=f.querySelector('#ed-due'),par=f.querySelector('#ed-parent'),lw=f.querySelector('#ed-long-wrap');
@@ -2855,7 +2871,7 @@ function openEdit(id){
     if(np){if(!curParent||curParent.id!==np)nestInto(t.id,np)}
     else{const lt=f.querySelector('#ed-long').checked;
       if(curParent||!!t.longTerm!==lt){t.parentId=null;t.longTerm=lt;const r=S.tasks.filter(x=>x.id!==t.id&&isOpenRoot(x)&&!!x.longTerm===lt);t.order=r.length?Math.max(...r.map(x=>x.order))+1:0;
-        if(!curParent&&lt!==(S.ui.view==='long'))toast(lt?'Moved to Long term.':'Moved to Tasks.')}}
+        if(!curParent&&lt!==(S.ui.view==='long'))toast(lt?'Moved to Later.':'Moved to Tasks.')}}
     closeModal();commit()};
   setTimeout(()=>f.querySelector('#ed-name').focus(),0);
 }
@@ -2896,7 +2912,7 @@ $('#composer').addEventListener('submit',e=>{
   const due=parseDate(di.value);if(due===null){di.classList.add('invalid');di.focus();return}
   const t=addFromBar('c',{name,due,tagId:$('#c-tag').value||null,projectId:$('#c-proj').value||null,color:composerColor,prio:composerPrio});
   const rl=!!rootOf(t).longTerm,par=t.parentId&&byId(t.parentId),here=(S.ui.view==='tasks'&&!rl)||(S.ui.view==='long'&&rl);
-  if(!here)setTimeout(()=>toast(`"${name}" added to ${par?`"${par.name}" in `:''}${rl?'Long term':'Tasks'}.`),0);
+  if(!here)setTimeout(()=>toast(`"${name}" added to ${par?`"${par.name}" in `:''}${rl?'Later':'Tasks'}.`),0);
   ni.value='';di.value='';composerColor=null;composerPrio=0;closeDP();commit();if(ADV.c.open)advShow('c',true);ni.focus();
 });
 $('#c-adv').innerHTML=icons.gear;
@@ -2939,7 +2955,7 @@ list.addEventListener('change',e=>{
     if(!b.checked&&!t.done&&selDone(t)){const i=stepSel(t);undoStep(t,i);commit();toast(`"${t.name}" is open again.`);return}
     if(b.checked&&stepsLeft(t)>1){b.checked=false;const i=pendSel(t),e=doStep(t,i);commit();toast(`"${e.name}" moved to Done. ${stepsLeft(t)} step${stepsLeft(t)>1?'s':''} left.`,()=>{undoStep(t,i);commit()});return}
     if(b.checked){rowEl.classList.add('leaving');setTimeout(()=>{if(S.timer.taskId===t.id&&S.timer.running)timerPause();complete(t);commit();askAddTime(t)},220)}
-    else{rowEl.classList.add('leaving');setTimeout(()=>{reopen(t);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Long term':'Tasks'}.`)},220)}
+    else{rowEl.classList.add('leaving');setTimeout(()=>{reopen(t);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Later':'Tasks'}.`)},220)}
   }
 });
 list.addEventListener('input',e=>{if(e.target.dataset.act==='note'){const t=byId(e.target.closest('.task').dataset.id);t.note=e.target.value;saveSoon()}});
@@ -2974,8 +2990,8 @@ function microHTML(t){
     const m=microOf(t);
     if(!t.done||m.length)el.insertAdjacentHTML('beforeend',`<span class="mt-tools">${t.done?'':`<button class="mt-add" type="button" data-mtadd title="Add a microtask" aria-label="Add a microtask"><svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M6 1.5v9M1.5 6h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>`}${m.length?`<button class="mt-fold" type="button" data-mtfold title="${t.mtClosed?'Show':'Hide'} microtasks" aria-label="${t.mtClosed?'Show':'Hide'} microtasks">${t.mtClosed?'▸':'▾'}</button>`:''}</span>`);
     if(m.length)el.classList.add('has-mt');
-    // send a top-level open task to Long term (or back to Tasks)
-    if(!t.done&&!t.parentId&&S.ui.view!=='done')(el.querySelector(':scope > .note')||el).insertAdjacentHTML('beforeend',t.longTerm?`<button class="lt-send" type="button" data-ltsend title="Move back to the daily Tasks list">↓ Back to tasks</button>`:`<button class="lt-send" type="button" data-ltsend title="Move this task to Long term">↑ Send to long term</button>`);
+    // send a top-level open task to Later (or back to Tasks)
+    if(!t.done&&!t.parentId&&S.ui.view!=='done')(el.querySelector(':scope > .note')||el).insertAdjacentHTML('beforeend',t.longTerm?`<button class="lt-send" type="button" data-ltsend title="Move back to the daily Tasks list">↓ Back to tasks</button>`:`<button class="lt-send" type="button" data-ltsend title="Move this task to Later">↑ Send to later</button>`);
   }
   return el}}
 // the microtasks hang under their task like an appendix: a box right after the row
@@ -2997,7 +3013,7 @@ list.addEventListener('click',e=>{
   const lt=e.target.closest('[data-ltsend]');
   if(lt){e.stopPropagation();const t=mtTask(lt),to=!t.longTerm,r=S.tasks.filter(x=>x.id!==t.id&&isOpenRoot(x)&&!!x.longTerm===to);
     const old={lt:t.longTerm,order:t.order};t.longTerm=to;t.order=r.length?Math.max(...r.map(x=>x.order))+1:0;commit();
-    toast(`"${t.name}" moved to ${to?'Long term':'Tasks'}.`,()=>{t.longTerm=old.lt;t.order=old.order;commit()});return}
+    toast(`"${t.name}" moved to ${to?'Later':'Tasks'}.`,()=>{t.longTerm=old.lt;t.order=old.order;commit()});return}
   const d=e.target.closest('[data-mtdel]');
   if(d){e.stopPropagation();const t=mtTask(d),id=d.closest('[data-mt]').dataset.mt;t.micro=microOf(t).filter(x=>x.id!==id);commit();return}
   if(e.target.closest('.mt-wrap'))e.stopPropagation();
@@ -3154,7 +3170,7 @@ function renderTimer(full){
     $('#tm-skip').textContent=brk?'Skip break':'Skip to break'}
   const sel=$('#tm-task'),opts=openTaskOptions();
   const cur=byId(tm.taskId);
-  sel.innerHTML='<option value="">No task (just timing)</option>'+opts.map(({t,depth})=>`<option value="${t.id}">${'  '.repeat(depth)}${depth?'↳ ':''}${esc(t.name)}${rootOf(t).longTerm?' (long term)':''}</option>`).join('')
+  sel.innerHTML='<option value="">No task (just timing)</option>'+opts.map(({t,depth})=>`<option value="${t.id}">${'  '.repeat(depth)}${depth?'↳ ':''}${esc(t.name)}${rootOf(t).longTerm?' (later)':''}</option>`).join('')
     +(cur&&cur.done?`<option value="${cur.id}">${esc(cur.name)} (done)</option>`:'');
   sel.value=cur?cur.id:'';
   const tag=cur&&tagOf(cur),proj=cur&&projOf(cur);
@@ -4190,7 +4206,7 @@ pp.addEventListener('submit',e=>{
   const tagId=$('#pt-tag').value||null;S.ui.ptTag=tagId||'';
   const t=addFromBar('pt',{name,due,tagId,projectId:p.id,color:ptColor,prio:ptPrio});
   ptPrio=0;ptColor=null;ni.value='';di.value='';
-  if(t.longTerm)setTimeout(()=>toast(`"${name}" added to Long term.`),0);
+  if(t.longTerm)setTimeout(()=>toast(`"${name}" added to Later.`),0);
   closeDP();commit();$('#pt-name').focus();
 });
 pp.addEventListener('click',e=>{
@@ -4509,7 +4525,7 @@ $('#search').addEventListener('blur',()=>setTimeout(closeSearch,120));
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.target.closest('input,textarea,select,[contenteditable]')){e.preventDefault();$('#search').focus()}});
 
 /* ---------- keyboard shortcuts ---------- */
-const KEYS=[['Anywhere',[['N','New task'],['/','Search'],['1','Tasks'],['2','Long term'],['3','Done'],['C','Calendar'],['S','Stats'],['T','Show or hide the timer'],['P','Start or pause the timer'],['W','Show or hide white noise'],['D','Dark or light mode'],['?','These shortcuts']]],
+const KEYS=[['Anywhere',[['N','New task'],['/','Search'],['1','Tasks'],['2','Later'],['3','Done'],['C','Calendar'],['S','Stats'],['T','Show or hide the timer'],['P','Start or pause the timer'],['W','Show or hide white noise'],['D','Dark or light mode'],['?','These shortcuts']]],
   ['Task list',[['J','Select the next task'],['K','Select the previous task'],['E','Edit the selected task'],['X','Mark it done'],['F','Start the timer on it'],['H','Put it on hold, or take it off'],['Esc','Close a popup or clear the selection']]]];
 /* the short list shown at the bottom of the page */
 const FOOT_KEYS=[['N','new task'],['/','search'],['1 2 3','views'],['C','calendar'],['S','stats'],['T','timer'],['P','start / pause'],['J K','select a task'],['E','edit'],['X','done']];
@@ -4561,7 +4577,7 @@ document.addEventListener('keydown',e=>{
   else if(sel&&k==='x'){
     const rows=[...document.querySelectorAll('#list .task')],i=rows.indexOf(selEl),nx=rows[i+1]||rows[i-1];kbSel=nx?nx.dataset.id:null;
     selEl.classList.add('leaving');
-    setTimeout(()=>{if(sel.done){reopen(sel);commit();toast(`"${sel.name}" is back in ${rootOf(sel).longTerm?'Long term':'Tasks'}.`)}
+    setTimeout(()=>{if(sel.done){reopen(sel);commit();toast(`"${sel.name}" is back in ${rootOf(sel).longTerm?'Later':'Tasks'}.`)}
       else{if(S.timer.taskId===sel.id&&S.timer.running)timerPause();complete(sel);commit();askAddTime(sel)}},220)}
   else return;
   e.preventDefault();
@@ -5571,7 +5587,7 @@ const REVIEW_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 function paintReviewDot(){const b=$('#reviewBtn');if(!b)return;const late=!S.prefs.lastReview||daysSince(S.prefs.lastReview)>=7;b.classList.toggle('due',late);
   b.title=S.prefs.lastReview?`Weekly review (last one ${fmtDays(daysSince(S.prefs.lastReview))} ago)`.replace('today ago','today'):'Weekly review'}
 $('#reviewBtn').addEventListener('click',()=>openReview(0));
-const REV_STEPS=['Empty the inbox','Waiting for','Long term','Coming up','Done'];
+const REV_STEPS=['Empty the inbox','Waiting for','Later','Coming up','Done'];
 function openReview(step){
   closePop();closeModal();
   const back=document.createElement('div');back.className='modal-back';
@@ -5592,7 +5608,7 @@ function openReview(step){
     else if(step===3){const end=isoAdd(todayISO(),14),ds=open.filter(t=>t.due&&t.due<=end).sort((a,b)=>a.due<b.due?-1:1),df=open.filter(t=>t.defer&&t.defer<=end);
       body.innerHTML=ds.length||df.length?`<p class="sp-hint">The next two weeks.</p><div class="rv-list">${ds.map(t=>`<div class="rv-row">${tline(t)}<span class="rv-meta${t.due<todayISO()?' late':''}">${t.due<todayISO()?'Overdue · ':''}${isoToUS(t.due)}</span></div>`).join('')}${df.map(t=>`<div class="rv-row">${tline(t)}<span class="rv-meta">Comes back ${isoToUS(t.defer)}</span></div>`).join('')}</div>`:'<p class="rv-ok">Nothing due in the next two weeks.</p>'}
     else{
-      body.innerHTML=`<p class="rv-ok">Inbox ${S.notes.trim()?'still has notes':'empty'} · ${open.filter(t=>t.onHold).length} waiting · ${open.filter(t=>t.longTerm&&!t.parentId).length} in Long term.</p><p class="sp-hint">Finish to start the clock on your next review. The rail button gets a dot after 7 days.</p>`}
+      body.innerHTML=`<p class="rv-ok">Inbox ${S.notes.trim()?'still has notes':'empty'} · ${open.filter(t=>t.onHold).length} waiting · ${open.filter(t=>t.longTerm&&!t.parentId).length} in Later.</p><p class="sp-hint">Finish to start the clock on your next review. The rail button gets a dot after 7 days.</p>`}
   };
   draw();
   back.addEventListener('input',e=>{if(e.target.id==='rv-notes'){S.notes=e.target.value;save();const b=body.querySelector('[data-rvtasks]');if(!b)draw()}});
@@ -6307,7 +6323,7 @@ function addAlert(text,taskId,projId){if(!S.alerts)S.alerts=[];S.alerts.unshift(
 function paintBell(){const b=$('#bellBtn');if(!b)return;const n=(S.alerts||[]).filter(a=>!a.read).length,c=b.querySelector('.bell-n');
   c.hidden=!n;c.textContent=n>9?'9+':n;b.title=n?`Alerts (${n} new)`:'Alerts';b.setAttribute('aria-label',b.title)}
 {const _r=render;render=function(){_r.apply(this,arguments);paintBell()}}
-function goToTask(id){const t=byId(id);if(!t)return;S.ui.view=t.done||(typeof inDmp==='function'&&inDmp(t))?'done':t.longTerm?'longterm':'tasks';commit();
+function goToTask(id){const t=byId(id);if(!t)return;S.ui.view=t.done||(typeof inDmp==='function'&&inDmp(t))?'done':t.longTerm?'long':'tasks';commit();
   setTimeout(()=>{const r=document.querySelector(`.task[data-id="${id}"]`);if(r){r.scrollIntoView({block:'center',behavior:'smooth'});r.classList.add('flash');setTimeout(()=>r.classList.remove('flash'),1600)}},60)}
 $('#bellBtn')&&$('#bellBtn').addEventListener('click',()=>{const b=$('#bellBtn'),al=S.alerts||[];
   openPop(b,`<div class="bell-pop" role="dialog" aria-label="Alerts"><div class="bell-h"><b>Alerts</b>${al.length?'<button type="button" class="linkbtn" data-bellclear>Clear all</button>':''}</div>
@@ -6582,7 +6598,7 @@ function teamTaskHTML(t,D,by){const tag=(D.tags||[]).find(g=>g.id===t.tagId),p=(
   const bits=[par?`↳ ${esc(par.name)}`:'',tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:'',p?esc(p.name):'',
     t.due?`<span class="${late?'late':''}">Due ${isoToUS(t.due)}${t.time?' '+esc(t.time):''}</span>`:'',t.waitFor?`Waiting for ${esc(t.waitFor)}`:'',t.done&&t.doneAt?`Done ${tsToUS(t.doneAt)}`:'',(t.micro||[]).length?`${t.micro.filter(m=>m.done).length}/${t.micro.length} microtasks`:''].filter(Boolean);
   return `<li class="myt-task${t.done?' done':''}" style="--c:${t.color||(tag&&tag.color)||'var(--line-strong)'}"><div class="myt-name">${t.prio?`<span class="pflag pr${t.prio}">${icons.flag}</span>`:''}<span>${esc(t.name)}</span></div>${bits.length?`<div class="myt-meta">${bits.join('<i>·</i>')}</div>`:''}${t.note?`<div class="myt-note">${esc(t.note)}</div>`:''}</li>`}
-const TEAM_SECS=[['overdue','Overdue'],['week','Due in the next 7 days'],['open','Open, no date soon'],['blocked','Blocked by other tasks'],['hold','On hold'],['long','Long term'],['done','Done in the last 7 days']];
+const TEAM_SECS=[['overdue','Overdue'],['week','Due in the next 7 days'],['open','Open, no date soon'],['blocked','Blocked by other tasks'],['hold','On hold'],['long','Later'],['done','Done in the last 7 days']];
 function teamBodyHTML(){const P=teamUnder();if(!P.length)return '<p class="cal-hint">No one reports to you.</p>';
   if(!TEAM.sel||!P.some(x=>x.id===TEAM.sel))TEAM.sel=P[0].id;
   const side=P.map(x=>{const D=TEAM.data[x.id]||{},{G,open}=teamGroups(D);return `<button type="button" class="myt-person${x.id===TEAM.sel?' on':''}" data-mtp="${x.id}">${avHTML(x.id,null)}<span><b>${esc(personName(x.id))}</b><small>${open} open${G.overdue.length?` · <em>${G.overdue.length} overdue</em>`:''}${x.via?` · via ${esc(personName(x.via))}`:''}</small></span></button>`}).join('');
@@ -6618,7 +6634,7 @@ function trSettingsHTML(t){
   const st=(t.steps||[]).length?`${t.steps.filter(x=>x.done).length} of ${t.steps.length} done`:'';
   const waits=(t.waits||[]).map(byId).filter(Boolean).map(x=>x.name);
   const rows=[
-    ['Status',t.done?`Done ${tsToUS(t.doneAt)}`:t.onHold?'On hold':t.longTerm?'Long term':'Open'],
+    ['Status',t.done?`Done ${tsToUS(t.doneAt)}`:t.onHold?'On hold':t.longTerm?'Later':'Open'],
     ['Tag',tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''],
     ['Priority',t.prio?esc(pr):''],
     ['Due',t.due?`${isoToUS(t.due)}${t.time?' '+t.time:''}`:''],
@@ -7798,7 +7814,7 @@ $('#logClose').onclick=()=>{S.ui.logOpen=false;commit()};
 $('#logCard').addEventListener('click',e=>{const b=e.target.closest('[data-dlundo]');if(!b)return;
   const t=byId(b.closest('.dl-row').dataset.dlid);if(!t||!t.done)return;
   b.closest('.dl-row').classList.add('leaving');
-  setTimeout(()=>{reopen(t);dlLog(t,false);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Long term':'Tasks'}.`,()=>{complete(t);dlLog(t,true);commit()})},200)});
+  setTimeout(()=>{reopen(t);dlLog(t,false);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Later':'Tasks'}.`,()=>{complete(t);dlLog(t,true);commit()})},200)});
 /* same History lines as the row checkbox (231) */
 function dlLog(t,d){if(t.parentId){const w=`${d?'did':'reopened'} the subtask "${t.name}"${d?'':' from the Done log'}`;logTask(t,w,false);logTask(rootTask(t),w,false)}
   else logTask(t,d?'marked it done':'reopened it from the Done log')}
@@ -7827,10 +7843,10 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
   const id=b.closest('.task').dataset.id,L=S.ui.foldMin||[];S.ui.foldMin=L.includes(id)?L.filter(x=>x!==id):[...L,id];save();render()},true);
 /* ---------- v87: recurring tasks (Pedro) ----------
    The next copy of a recurring task (made when the last one is done, t.repNext) stays out of the lists
-   until the day before it is due. On its day (or later) an open recurring task sorts first.
+   until its due day (v103; was the day before). On its day (or later) an open recurring task sorts first, after On hold.
    Rail button #recBtn (↻, after the Done log) opens a window with every recurring task. */
 const REC_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2.5 20.5 6 17 9.5"/><path d="M3.5 11.5V10a4 4 0 0 1 4-4h13"/><path d="M7 21.5 3.5 18 7 14.5"/><path d="M20.5 12.5V14a4 4 0 0 1-4 4h-13"/></svg>';
-const repWaiting=t=>!!(t.repeat&&t.repNext&&!t.done&&t.due&&isoAdd(t.due,-1)>todayISO());
+const repWaiting=t=>!!(t.repeat&&t.repNext&&!t.done&&t.due&&t.due>todayISO());
 const repToday=t=>!!(t.repeat&&!t.done&&t.due&&t.due<=todayISO());
 // copies made before v87: the open copy another task spawned
 function repMigrate(){const M=new Map(S.tasks.map(x=>[x.id,x]));S.tasks.forEach(x=>{const c=x.spawnedId&&M.get(x.spawnedId);if(c&&!c.done&&c.repeat&&c.repNext==null)c.repNext=true})}
@@ -7838,11 +7854,12 @@ function repMigrate(){const M=new Map(S.tasks.map(x=>[x.id,x]));S.tasks.forEach(
   if(t.spawnedId&&t.spawnedId!==sp){const c=byId(t.spawnedId);if(c)c.repNext=true}}}
 {const _v=vis;vis=function(t){const u=S.ui,lv=u.view==='tasks'||u.view==='long'||(u.view==='project'&&(u.projTab||'tasks')==='tasks');
   if(lv&&repWaiting(t)&&!kids(t).length)return false;return _v(t)}}
-{const _c=cmp;cmp=function(a,b){const x=repToday(a),y=repToday(b);if(x!==y)return x?-1:1;return _c(a,b)}}
+{const _c=cmp;cmp=function(a,b){const ha=!!a.onHold&&!a.done,hb=!!b.onHold&&!b.done;if(ha!==hb)return ha?-1:1; // v103: On hold stays above
+  const x=repToday(a),y=repToday(b);if(x!==y)return x?-1:1;return _c(a,b)}}
 // a line at the end of the list says how many are waiting for their day
 {const _r=render;render=function(){repMigrate();_r.apply(this,arguments);const u=S.ui;
   if(u.view==='tasks'||u.view==='long'){const n=S.tasks.filter(t=>repWaiting(t)&&inView(t)&&matches(t)).length;
-    if(n)list.insertAdjacentHTML('beforeend',`<div class="defline recline">${n} recurring task${n===1?' is':'s are'} waiting for ${n===1?'its':'their'} day and will show the day before. <button type="button" class="linkbtn" data-recall>See all recurring</button></div>`)}
+    if(n)list.insertAdjacentHTML('beforeend',`<div class="defline recline">${n} recurring task${n===1?' is':'s are'} waiting for ${n===1?'its':'their'} day and will show on that day. <button type="button" class="linkbtn" data-recall>See all recurring</button></div>`)}
   const b=$('#recBtn');if(b)b.classList.toggle('on',!!(modal&&modal.querySelector('.recwin')))}}
 list.addEventListener('click',e=>{if(e.target.closest('[data-recall]'))openRecurring()});
 {const rb=$('#logBtn')||$('#focusBtn')||$('#noiseToggle');
@@ -7852,13 +7869,13 @@ const recDay=iso=>{const t0=todayISO();if(iso===t0)return'Today';if(iso===isoAdd
 function recRows(){return S.tasks.filter(t=>t.repeat&&!t.done&&!t.archived&&!t.stepOf).sort((a,b)=>(a.due||'~').localeCompare(b.due||'~')||(a.time||'~').localeCompare(b.time||'~')||a.name.localeCompare(b.name))}
 function recBodyHTML(){const R=recRows();if(!R.length)return '<p class="dl-empty">No recurring tasks yet. Pick Repeat in the add bar\'s advanced settings or in a task\'s edit window.</p>';
   return `<ul class="rec-list">${R.map(t=>{const tag=tagOf(t),p=projOf(t),w=repWaiting(t),now=repToday(t),late=now&&t.due<todayISO();
-    const st=w?`<span class="rec-st wait">Shows ${esc(recDay(isoAdd(t.due,-1)))}</span>`:now?`<span class="rec-st now">${late?'Overdue':'Today'} · first in the list</span>`:`<span class="rec-st in">In the list</span>`;
+    const st=w?`<span class="rec-st wait">Shows ${esc(recDay(t.due))}</span>`:now?`<span class="rec-st now">${late?'Overdue':'Today'} · first in the list</span>`:`<span class="rec-st in">In the list</span>`;
     return `<li class="rec-row${w?' waiting':''}" style="--c:${colorOf(t)}"><div class="rec-txt"><div class="rec-name">${t.prio?`<span class="pflag pr${t.prio}">${icons.flag}</span>`:''}${esc(t.name)}</div>
       <div class="rec-meta"><span class="rep">↻ ${esc(repLabel(t.repeat))}</span><span class="${late?'late':''}">Next: ${t.due?esc(recDay(t.due)):'no date'}${t.time?' '+esc(t.time):''}</span>${tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''}${p?`<span class="projtag">${esc(projFull(p))}</span>`:''}${st}</div></div>
       <div class="rec-act">${w?'':`<button type="button" class="linkbtn" data-recgo="${t.id}">Show</button>`}<button type="button" class="linkbtn" data-recedit="${t.id}">Edit</button></div></li>`}).join('')}</ul>`}
 function openRecurring(){closePop();closeModal();
   const back=document.createElement('div');back.className='modal-back';
-  back.innerHTML=`<div class="modal recwin" role="dialog" aria-modal="true" aria-labelledby="rec-h"><div class="rec-top"><h2 id="rec-h">Recurring tasks</h2><span class="sp-hint">When you finish one, the next shows in your list the day before it is due. On its day it is first in the list.</span></div>
+  back.innerHTML=`<div class="modal recwin" role="dialog" aria-modal="true" aria-labelledby="rec-h"><div class="rec-top"><h2 id="rec-h">Recurring tasks</h2><span class="sp-hint">When you finish one, the next shows in your list on the day it is due. On its day it is first in the list.</span></div>
     <div class="rec-body">${recBodyHTML()}</div><div class="modal-actions"><button type="button" class="btn primary" data-x>Close</button></div></div>`;
   document.body.appendChild(back);modal=back;
   back.addEventListener('click',e=>{if(e.target===back||e.target.closest('[data-x]')){closeModal();render();return}
@@ -8189,7 +8206,7 @@ const schedRows=()=>S.tasks.filter(t=>isDeferred(t)&&!t.archived&&!t.stepOf).sor
 {const _r=render;render=function(){_r.apply(this,arguments);const u=S.ui;if(!(u.view==='tasks'||u.view==='long'))return;
   list.querySelectorAll(':scope>.defline').forEach(x=>x.remove());
   const r=S.tasks.filter(t=>repWaiting(t)&&inView(t)&&matches(t)).length,d=S.tasks.filter(t=>isDeferred(t)&&inView(t)&&matches(t)).length;if(!r&&!d)return;
-  const pr=r?`${r} recurring task${r===1?' is':'s are'} waiting for ${r===1?'its':'their'} day and will show the day before. <button type="button" class="linkbtn" data-recall>See all recurring</button>`:'';
+  const pr=r?`${r} recurring task${r===1?' is':'s are'} waiting for ${r===1?'its':'their'} day and will show on that day. <button type="button" class="linkbtn" data-recall>See all recurring</button>`:'';
   const pd=d?`${u.showDeferred?`Showing ${d} scheduled task${d===1?'':'s'}.`:`${d} scheduled task${d===1?' enters':'s enter'} the list on ${d===1?'its':'their'} date.`} <button type="button" class="linkbtn" data-schedall>See scheduled</button>`:'';
   list.insertAdjacentHTML('beforeend',`<div class="defline recline schedline">${pr}${pr&&pd?'<span class="sch-sep">·</span>':''}${pd}</div>`)}}
 const schedDay=iso=>{const t0=todayISO();if(iso===isoAdd(t0,1))return'Tomorrow';const d=isoDate(iso);
@@ -8197,7 +8214,7 @@ const schedDay=iso=>{const t0=todayISO();if(iso===isoAdd(t0,1))return'Tomorrow';
 function schedBodyHTML(){const R=schedRows();if(!R.length)return '<p class="dl-empty">No scheduled tasks. Pick "Show from" in the add bar\'s advanced settings or in a task\'s edit window.</p>';
   return `<ul class="rec-list">${R.map(t=>{const tag=tagOf(t),p=projOf(t);
     return `<li class="rec-row waiting" style="--c:${colorOf(t)}"><div class="rec-txt"><div class="rec-name">${t.prio?`<span class="pflag pr${t.prio}">${icons.flag}</span>`:''}${esc(t.name)}</div>
-      <div class="rec-meta"><span class="rec-st wait">Enters ${esc(schedDay(t.defer))}</span>${t.due?`<span>Due ${esc(isoToUS(t.due))}</span>`:''}${tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''}${p?`<span class="projtag">${esc(projFull(p))}</span>`:''}${t.longTerm?'<span>Long term</span>':''}</div></div>
+      <div class="rec-meta"><span class="rec-st wait">Enters ${esc(schedDay(t.defer))}</span>${t.due?`<span>Due ${esc(isoToUS(t.due))}</span>`:''}${tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''}${p?`<span class="projtag">${esc(projFull(p))}</span>`:''}${t.longTerm?'<span>Later</span>':''}</div></div>
       <div class="rec-act"><button type="button" class="linkbtn" data-schnow="${t.id}">Show now</button><button type="button" class="linkbtn" data-schedit="${t.id}">Edit</button></div></li>`}).join('')}</ul>`}
 function openScheduled(){closePop();closeModal();
   const back=document.createElement('div');back.className='modal-back';
@@ -8346,6 +8363,76 @@ document.addEventListener('change',e=>{const s=e.target.closest('.cadv [data-tpl
 {const _s=advIsSet;advIsSet=k=>_s(k)||!!ADV[k].a.tpl}
 {const _s=advSummary;advSummary=k=>{const tp=ADV[k].a.tpl&&ttpls().find(x=>x.id===ADV[k].a.tpl);return [tp?`template "${tp.name}"`:'',_s(k)].filter(Boolean).join(', ')}}
 {const _af=addFromBar;addFromBar=function(k,o){const id=ADV[k].a.tpl,tp=id&&ttpls().find(x=>x.id===id),t=_af.apply(this,arguments);if(t&&tp)tplApply(t,tp);return t}}
+/* v102 (Pedro): a popover whose anchor is hidden or gone (e.g. ticking On hold folds the row, so its .holdbox is display:none)
+   opened in the top-left corner. Fall back to the nearest visible thing: the task's name, the task row, else the screen center. */
+{const vis=el=>{if(!el||!el.isConnected)return null;const r=el.getBoundingClientRect();return r.width||r.height?r:null};
+const _place=place;place=function(el,anchor){
+  if(vis(anchor))return _place(el,anchor);
+  const row=anchor&&anchor.isConnected&&anchor.closest&&anchor.closest('.task');
+  const id=anchor&&anchor.closest&&(anchor.closest('.task')||{}).dataset?.id;
+  const live=row||(id&&document.querySelector(`.task[data-id="${CSS.escape(id)}"]`));
+  const alt=live&&[live.querySelector('.name'),live].find(vis);
+  if(alt){alt.scrollIntoView({block:'nearest'});return _place(el,alt)}
+  const w=el.offsetWidth,h=el.offsetHeight;el.style.top=Math.max(8,(innerHeight-h)/2)+'px';el.style.left=Math.max(8,(innerWidth-w)/2)+'px'}}
+/* ---------- v103: Later (was "Long term") (Pedro) ----------
+   The Long term view is now called Later. "↑ Send to later" on a task asks when it comes back:
+   - a date sets t.defer (222/260: hidden from Tasks until that day, then it enters on its own) and t.laterBack=true;
+   - "No date" is the old Long term (t.longTerm, stays until moved back).
+   The Later view also lists every task still waiting for its "Show from" date, first and by date ("Coming back"),
+   then the ones with no date. "↓ Back now" / "↓ Back to tasks" and "Change date" / "Set a date" sit on each row. */
+const laterDated=t=>!t.done&&!t.parentId&&isDeferred(t);
+{const _iv=inView;inView=function(t){if(S.ui.view==='long'){const r=rootOf(t);return !!r.longTerm||isDeferred(r)}return _iv(t)}}
+// in Later the dated ones always show (222 hides deferred tasks elsewhere)
+{const _v=vis;vis=function(t){const u=S.ui;if(u.view!=='long'||u.showDeferred)return _v(t);u.showDeferred=true;try{return _v(t)}finally{u.showDeferred=false}}}
+// in Later: dated ones first, soonest first
+{const _c=cmp;cmp=function(a,b){if(S.ui.view==='long'&&!a.parentId&&!b.parentId){const x=laterDated(a)?a.defer:'',y=laterDated(b)?b.defer:'';
+  if(x!==y){if(!x)return 1;if(!y)return -1;return x<y?-1:1}}return _c(a,b)}}
+const laterDay=iso=>{const t0=todayISO();if(iso===isoAdd(t0,1))return'tomorrow';const d=isoDate(iso);
+  return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:d.getFullYear()===new Date().getFullYear()?undefined:'numeric'})};
+function laterEnd(lt,id){const r=S.tasks.filter(x=>x.id!==id&&isOpenRoot(x)&&!!x.longTerm===lt);return r.length?Math.max(...r.map(x=>x.order))+1:0}
+function laterSet(t,iso){ // iso = return date, '' = no date (stays in Later), null = back to Tasks now
+  const old={longTerm:t.longTerm,defer:t.defer||null,laterBack:!!t.laterBack,order:t.order};
+  if(iso===null){t.longTerm=false;t.defer=null;t.laterBack=false;t.order=laterEnd(false,t.id)}
+  else if(iso){if(t.longTerm)t.order=laterEnd(false,t.id);t.longTerm=false;t.defer=iso;t.laterBack=true}
+  else{t.longTerm=true;t.defer=null;t.laterBack=false;t.order=laterEnd(true,t.id)}
+  if(typeof logTask==='function')logTask(t,iso===null?'brought back to Tasks':iso?`sent to Later until ${isoToUS(iso)}`:'sent to Later (no date)',false);
+  commit();
+  toast(iso===null?`"${t.name}" is back in Tasks.`:iso?`"${t.name}" is in Later and comes back on ${isoToUS(iso)}.`:`"${t.name}" moved to Later.`,()=>{Object.assign(t,old);commit()})}
+function openLaterPop(anchor,t){
+  const t0=todayISO(),cur=isDeferred(t)?t.defer:'';
+  const q=[['Tomorrow',isoAdd(t0,1)],['Next week',isoAdd(t0,7)],['In 2 weeks',isoAdd(t0,14)],['In a month',isoAdd(t0,30)]];
+  openPop(anchor,`<form class="pop-form later-pop"><strong>${t.longTerm||cur?'When does it come back?':'Send to Later'}</strong>
+    <p class="sp-hint">It leaves your Tasks list and comes back on this day.</p>
+    <div class="lp-quick">${q.map(([l,d])=>`<button type="button" class="chipbtn${cur===d?' on':''}" data-lq="${d}">${l}</button>`).join('')}</div>
+    <label class="afld"><span>Or pick a day</span><input type="date" id="lp-date" class="mono" min="${isoAdd(t0,1)}" value="${cur}"></label>
+    <div class="pop-actions">${t.longTerm&&!cur?'':`<button type="button" class="linkbtn" data-lnodate title="Keep it in Later until you move it back">No date</button>`}<button class="btn sm primary">${t.longTerm||cur?'Save':'Send'}</button></div></form>`,el=>{
+    const f=el.querySelector('form'),di=f.querySelector('#lp-date');
+    f.addEventListener('click',e=>{const b=e.target.closest('[data-lq]');if(b){closePop();laterSet(t,b.dataset.lq);return}
+      if(e.target.closest('[data-lnodate]')){closePop();laterSet(t,'')}});
+    f.onsubmit=e=>{e.preventDefault();const v=di.value;if(!v||v<=t0){di.classList.add('invalid');di.focus();return}closePop();laterSet(t,v)}})}
+// row buttons: replace 102's single "Send to long term" / "Back to tasks" button
+{const _row=row;row=function(t,depth){const el=_row.apply(this,arguments);const b=el.querySelector(':scope [data-ltsend]');
+  if(!b||t.done||t.parentId)return el;
+  const dated=isDeferred(t),inLater=t.longTerm||dated;
+  if(!inLater){b.textContent='↑ Send to later';b.title='Move it to Later, with a day to come back';return el}
+  const pair=document.createElement('span');pair.className='lt-pair';
+  pair.innerHTML=`<button class="lt-send" type="button" data-ltsend title="Move it back to Tasks now">${dated?'↓ Back now':'↓ Back to tasks'}</button><button class="lt-send lt-date" type="button" data-ldate title="${dated?'Change the day it comes back':'Pick a day for it to come back'}">${dated?'Change date':'Set a date'}</button>`;
+  b.replaceWith(pair);
+  if(dated&&t.laterBack){const c=el.querySelector('.defc');if(c){c.textContent='Back on '+isoToUS(t.defer);c.title='Comes back to Tasks on this day'}}
+  return el}}
+document.addEventListener('click',e=>{const b=e.target.closest('#list [data-ltsend], #list [data-ldate]');if(!b)return;
+  const r=b.closest('.task'),t=r&&byId(r.dataset.id);if(!t)return;e.stopPropagation();e.preventDefault();
+  if(b.hasAttribute('data-ldate')){openLaterPop(b,t);return}
+  if(t.longTerm||isDeferred(t))laterSet(t,null);else openLaterPop(b,t)},true);
+// Later view: section labels, no "scheduled" end line (they are in the list); old flag cleared once the day came
+{const _r=render;render=function(){S.tasks.forEach(t=>{if(t.laterBack&&!isDeferred(t))t.laterBack=false});_r.apply(this,arguments);
+  if(S.ui.view!=='long')return;
+  const line=list.querySelector(':scope>.schedline');if(line){const sep=line.querySelector('.sch-sep');
+    if(line.querySelector('[data-recall]')&&sep){while(sep.nextSibling)sep.nextSibling.remove();sep.remove()}else if(!line.querySelector('[data-recall]'))line.remove()}
+  const roots=[...list.querySelectorAll(':scope>.task')].filter(r=>{const t=byId(r.dataset.id);return t&&!t.parentId});
+  const d=roots.filter(r=>laterDated(byId(r.dataset.id))),n=roots.filter(r=>!laterDated(byId(r.dataset.id)));
+  if(d.length){const h=document.createElement('div');h.className='listdiv later-h';h.innerHTML=`Coming back<span class="n">${d.length}</span>`;d[0].before(h);
+    if(n.length){const h2=document.createElement('div');h2.className='listdiv later-h';h2.innerHTML=`No date<span class="n">${n.length}</span>`;n[0].before(h2)}}}}
 async function initCloud(){
   const cfg=window.FOCUS_CONFIG||{};
   if(cfg.url&&cfg.key){try{if(!window.supabase)await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2');}catch(e){return}

@@ -13,7 +13,7 @@ function render(){
   document.querySelectorAll('[data-view]').forEach(b=>{const on=b.dataset.view===u.view;b.classList.toggle('on',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
   document.querySelectorAll('[data-sort]').forEach(b=>{const k=b.dataset.sort,on=k===u.sort;b.classList.toggle('on',on);b.disabled=isStats||isCal;
     const base={manual:'Manual',created:'Created',due:'Due',az:'A-Z',prio:'Priority'}[k];b.textContent=on&&k!=='manual'?base+(u.dir>0?' ↑':' ↓'):base});
-  $('#title').textContent=isProj?'Project':{tasks:'Tasks',today:'Today',long:'Long term',done:'Done',calendar:'Calendar',stats:'Stats'}[u.view];
+  $('#title').textContent=isProj?'Project':{tasks:'Tasks',today:'Today',long:'Later',done:'Done',calendar:'Calendar',stats:'Stats'}[u.view];
   // counter
   const scope=S.tasks.filter(t=>u.view==='done'?(t.done&&projMatch(t)&&!!t.archived===!!u.showArchived):(!t.done&&projMatch(t)));
   const openScope=S.tasks.filter(t=>!t.done&&projMatch(t));
@@ -53,7 +53,7 @@ function render(){
       items.forEach(t=>{frag.appendChild(row(t,depth));if(!t.collapsed)walk(t,depth+1,lt)});
     };
     if(!(projTasks&&secWalk(frag,walk)))walk(null,0,false);
-    if(projTasks){const n0=frag.childNodes.length;const dv=document.createElement('div');dv.className='listdiv';dv.textContent='Long term';frag.appendChild(dv);walk(null,0,true);if(frag.childNodes.length===n0+1)frag.removeChild(dv);
+    if(projTasks){const n0=frag.childNodes.length;const dv=document.createElement('div');dv.className='listdiv';dv.textContent='Later';frag.appendChild(dv);walk(null,0,true);if(frag.childNodes.length===n0+1)frag.removeChild(dv);
       const dn=S.tasks.filter(t=>t.done&&!t.archived&&t.projectId===u.projectPage).sort((a,b)=>a.doneAt<b.doneAt?1:-1);
       if(dn.length){const dd=document.createElement('div');dd.className='listdiv';dd.textContent=`Done (${dn.length})`;frag.appendChild(dd);dn.forEach(t=>frag.appendChild(row(t,0)))}}
   }else{
@@ -69,7 +69,7 @@ function render(){
     const filtered=u.tag!=='all'||u.project!=='all'||u.hideHold;
     e.innerHTML=projTasks?'<strong>No tasks in this project yet</strong>Type one above and press Enter.':u.view==='done'?(u.showArchived?'<strong>Nothing archived</strong>Archive done tasks to keep this list short. They still count in Stats.':nArch?'<strong>Everything done is archived</strong>Press "Archived" above to see those tasks.':'<strong>Nothing done yet</strong>Tick a task\'s checkbox and it moves here with its completion date.')
       :filtered?'<strong>No tasks match these filters</strong>Pick "All" or another project to see more.'
-      :u.view==='long'?'<strong>No long-term tasks</strong>Type one above. Tasks added here stay out of your daily list.'
+      :u.view==='long'?'<strong>Nothing for later</strong>Type one above, or send a task here with ↑ Send to later. Tasks here stay out of your daily list, and ones with a date come back on that day.'
       :'<strong>All clear</strong>Type a task above and press Enter.';
     frag.appendChild(e);
   }else if(openView||projTasks){const d=document.createElement('div');d.className='dropend';d.dataset.dropend='1';frag.appendChild(d)}

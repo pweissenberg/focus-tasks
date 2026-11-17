@@ -67,7 +67,7 @@ const REVIEW_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 function paintReviewDot(){const b=$('#reviewBtn');if(!b)return;const late=!S.prefs.lastReview||daysSince(S.prefs.lastReview)>=7;b.classList.toggle('due',late);
   b.title=S.prefs.lastReview?`Weekly review (last one ${fmtDays(daysSince(S.prefs.lastReview))} ago)`.replace('today ago','today'):'Weekly review'}
 $('#reviewBtn').addEventListener('click',()=>openReview(0));
-const REV_STEPS=['Empty the inbox','Waiting for','Long term','Coming up','Done'];
+const REV_STEPS=['Empty the inbox','Waiting for','Later','Coming up','Done'];
 function openReview(step){
   closePop();closeModal();
   const back=document.createElement('div');back.className='modal-back';
@@ -88,7 +88,7 @@ function openReview(step){
     else if(step===3){const end=isoAdd(todayISO(),14),ds=open.filter(t=>t.due&&t.due<=end).sort((a,b)=>a.due<b.due?-1:1),df=open.filter(t=>t.defer&&t.defer<=end);
       body.innerHTML=ds.length||df.length?`<p class="sp-hint">The next two weeks.</p><div class="rv-list">${ds.map(t=>`<div class="rv-row">${tline(t)}<span class="rv-meta${t.due<todayISO()?' late':''}">${t.due<todayISO()?'Overdue · ':''}${isoToUS(t.due)}</span></div>`).join('')}${df.map(t=>`<div class="rv-row">${tline(t)}<span class="rv-meta">Comes back ${isoToUS(t.defer)}</span></div>`).join('')}</div>`:'<p class="rv-ok">Nothing due in the next two weeks.</p>'}
     else{
-      body.innerHTML=`<p class="rv-ok">Inbox ${S.notes.trim()?'still has notes':'empty'} · ${open.filter(t=>t.onHold).length} waiting · ${open.filter(t=>t.longTerm&&!t.parentId).length} in Long term.</p><p class="sp-hint">Finish to start the clock on your next review. The rail button gets a dot after 7 days.</p>`}
+      body.innerHTML=`<p class="rv-ok">Inbox ${S.notes.trim()?'still has notes':'empty'} · ${open.filter(t=>t.onHold).length} waiting · ${open.filter(t=>t.longTerm&&!t.parentId).length} in Later.</p><p class="sp-hint">Finish to start the clock on your next review. The rail button gets a dot after 7 days.</p>`}
   };
   draw();
   back.addEventListener('input',e=>{if(e.target.id==='rv-notes'){S.notes=e.target.value;save();const b=body.querySelector('[data-rvtasks]');if(!b)draw()}});

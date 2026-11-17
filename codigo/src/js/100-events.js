@@ -34,7 +34,7 @@ $('#composer').addEventListener('submit',e=>{
   const due=parseDate(di.value);if(due===null){di.classList.add('invalid');di.focus();return}
   const t=addFromBar('c',{name,due,tagId:$('#c-tag').value||null,projectId:$('#c-proj').value||null,color:composerColor,prio:composerPrio});
   const rl=!!rootOf(t).longTerm,par=t.parentId&&byId(t.parentId),here=(S.ui.view==='tasks'&&!rl)||(S.ui.view==='long'&&rl);
-  if(!here)setTimeout(()=>toast(`"${name}" added to ${par?`"${par.name}" in `:''}${rl?'Long term':'Tasks'}.`),0);
+  if(!here)setTimeout(()=>toast(`"${name}" added to ${par?`"${par.name}" in `:''}${rl?'Later':'Tasks'}.`),0);
   ni.value='';di.value='';composerColor=null;composerPrio=0;closeDP();commit();if(ADV.c.open)advShow('c',true);ni.focus();
 });
 $('#c-adv').innerHTML=icons.gear;
@@ -77,7 +77,7 @@ list.addEventListener('change',e=>{
     if(!b.checked&&!t.done&&selDone(t)){const i=stepSel(t);undoStep(t,i);commit();toast(`"${t.name}" is open again.`);return}
     if(b.checked&&stepsLeft(t)>1){b.checked=false;const i=pendSel(t),e=doStep(t,i);commit();toast(`"${e.name}" moved to Done. ${stepsLeft(t)} step${stepsLeft(t)>1?'s':''} left.`,()=>{undoStep(t,i);commit()});return}
     if(b.checked){rowEl.classList.add('leaving');setTimeout(()=>{if(S.timer.taskId===t.id&&S.timer.running)timerPause();complete(t);commit();askAddTime(t)},220)}
-    else{rowEl.classList.add('leaving');setTimeout(()=>{reopen(t);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Long term':'Tasks'}.`)},220)}
+    else{rowEl.classList.add('leaving');setTimeout(()=>{reopen(t);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Later':'Tasks'}.`)},220)}
   }
 });
 list.addEventListener('input',e=>{if(e.target.dataset.act==='note'){const t=byId(e.target.closest('.task').dataset.id);t.note=e.target.value;saveSoon()}});

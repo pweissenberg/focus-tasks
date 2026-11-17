@@ -1,0 +1,16 @@
+/* v103 Later (265-later.js): Send to later popover, row button pair */
+.pop:has(.later-pop){width:290px}
+.later-pop .pop-actions{flex-wrap:wrap}
+.lp-quick{display:flex;flex-wrap:wrap;gap:6px}
+.lp-quick .chipbtn{border:1px solid var(--line);background:var(--surface,transparent);color:var(--ink-2);font:inherit;font-size:12.5px;padding:4px 10px;border-radius:999px;cursor:pointer}
+.lp-quick .chipbtn:hover,.lp-quick .chipbtn.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.later-pop .afld{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-3)}
+.later-pop input[type=date]{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg,transparent);color:var(--ink)}
+.later-pop input.invalid{border-color:var(--danger)}
+.lt-pair{position:absolute;right:10px;bottom:3px;z-index:2;display:flex;gap:6px}
+.lt-pair>.lt-send{position:static;margin:0}
+.note:has(>.lt-pair){flex-wrap:wrap;row-gap:0}
+.note>.lt-pair{position:static;flex-basis:100%;margin:-3px 0 -6px;line-height:16px}
+.lt-pair>.lt-send{white-space:nowrap}
+.note>.lt-pair>.lt-send{padding:0 6px}
+.later-h:first-child{margin-top:4px}

@@ -16,8 +16,8 @@ function microHTML(t){
     const m=microOf(t);
     if(!t.done||m.length)el.insertAdjacentHTML('beforeend',`<span class="mt-tools">${t.done?'':`<button class="mt-add" type="button" data-mtadd title="Add a microtask" aria-label="Add a microtask"><svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M6 1.5v9M1.5 6h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></button>`}${m.length?`<button class="mt-fold" type="button" data-mtfold title="${t.mtClosed?'Show':'Hide'} microtasks" aria-label="${t.mtClosed?'Show':'Hide'} microtasks">${t.mtClosed?'▸':'▾'}</button>`:''}</span>`);
     if(m.length)el.classList.add('has-mt');
-    // send a top-level open task to Long term (or back to Tasks)
-    if(!t.done&&!t.parentId&&S.ui.view!=='done')(el.querySelector(':scope > .note')||el).insertAdjacentHTML('beforeend',t.longTerm?`<button class="lt-send" type="button" data-ltsend title="Move back to the daily Tasks list">↓ Back to tasks</button>`:`<button class="lt-send" type="button" data-ltsend title="Move this task to Long term">↑ Send to long term</button>`);
+    // send a top-level open task to Later (or back to Tasks)
+    if(!t.done&&!t.parentId&&S.ui.view!=='done')(el.querySelector(':scope > .note')||el).insertAdjacentHTML('beforeend',t.longTerm?`<button class="lt-send" type="button" data-ltsend title="Move back to the daily Tasks list">↓ Back to tasks</button>`:`<button class="lt-send" type="button" data-ltsend title="Move this task to Later">↑ Send to later</button>`);
   }
   return el}}
 // the microtasks hang under their task like an appendix: a box right after the row
@@ -39,7 +39,7 @@ list.addEventListener('click',e=>{
   const lt=e.target.closest('[data-ltsend]');
   if(lt){e.stopPropagation();const t=mtTask(lt),to=!t.longTerm,r=S.tasks.filter(x=>x.id!==t.id&&isOpenRoot(x)&&!!x.longTerm===to);
     const old={lt:t.longTerm,order:t.order};t.longTerm=to;t.order=r.length?Math.max(...r.map(x=>x.order))+1:0;commit();
-    toast(`"${t.name}" moved to ${to?'Long term':'Tasks'}.`,()=>{t.longTerm=old.lt;t.order=old.order;commit()});return}
+    toast(`"${t.name}" moved to ${to?'Later':'Tasks'}.`,()=>{t.longTerm=old.lt;t.order=old.order;commit()});return}
   const d=e.target.closest('[data-mtdel]');
   if(d){e.stopPropagation();const t=mtTask(d),id=d.closest('[data-mt]').dataset.mt;t.micro=microOf(t).filter(x=>x.id!==id);commit();return}
   if(e.target.closest('.mt-wrap'))e.stopPropagation();

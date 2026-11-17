@@ -15,7 +15,7 @@ pp.addEventListener('submit',e=>{
   const tagId=$('#pt-tag').value||null;S.ui.ptTag=tagId||'';
   const t=addFromBar('pt',{name,due,tagId,projectId:p.id,color:ptColor,prio:ptPrio});
   ptPrio=0;ptColor=null;ni.value='';di.value='';
-  if(t.longTerm)setTimeout(()=>toast(`"${name}" added to Long term.`),0);
+  if(t.longTerm)setTimeout(()=>toast(`"${name}" added to Later.`),0);
   closeDP();commit();$('#pt-name').focus();
 });
 pp.addEventListener('click',e=>{

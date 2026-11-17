@@ -22,7 +22,7 @@ const schedRows=()=>S.tasks.filter(t=>isDeferred(t)&&!t.archived&&!t.stepOf).sor
 {const _r=render;render=function(){_r.apply(this,arguments);const u=S.ui;if(!(u.view==='tasks'||u.view==='long'))return;
   list.querySelectorAll(':scope>.defline').forEach(x=>x.remove());
   const r=S.tasks.filter(t=>repWaiting(t)&&inView(t)&&matches(t)).length,d=S.tasks.filter(t=>isDeferred(t)&&inView(t)&&matches(t)).length;if(!r&&!d)return;
-  const pr=r?`${r} recurring task${r===1?' is':'s are'} waiting for ${r===1?'its':'their'} day and will show the day before. <button type="button" class="linkbtn" data-recall>See all recurring</button>`:'';
+  const pr=r?`${r} recurring task${r===1?' is':'s are'} waiting for ${r===1?'its':'their'} day and will show on that day. <button type="button" class="linkbtn" data-recall>See all recurring</button>`:'';
   const pd=d?`${u.showDeferred?`Showing ${d} scheduled task${d===1?'':'s'}.`:`${d} scheduled task${d===1?' enters':'s enter'} the list on ${d===1?'its':'their'} date.`} <button type="button" class="linkbtn" data-schedall>See scheduled</button>`:'';
   list.insertAdjacentHTML('beforeend',`<div class="defline recline schedline">${pr}${pr&&pd?'<span class="sch-sep">·</span>':''}${pd}</div>`)}}
 const schedDay=iso=>{const t0=todayISO();if(iso===isoAdd(t0,1))return'Tomorrow';const d=isoDate(iso);
@@ -30,7 +30,7 @@ const schedDay=iso=>{const t0=todayISO();if(iso===isoAdd(t0,1))return'Tomorrow';
 function schedBodyHTML(){const R=schedRows();if(!R.length)return '<p class="dl-empty">No scheduled tasks. Pick "Show from" in the add bar\'s advanced settings or in a task\'s edit window.</p>';
   return `<ul class="rec-list">${R.map(t=>{const tag=tagOf(t),p=projOf(t);
     return `<li class="rec-row waiting" style="--c:${colorOf(t)}"><div class="rec-txt"><div class="rec-name">${t.prio?`<span class="pflag pr${t.prio}">${icons.flag}</span>`:''}${esc(t.name)}</div>
-      <div class="rec-meta"><span class="rec-st wait">Enters ${esc(schedDay(t.defer))}</span>${t.due?`<span>Due ${esc(isoToUS(t.due))}</span>`:''}${tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''}${p?`<span class="projtag">${esc(projFull(p))}</span>`:''}${t.longTerm?'<span>Long term</span>':''}</div></div>
+      <div class="rec-meta"><span class="rec-st wait">Enters ${esc(schedDay(t.defer))}</span>${t.due?`<span>Due ${esc(isoToUS(t.due))}</span>`:''}${tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''}${p?`<span class="projtag">${esc(projFull(p))}</span>`:''}${t.longTerm?'<span>Later</span>':''}</div></div>
       <div class="rec-act"><button type="button" class="linkbtn" data-schnow="${t.id}">Show now</button><button type="button" class="linkbtn" data-schedit="${t.id}">Edit</button></div></li>`}).join('')}</ul>`}
 function openScheduled(){closePop();closeModal();
   const back=document.createElement('div');back.className='modal-back';

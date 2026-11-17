@@ -75,7 +75,7 @@ function renderTimer(full){
     $('#tm-skip').textContent=brk?'Skip break':'Skip to break'}
   const sel=$('#tm-task'),opts=openTaskOptions();
   const cur=byId(tm.taskId);
-  sel.innerHTML='<option value="">No task (just timing)</option>'+opts.map(({t,depth})=>`<option value="${t.id}">${'  '.repeat(depth)}${depth?'↳ ':''}${esc(t.name)}${rootOf(t).longTerm?' (long term)':''}</option>`).join('')
+  sel.innerHTML='<option value="">No task (just timing)</option>'+opts.map(({t,depth})=>`<option value="${t.id}">${'  '.repeat(depth)}${depth?'↳ ':''}${esc(t.name)}${rootOf(t).longTerm?' (later)':''}</option>`).join('')
     +(cur&&cur.done?`<option value="${cur.id}">${esc(cur.name)} (done)</option>`:'');
   sel.value=cur?cur.id:'';
   const tag=cur&&tagOf(cur),proj=cur&&projOf(cur);

@@ -38,7 +38,7 @@ function addAlert(text,taskId,projId){if(!S.alerts)S.alerts=[];S.alerts.unshift(
 function paintBell(){const b=$('#bellBtn');if(!b)return;const n=(S.alerts||[]).filter(a=>!a.read).length,c=b.querySelector('.bell-n');
   c.hidden=!n;c.textContent=n>9?'9+':n;b.title=n?`Alerts (${n} new)`:'Alerts';b.setAttribute('aria-label',b.title)}
 {const _r=render;render=function(){_r.apply(this,arguments);paintBell()}}
-function goToTask(id){const t=byId(id);if(!t)return;S.ui.view=t.done||(typeof inDmp==='function'&&inDmp(t))?'done':t.longTerm?'longterm':'tasks';commit();
+function goToTask(id){const t=byId(id);if(!t)return;S.ui.view=t.done||(typeof inDmp==='function'&&inDmp(t))?'done':t.longTerm?'long':'tasks';commit();
   setTimeout(()=>{const r=document.querySelector(`.task[data-id="${id}"]`);if(r){r.scrollIntoView({block:'center',behavior:'smooth'});r.classList.add('flash');setTimeout(()=>r.classList.remove('flash'),1600)}},60)}
 $('#bellBtn')&&$('#bellBtn').addEventListener('click',()=>{const b=$('#bellBtn'),al=S.alerts||[];
   openPop(b,`<div class="bell-pop" role="dialog" aria-label="Alerts"><div class="bell-h"><b>Alerts</b>${al.length?'<button type="button" class="linkbtn" data-bellclear>Clear all</button>':''}</div>

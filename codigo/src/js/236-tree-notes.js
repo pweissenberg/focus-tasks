@@ -9,7 +9,7 @@ function trSettingsHTML(t){
   const st=(t.steps||[]).length?`${t.steps.filter(x=>x.done).length} of ${t.steps.length} done`:'';
   const waits=(t.waits||[]).map(byId).filter(Boolean).map(x=>x.name);
   const rows=[
-    ['Status',t.done?`Done ${tsToUS(t.doneAt)}`:t.onHold?'On hold':t.longTerm?'Long term':'Open'],
+    ['Status',t.done?`Done ${tsToUS(t.doneAt)}`:t.onHold?'On hold':t.longTerm?'Later':'Open'],
     ['Tag',tag?`<span class="chip" style="--dot:${tag.color}"><i></i>${esc(tag.name)}</span>`:''],
     ['Priority',t.prio?esc(pr):''],
     ['Due',t.due?`${isoToUS(t.due)}${t.time?' '+t.time:''}`:''],

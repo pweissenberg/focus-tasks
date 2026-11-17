@@ -105,7 +105,7 @@ async function features(br){
     await t.ok(p,'J selects a task',()=>!!document.querySelector('#list .task.ksel'));
     await p.keyboard.press('x');await sleep(300);await clearToasts(p);
     s=await state(p);t.is('X completes the selected task',s.tasks.filter(k=>!k.done).length===open0-1);
-    await p.keyboard.press('2');await sleep(150);await t.ok(p,'2 opens Long term',()=>document.querySelector('#title').textContent==='Long term');
+    await p.keyboard.press('2');await sleep(150);await t.ok(p,'2 opens Later',()=>document.querySelector('#title').textContent==='Later');
     await p.keyboard.press('1');await sleep(150);await p.keyboard.press('n');
     await t.ok(p,'N goes to the add bar',()=>document.activeElement.id==='c-name');
     await p.click('.views [data-view=done]');await sleep(200);

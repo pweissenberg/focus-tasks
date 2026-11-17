@@ -53,7 +53,7 @@ $('#logClose').onclick=()=>{S.ui.logOpen=false;commit()};
 $('#logCard').addEventListener('click',e=>{const b=e.target.closest('[data-dlundo]');if(!b)return;
   const t=byId(b.closest('.dl-row').dataset.dlid);if(!t||!t.done)return;
   b.closest('.dl-row').classList.add('leaving');
-  setTimeout(()=>{reopen(t);dlLog(t,false);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Long term':'Tasks'}.`,()=>{complete(t);dlLog(t,true);commit()})},200)});
+  setTimeout(()=>{reopen(t);dlLog(t,false);commit();toast(`"${t.name}" is back in ${rootOf(t).longTerm?'Later':'Tasks'}.`,()=>{complete(t);dlLog(t,true);commit()})},200)});
 /* same History lines as the row checkbox (231) */
 function dlLog(t,d){if(t.parentId){const w=`${d?'did':'reopened'} the subtask "${t.name}"${d?'':' from the Done log'}`;logTask(t,w,false);logTask(rootTask(t),w,false)}
   else logTask(t,d?'marked it done':'reopened it from the Done log')}
